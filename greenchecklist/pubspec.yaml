@@ -24,9 +24,9 @@ dependencies:
   flutter_local_notifications:
 
   i2iutils:
-#    git:
-#      url: https://github.com/i2isoftwares/i2iutils.git
-    path: ../../i2iutils
+   git:
+     url: https://github.com/i2isoftwares/i2iutils.git
+#     path: ../../i2iutils
 
 dev_dependencies:
   flutter_test:
