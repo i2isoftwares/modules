@@ -107,7 +107,7 @@ class HomeController extends GetxController {
 
     //backup and delete old data
     try {
-      String fileName = "backup_" + getDate(format: "ddMMyyyy") + ".json";
+      String fileName = "backup_${getDate(format: "ddMMyyyy")}.json";
       String path = (await getApplicationDocumentsDirectory()).path;
       File file = File(p.join(path, FOLDER_GC, FOLDER_BACKUP, fileName));
       if (!(await file.exists())) {

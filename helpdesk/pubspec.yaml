@@ -1,0 +1,38 @@
+name: helpdesk
+description: A helpdesk application
+version: 0.0.1
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  get_storage: ^2.0.3
+  get: ^4.6.1
+  intl: ^0.17.0
+  shimmer: ^2.0.0
+  dio: ^4.0.4
+  dropdown_search: ^2.0.1
+  multi_select_flutter: ^4.1.2
+  cached_network_image: ^3.2.0
+  animated_widgets: ^1.1.0
+  easy_image_viewer: ^1.0.4
+  card_swiper: ^2.0.1
+
+  #firebse
+  firebase_messaging: ^11.3.0
+  flutter_local_notifications: ^9.5.2
+
+  i2iutils:
+    path: ../../i2iutils
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
