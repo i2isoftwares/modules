@@ -1,4 +1,3 @@
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -34,8 +33,8 @@ class FirebaseNotification {
     var initializationSettingsAndroid =
         const AndroidInitializationSettings('@mipmap/launcher_icon');
 
-    const IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
@@ -45,12 +44,13 @@ class FirebaseNotification {
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
     flutterLocalNotificationPlugin.initialize(initializationSettings,
-        onSelectNotification: (payload) async {
+        onDidReceiveNotificationResponse: (payload) async {
       debugPrint('onclick payload $payload');
-      if (payload != null) {
+
+      if (payload.payload != null) {
         final box = GetStorage();
         if (detailsController != null) {
-          detailsController?.getTicketHistory(cid: payload);
+          detailsController?.getTicketHistory(cid: payload.payload);
         } else {
           if ((box.read(IS_LOGIN) ?? false)) {
             Get.toNamed(

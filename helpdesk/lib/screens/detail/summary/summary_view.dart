@@ -66,7 +66,7 @@ class SummaryView extends StatelessWidget {
                           height: 70,
                           errorWidget: (_, __, ___) {
                             return Image.asset(
-                              'assets/helpdeskplaceholder.png',
+                              'assets/helpdesk/placeholder.png',
                               height: 70,
                             );
                           },
@@ -517,7 +517,7 @@ class SummaryView extends StatelessWidget {
                                             height: 70,
                                           )
                                         : Image.asset(
-                                            'assets/helpdeskplaceholder.png',
+                                            'assets/helpdesk/placeholder.png',
                                             height: 70,
                                           ),
                                   )

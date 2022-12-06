@@ -5,6 +5,7 @@ import 'package:helpdesk/screens/create/ticket_create_screen.dart';
 import 'package:helpdesk/screens/detail/helpdesk_details.dart';
 import 'package:helpdesk/screens/feedback/feedback_screen.dart';
 import 'package:helpdesk/screens/home/home_screen.dart';
+import 'package:helpdesk/screens/login/login_screen.dart';
 import 'package:helpdesk/screens/reset/reset_screen.dart';
 import 'package:helpdesk/screens/signup/signup_screen.dart';
 import 'package:helpdesk/screens/tickets/ticket_screen.dart';
@@ -14,6 +15,9 @@ import 'hd_app_routes.dart';
 class HDAppPages {
   static final routes = [
     GetPage(
+      name: HDRoutes.LOGIN,
+      page: () => LoginScreen(),
+    ),GetPage(
       name: HDRoutes.SIGNUP,
       page: () => SignupScreen(),
     ),

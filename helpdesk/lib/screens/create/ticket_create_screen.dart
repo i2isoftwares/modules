@@ -43,7 +43,7 @@ class TicketCreateScreen extends GetView<TicketCreateController> {
                   width: 100,
                   errorWidget: (_, __, ___) {
                     return Image.asset(
-                      'assets/helpdesklogo.png',
+                      'assets/helpdesk/logo.png',
                       color: Colors.black,
                       height: 50,
                       width: 100,
@@ -663,7 +663,7 @@ class TicketCreateScreen extends GetView<TicketCreateController> {
                                         height: 60,
                                       )
                                     : Image.asset(
-                                        'assets/helpdeskplaceholder.png',
+                                        'assets/helpdesk/placeholder.png',
                                         height: 60,
                                       ),
                               ),

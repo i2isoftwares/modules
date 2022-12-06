@@ -171,7 +171,7 @@ class AssignView extends StatelessWidget {
                     /*controller.ticket.value.isClosed
                         ? Center(
                             child: Image.asset(
-                            'assets/helpdeskclosed.png',
+                            'assets/helpdesk/closed.png',
                             height: 100,
                           ))
                         : const SizedBox.shrink(),*/

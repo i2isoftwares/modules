@@ -1,5 +1,4 @@
 class GCRoutes{
-  static const splash = "/gc/splash";
   static const login = "/gc/login";
   static const download = "/gc/download";
   static const home = "/gc/home";

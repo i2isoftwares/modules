@@ -1,75 +1,41 @@
-/*
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:helpdesk/api/helpdesk_api_calls.dart';
-import 'package:helpdesk/helpers/color.dart';
-import 'package:helpdesk/helpers/loader.dart';
 import 'package:helpdesk/helpers/strings.dart';
-import 'package:helpdesk/helpers/utils.dart';
 import 'package:helpdesk/model/login_response.dart';
 import 'package:helpdesk/routes/hd_app_routes.dart';
-import 'package:helpdesk/widgets/boxedittext.dart';
-import 'package:helpdesk/widgets/button.dart';
-
+import 'package:i2iutils/helpers/common_functions.dart';
 
 class LoginController extends GetxController {
-  final emailController = TextEditingController().obs;
-  final passwordController = TextEditingController().obs;
-  var isRememberMe = true.obs;
   final _box = GetStorage();
-  late PackageInfo packageInfo;
-  RxBool isPasswordVisible = false.obs;
-  RxString appVersion = ''.obs;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  RxBool isLoading = false.obs;
+  String userEmail = '';
+  String password = '';
+  String? fcmToken;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
-    packageInfo = await PackageInfo.fromPlatform();
-    appVersion('App Version ${packageInfo.version}');
-    String email = _box.read(USER_EMAIL) ?? '';
-    String password = _box.read(USER_PASSWORD) ?? '';
-
-    emailController.value.text = email;
-    passwordController.value.text = password;
-
-    _firebaseMessaging.requestPermission();
+    userEmail = _box.read(USER_EMAIL);
+    password = _box.read(USER_PASSWORD);
+    fcmToken = _box.read(USER_TOKEN);
+    checkLogin();
   }
 
   checkLogin() async {
-    Get.focusScope?.unfocus();
-    debugPrint(
-        'email : ${emailController.value.text} password : ${passwordController.value.text}');
-
-    if (emailController.value.text.isEmpty) {
-      return showToastMsg('Invalid Email');
-    }
-    if (passwordController.value.text.isEmpty) {
-      return showToastMsg('Enter Password');
-    }
-
     if (await isNetConnected()) {
-      _box.write(USER_EMAIL, emailController.value.text.trim());
-      _box.write(USER_PASSWORD, passwordController.value.text.trim());
-
       try {
-        showLoader();
-        LoginResponse? response = await HelpdeskApiCall().checkLogin(
-            emailController.value.text.trim(),
-            passwordController.value.text.trim());
-        hideLoader();
+        LoginResponse? response =
+            await HelpdeskApiCall().checkLogin(userEmail, password);
+
         if (response == null) {
           showToastMsg('Something went wrong');
           return;
         }
 
         if (!(response.status ?? false)) {
-          hideLoader();
           showToastMsg(response.message ?? '');
           return;
         }
@@ -87,7 +53,6 @@ class LoginController extends GetxController {
         }
 
         _box.write(IS_LOGIN, true);
-        _box.write(IS_REMEMBER, isRememberMe.value);
 
         _box.write(USER_ID, response.userID);
         _box.write(LOGO, response.logopath);
@@ -111,11 +76,10 @@ class LoginController extends GetxController {
         _box.write(FLOOR_LIST, jsonEncode(response.floordetails ?? []));
         _box.write(WING_LIST, jsonEncode(response.wingdetails ?? []));
 
-        String? token = await _firebaseMessaging.getToken();
-        if (token != null) {
+        if (fcmToken != null) {
           HelpdeskApiCall().updateToken({
             'userid': response.userID,
-            'notificationid': token,
+            'notificationid': fcmToken,
           });
         }
 
@@ -129,81 +93,4 @@ class LoginController extends GetxController {
       }
     }
   }
-
-  forgotPassword() async {
-    var emailController = TextEditingController();
-    RxBool isLoading = false.obs;
-    scaffoldKey.currentState?.showBottomSheet((context) {
-      return Container(
-        padding: MediaQuery.of(Get.context!).viewInsets,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 8,
-            ),
-            const Text(
-              'Forgot Password?',
-              style:
-                  TextStyle(color: colorPrimary, fontWeight: FontWeight.bold),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: BoxEditText(
-                placeholder: 'Enter your Registered email ID',
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Obx(
-              () => isLoading.value
-                  ? const SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CircularProgressIndicator(),
-                    )
-                  : CustomButton(
-                      width: 120,
-                      buttonText: 'Submit',
-                      onPressed: () async {
-                        if (emailController.text.isEmpty) {
-                          showToastMsg('Please enter email');
-                        } else {
-                          if (await isNetConnected()) {
-                            Get.focusScope?.unfocus();
-                            isLoading(true);
-                            var response = await HelpdeskApiCall()
-                                .updateForgotPassword(emailController.text);
-                            if (response != null) {
-                              showToastMsg(response['Message']);
-                              if (response['Status']) Get.back();
-                            }
-                            isLoading(false);
-                          }
-                        }
-                      },
-                      textSize: 12,
-                      height: 30,
-                    ),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-          ],
-        ),
-      );
-    }, backgroundColor: Colors.transparent, elevation: 18);
-  }
 }
-*/

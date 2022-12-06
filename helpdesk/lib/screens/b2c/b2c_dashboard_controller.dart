@@ -94,9 +94,9 @@ class B2CDashboardController extends GetxController {
     if (notificationAppLaunchDetails != null &&
         notificationAppLaunchDetails.didNotificationLaunchApp) {
       // showToastMsg('Payload ${notificationAppLaunchDetails.payload}');
-      if (notificationAppLaunchDetails.payload != null) {
+      if (notificationAppLaunchDetails.notificationResponse?.payload != null) {
         Get.toNamed(HDRoutes.TICKET_DETAIL,
-            arguments: {'complaintId': notificationAppLaunchDetails.payload});
+            arguments: {'complaintId': notificationAppLaunchDetails.notificationResponse?.payload});
       }
     }
   }
@@ -292,7 +292,7 @@ class B2CDashboardController extends GetxController {
                 getIssues(
                     cId: response.data?.companyID,
                     dId: response.data?.departmentID);
-
+                Get.back();
                 return Future(() => true);
               } else {
                 showToastMsg("QRCode Doesn't Exist");

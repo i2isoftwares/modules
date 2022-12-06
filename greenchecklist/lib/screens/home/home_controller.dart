@@ -14,7 +14,7 @@ import 'package:greenchecklist/database/dao/user_dao.dart';
 import 'package:greenchecklist/database/database.dart';
 import 'package:greenchecklist/helpers/colors.dart';
 import 'package:greenchecklist/helpers/utils.dart';
-import 'package:greenchecklist/routes/app_pages.dart';
+import 'package:greenchecklist/routes/gc_app_pages.dart';
 import 'package:greenchecklist/screens/home/sync_data.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 
@@ -53,7 +53,7 @@ class HomeController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.token);
+    token = box.read(GCSession.appToken);
     companyId = box.read(GCSession.userCompanyId);
     locationId = box.read(GCSession.userLocationId);
     selectedDeptId = box.read(GCSession.userDeptId) ?? -1;
@@ -193,78 +193,11 @@ class HomeController extends GetxController {
             .contains('Invalid Token!!!')) {
           //toast the message
           showToastMsg('Invalid Token! Please Re-login', longToast: true);
-          box.remove(GCSession.token);
+          box.remove(GCSession.appToken);
           Get.offAllNamed(GCRoutes.login);
         }
       }
     }
-  }
-
-  logout() {
-    Get.bottomSheet(Container(
-      height: 190,
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Logout?',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          const Divider(),
-          const Text(
-            'Are you sure to logout from this device.',
-            style: TextStyle(fontSize: 14),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              hideUploadLabel.value
-                  ? ''
-                  : 'Some of your data not synced to server, Do you want to continue your logout process?',
-              style: TextStyle(
-                color: errorColor,
-                fontSize: 12,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          CustomButton(
-              width: 100,
-              buttonText: 'Yes',
-              onPressed: () async {
-                String uname = box.read(GCSession.userEmail) ?? '';
-                String password = box.read(GCSession.userPassword) ?? '';
-                bool isRemember = box.read(GCSession.isRememberMe) ?? false;
-
-                //always store
-                String token = box.read(GCSession.token) ?? '';
-                String key = box.read(GCSession.key) ?? '';
-                String userId = box.read(GCSession.userId) ?? '';
-
-                await box.erase();
-                if (isRemember) {
-                  box.write(GCSession.userEmail, uname);
-                  box.write(GCSession.userPassword, password);
-                }
-
-                box.write(GCSession.token, token);
-                box.write(GCSession.key, key);
-                box.write(GCSession.userId, userId);
-
-                Get.offAllNamed(GCRoutes.login);
-              }),
-        ],
-      ),
-    ));
   }
 
   showDepartmentBottomSheet() {
@@ -652,7 +585,7 @@ class HomeController extends GetxController {
       {
         'version': '${packageInfo.version}',
         'os': '${await getDeviceOs()}',
-        'token': '${box.read(GCSession.token)}'
+        'token': '${box.read(GCSession.appToken)}'
       },
       () => isUploading(false),
       (error) {

@@ -28,15 +28,15 @@ class ApiCall {
     var initializationSettingsAndroid =
         const AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-      requestSoundPermission: true,
-      requestBadgePermission: true,
-      requestAlertPermission: true,
-    );
+    // const DarwinInitializationSettings initializationSettingsIOS =
+    //     DarwinInitializationSettings(
+    //   requestSoundPermission: true,
+    //   requestBadgePermission: true,
+    //   requestAlertPermission: true,
+    // );
 
     var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+        android: initializationSettingsAndroid,);
 
     flutterLocalNotificationPlugin.initialize(initializationSettings);
   }
@@ -80,6 +80,8 @@ class ApiCall {
       "username": encryptString(userName),
       "password": encryptString(password)
     };
+    log('${params.toString()} ${_dio.options.baseUrl} $loginApi');
+    
     final response = await _dio.post(loginApi, data: params);
 
     log('${response.requestOptions.baseUrl}\n${response.requestOptions.path}\n${jsonEncode(params)}\n${response.statusCode}\n${response.data}');

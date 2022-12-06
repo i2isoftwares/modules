@@ -8,7 +8,7 @@ import 'package:i2iutils/helpers/common_functions.dart';
 import '../../api/api_calls.dart';
 import '../../helpers/gc_session.dart';
 import '../../helpers/utils.dart';
-import '../../routes/app_pages.dart';
+import '../../routes/gc_app_pages.dart';
 
 class TodoController extends GetxController {
   RxString companyId = '-1'.obs;
@@ -62,7 +62,7 @@ class TodoController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.token);
+    token = box.read(GCSession.appToken);
     companyId('${box.read(GCSession.userCompanyId)}');
     today = getDate(format: 'yyyy-MM-dd HH:mm');
     fromTime = getDate(format: "HH") + ":00";

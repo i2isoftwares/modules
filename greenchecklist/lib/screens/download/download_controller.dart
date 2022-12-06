@@ -98,7 +98,7 @@ class DownloadController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.token);
+    token = box.read(GCSession.appToken);
 
     params = {"userid": userId, "token": token};
 

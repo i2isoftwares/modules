@@ -5,7 +5,7 @@ import 'package:i2iutils/helpers/hexcolor.dart';
 
 import '../../helpers/colors.dart';
 import '../../model/all_tickets_response.dart';
-import '../../routes/app_pages.dart';
+import '../../routes/gc_app_pages.dart';
 
 class TicketItem extends StatelessWidget {
   final TicketDetails ticket;

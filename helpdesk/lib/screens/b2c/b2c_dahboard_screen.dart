@@ -61,7 +61,7 @@ class B2CDashboardScreen extends GetView<B2CDashboardController> {
                                 shakeAngle: Rotation.deg(z: 30),
                                 curve: Curves.linear,
                                 child: Image.asset(
-                                  'assets/helpdesksmiley.png',
+                                  'assets/helpdesk/smiley.png',
                                   width: 25,
                                   height: 25,
                                 ),
@@ -95,7 +95,7 @@ class B2CDashboardScreen extends GetView<B2CDashboardController> {
             width: 50,
             errorWidget: (_, __, ___) {
               return Image.asset(
-                'assets/helpdesklogo.png',
+                'assets/helpdesk/logo.png',
                 color: Colors.white,
                 width: 50,
               );
@@ -538,7 +538,7 @@ class B2CDashboardScreen extends GetView<B2CDashboardController> {
                                             height: 60,
                                           )
                                         : Image.asset(
-                                            'assets/helpdeskplaceholder.png',
+                                            'assets/helpdesk/placeholder.png',
                                             height: 60,
                                           ),
                                   ),

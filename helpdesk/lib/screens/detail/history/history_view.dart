@@ -85,7 +85,7 @@ class HistoryView extends StatelessWidget {
                           height: 50,
                           errorWidget: (_, __, ___) {
                             return Image.asset(
-                              'assets/helpdeskplaceholder.png',
+                              'assets/helpdesk/placeholder.png',
                               height: 50,
                             );
                           },

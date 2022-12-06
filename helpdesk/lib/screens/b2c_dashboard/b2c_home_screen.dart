@@ -57,7 +57,7 @@ class B2CHomeScreen extends GetView<B2CHomeController> {
                                 shakeAngle: Rotation.deg(z: 30),
                                 curve: Curves.linear,
                                 child: Image.asset(
-                                  'assets/helpdesksmiley.png',
+                                  'assets/helpdesk/smiley.png',
                                   width: 25,
                                   height: 25,
                                 ),
@@ -91,7 +91,7 @@ class B2CHomeScreen extends GetView<B2CHomeController> {
             width: 90,
             errorWidget: (_, __, ___) {
               return Image.asset(
-                'assets/helpdesklogo.png',
+                'assets/helpdesk/logo.png',
                 color: Colors.white,
                 width: 50,
               );

@@ -6,7 +6,7 @@ import 'package:i2iutils/widgets/button.dart';
 
 import '../../helpers/colors.dart';
 import '../../helpers/gc_session.dart';
-import '../../routes/app_pages.dart';
+import '../../routes/gc_app_pages.dart';
 
 class DownloadScreen extends GetView<DownloadController> {
   DownloadScreen({Key? key}) : super(key: key);

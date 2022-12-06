@@ -9,7 +9,7 @@ import '../../database/dao/template_detail_dao.dart';
 import '../../database/database.dart';
 import '../../helpers/gc_session.dart';
 import '../../helpers/utils.dart';
-import '../../routes/app_pages.dart';
+import '../../routes/gc_app_pages.dart';
 import '../qr_scan.dart';
 
 class TodoDetailController extends GetxController {

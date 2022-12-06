@@ -65,7 +65,7 @@ class TicketScreen extends GetView<TicketController> {
             width: 50,
             errorWidget: (_, __, ___) {
               return Image.asset(
-                'assets/helpdesklogo.png',
+                'assets/helpdesk/logo.png',
                 color: Colors.white,
                 width: 50,
               );

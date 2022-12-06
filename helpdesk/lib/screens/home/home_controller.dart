@@ -100,9 +100,9 @@ class HomeController extends GetxController {
     if (notificationAppLaunchDetails != null &&
         notificationAppLaunchDetails.didNotificationLaunchApp) {
       // showToastMsg('Payload ${notificationAppLaunchDetails.payload}');
-      if (notificationAppLaunchDetails.payload != null) {
+      if (notificationAppLaunchDetails.notificationResponse?.payload != null) {
         Get.toNamed(HDRoutes.TICKET_DETAIL,
-            arguments: {'complaintId': notificationAppLaunchDetails.payload});
+            arguments: {'complaintId': notificationAppLaunchDetails.notificationResponse?.payload});
       }
     }
   }

@@ -6,8 +6,16 @@
       <excludeFolder url="file://$MODULE_DIR$/greenchecklist/build" />
       <excludeFolder url="file://$MODULE_DIR$/greenchecklist/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/greenchecklist/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/helpdesk/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/helpdesk/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/helpdesk/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vms/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/vms/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/vms/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
   </component>
 </module>

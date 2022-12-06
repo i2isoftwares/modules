@@ -397,6 +397,7 @@ class TicketCreateController extends GetxController {
                     compId: response.data?.companyID,
                     deptId: response.data?.departmentID);
 
+                Get.back();
                 return Future(() => true);
 
               } else {

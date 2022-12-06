@@ -1,35 +1,35 @@
 class GCSession{
   static const userEmail="userEmail";
   static const userPassword="userPassword";
-  static const isRememberMe="isRememberMe";
+  static const fcmToken="fcmToken";
 
-  static const String key = "key";
-  static const String isLogin = "isLogin";
-  static const String isChecklist = "isChecklist";
-  static const String isLogsheet = "isLogsheet";
-  static const String isHelpdesk = "isHelpdesk";
-  static const String isAdmin = "isAdmin";
-  static const String userCompanyLogo = "userCompanyLogo";
-  static const String userName = "userName";
-  static const String userId = "userId";
-  static const String userDetail = "userDetail";
-  static const String scanTime = "scanTime";
-  static const String token = "token";
+  static const String appToken = "gc_appToken";
+  static const String key = "gc_key";
+  static const String isLogin = "gc_isLogin";
+  static const String isChecklist = "gc_isChecklist";
+  static const String isLogsheet = "gc_isLogsheet";
+  static const String isHelpdesk = "gc_isHelpdesk";
+  static const String isAdmin = "gc_isAdmin";
+  static const String userCompanyLogo = "gc_userCompanyLogo";
+  static const String userName = "gc_userName";
+  static const String userId = "gc_userId";
+  static const String userDetail = "gc_userDetail";
+  static const String scanTime = "gc_scanTime";
 
   //helpdesk
-  static const String hdUserId = "hdUserId";
-  static const String hdUserCompanyId = "hdUserCompanyId";
-  static const String hdUserLocationId = "hdUserLocationId";
-  static const String hdUserGroupId = "hdUserGroupId";
+  static const String hdUserId = "gc_hdUserId";
+  static const String hdUserCompanyId = "gc_hdUserCompanyId";
+  static const String hdUserLocationId = "gc_hdUserLocationId";
+  static const String hdUserGroupId = "gc_hdUserGroupId";
 
-  static const String offlineChecklistCount = "offlineChecklistCount";
-  static const String offlineLogsheetCount = "offlineLogsheetCount";
+  static const String offlineChecklistCount = "gc_offlineChecklistCount";
+  static const String offlineLogsheetCount = "gc_offlineLogsheetCount";
 
-  static const String userCompanyId = "userCompanyId";
-  static const String userLocationId = "userLocationId";
-  static const String userDeptId = "userDeptId";
-  static const String userDepartments = "userDepartments";
-  static const String userDeptShowImage = "userDeptShowImage";
-  static const String userLocationName = "userLocationName";
-  static const String userCompanyName = "userCompanyName";
+  static const String userCompanyId = "gc_userCompanyId";
+  static const String userLocationId = "gc_userLocationId";
+  static const String userDeptId = "gc_userDeptId";
+  static const String userDepartments = "gc_userDepartments";
+  static const String userDeptShowImage = "gc_userDeptShowImage";
+  static const String userLocationName = "gc_userLocationName";
+  static const String userCompanyName = "gc_userCompanyName";
 }

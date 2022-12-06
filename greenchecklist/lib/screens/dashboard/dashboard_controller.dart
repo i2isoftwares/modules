@@ -8,7 +8,7 @@ import 'package:greenchecklist/model/template_wise.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 
 import '../../helpers/gc_session.dart';
-import '../../routes/app_pages.dart';
+import '../../routes/gc_app_pages.dart';
 
 class DashboardController extends GetxController {
   RxString companyId = '-1'.obs;
@@ -71,7 +71,7 @@ class DashboardController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.token);
+    token = box.read(GCSession.appToken);
     companyId('${box.read(GCSession.userCompanyId)}');
     today = getDate(format: 'yyyy-MM-dd');
 
