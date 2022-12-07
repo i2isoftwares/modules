@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseBookingHistory.dart';
 import 'package:optdesk/models/ResponseUpdateLogOff.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+
+import '../api/network_utils.dart';
 
 class MyBookings extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _MyBookingsState extends State<MyBookings>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
 
     _getBookingHistory(context);
   }
@@ -37,8 +38,8 @@ class _MyBookingsState extends State<MyBookings>
     pastBookingHistory = [];
     occupiedBookingHistory = [];
     BookingHistory response = await getBookingHistory(
-        Utils.userDetail.userId.toString(),
-        Utils.userDetail.roleformshowid.toString(),
+        Utils.userDetail!.userId.toString(),
+        Utils.userDetail!.roleformshowid.toString(),
         context);
 
     setState(() {
@@ -56,7 +57,7 @@ class _MyBookingsState extends State<MyBookings>
     occupiedBookingHistory = [];
     UpdateLogOff response = await updateLogOff(
         floorMapBookingId,
-        Utils.userDetail.userId.toString(),
+        Utils.userDetail!.userId.toString(),
         DateFormat('HH:mm').format(DateTime.now()),
         context);
     Utils.hideLoader();
@@ -80,7 +81,7 @@ class _MyBookingsState extends State<MyBookings>
             CupertinoButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _updateLogOff(occupiedBookingHistory[index].floorMapBookingId.toString(), context);
+                _updateLogOff(occupiedBookingHistory[index].floorMapBookingId.toString(),context);
                 _getBookingHistory(context);
               },
               child: Text('Yes'),

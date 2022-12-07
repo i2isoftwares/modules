@@ -1,21 +1,24 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
+
 import 'package:optdesk/helpers/shared_preferences_helper.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseConfirmationBooking.dart';
 import 'package:optdesk/models/ResponseLogin.dart';
 import 'package:optdesk/models/ResponseMultipleSave.dart';
 import 'package:optdesk/models/ResponseMultipleTimeValidation.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
-import 'package:optdesk/widgets/shared/button.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+import 'package:optdesk/widgets/button.dart';
+
+import '../api/network_utils.dart';
 
 class WorkstationScreen extends StatefulWidget {
   final MultipleTimeValidation data;
 
-  WorkstationScreen({@required this.data});
+  WorkstationScreen({required this.data});
 
   @override
   _WorkstationScreenState createState() => _WorkstationScreenState();
@@ -55,9 +58,9 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
   void _bookSeat(BuildContext context) async {
     if (selectedWorkstationList.length > 0) {
       // Check user role. 1 for Admin, 2 for user
-      if (Utils.userDetail.roleformshowid == 1) {
-        if ((Utils.settingDetail.bookingcount <
-            Utils.settingDetail.numberofBooking)) {
+      if (Utils.userDetail!.roleformshowid == 1) {
+        if ((Utils.settingDetail!.bookingcount <
+            Utils.settingDetail!.numberofBooking)) {
           String selectedCompanyId =
               await SharedPreferencesHelper.getPrefString(
                   SharedPreferencesHelper.selectedCompany, '');
@@ -117,16 +120,16 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
             this.bookingDetails = response;
             _showBookingDialog(context, book);
           } else {
-            Utils.showToastMsg(response.message, context);
+            showToastMsg(response.message);
           }
           Utils.hideLoader();
         } else {
-          Utils.showToastMsg('Booking limit exceeds for this month', context);
+          showToastMsg('Booking limit exceeds for this month');
         }
       } else {
-        if (selectedWorkstationList.length <= Utils.settingDetail.workstation) {
-          if ((Utils.settingDetail.bookingcount <
-              Utils.settingDetail.numberofBooking)) {
+        if (selectedWorkstationList.length <= Utils.settingDetail!.workstation) {
+          if ((Utils.settingDetail!.bookingcount <
+              Utils.settingDetail!.numberofBooking)) {
             String selectedCompanyId =
                 await SharedPreferencesHelper.getPrefString(
                     SharedPreferencesHelper.selectedCompany, '');
@@ -190,18 +193,18 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
               this.bookingDetails = response;
               _showBookingDialog(context, book);
             } else {
-              Utils.showToastMsg(response.message, context);
+              showToastMsg(response.message);
             }
             Utils.hideLoader();
           } else {
-            Utils.showToastMsg('Booking limit exceeds for this month', context);
+            showToastMsg('Booking limit exceeds for this month');
           }
         } else {
-          Utils.showToastMsg('Maximum booking limit reached', context);
+          showToastMsg('Maximum booking limit reached');
         }
       }
     } else {
-      Utils.showToastMsg('Please select seat', context);
+      showToastMsg('Please select seat');
     }
   }
 
@@ -238,7 +241,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
       Navigator.of(context).pushNamedAndRemoveUntil(
           '/booking_confirmation', ModalRoute.withName('/home'));
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     setState(() {
       isConfirmBtnEnabled = true;
@@ -260,7 +263,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                 color: primary,
                 borderRadius: BorderRadius.circular(5),
               ),
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 children: <Widget>[
                   Flexible(
@@ -275,9 +278,9 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                           //shrinkWrap: true,
                           //physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 12),
+                              margin: const EdgeInsets.symmetric(horizontal: 12),
                               child: Column(
                                 children: <Widget>[
                                   Row(
@@ -317,7 +320,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
@@ -355,12 +358,12 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                       ),
                                     ],
                                   ),
-                                  Utils.settingDetail.isVegNonVeg
+                                  Utils.settingDetail!.isVegNonVeg
                                       ? Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            SizedBox(height: 12),
+                                            const SizedBox(height: 12),
                                             Text(
                                               'Please choose your food preference',
                                               style: Theme.of(context)
@@ -438,7 +441,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                           ],
                                         )
                                       : Container(),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   Row(
                                     children: <Widget>[
                                       Expanded(
@@ -476,7 +479,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
@@ -516,7 +519,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.55,
                               child: ListView.builder(
@@ -528,7 +531,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                   return Container(
                                     child: Container(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 12),
+                                          const EdgeInsets.symmetric(horizontal: 12),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -551,7 +554,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                                               .normal),
                                                 ),
                                               ),
-                                              SizedBox(width: 5),
+                                              const SizedBox(width: 5),
                                               Expanded(
                                                 child: Text(
                                                   bookingDetails
@@ -573,7 +576,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 12),
+                                          const SizedBox(height: 12),
                                           Text(
                                             'From',
                                             style: Theme.of(context)
@@ -585,7 +588,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                                     fontWeight:
                                                         FontWeight.normal),
                                           ),
-                                          SizedBox(height: 12),
+                                          const SizedBox(height: 12),
                                           Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -610,7 +613,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                                               .normal),
                                                 ),
                                               ),
-                                              SizedBox(width: 5),
+                                              const SizedBox(width: 5),
                                               Expanded(
                                                 child: Text(
                                                   bookingDetails
@@ -632,7 +635,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 12),
+                                          const SizedBox(height: 12),
                                           Text(
                                             'To',
                                             style: Theme.of(context)
@@ -644,7 +647,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                                     fontWeight:
                                                         FontWeight.normal),
                                           ),
-                                          SizedBox(height: 12),
+                                          const SizedBox(height: 12),
                                           Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -669,7 +672,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                                                               .normal),
                                                 ),
                                               ),
-                                              SizedBox(width: 5),
+                                              const SizedBox(width: 5),
                                               Expanded(
                                                 child: Text(
                                                   bookingDetails
@@ -706,7 +709,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Expanded(
                     child: CustomButton(
                       buttonText: 'Click to Confirm',
@@ -736,7 +739,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .apply(color: primary)
+              ?.apply(color: primary)
               .copyWith(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -771,7 +774,7 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                 alignment: Alignment.centerLeft,
                 height: 45,
                 width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 color: primary,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -829,9 +832,8 @@ class _WorkstationScreenState extends State<WorkstationScreen> {
                               .workstationList[workstationIndex]
                               .bookingStatus ==
                           1) {
-                        Utils.showToastMsg(
-                            '${validationWorkstation[index].workstationList[workstationIndex].workstationName} seat already booked',
-                            context);
+                        showToastMsg(
+                            '${validationWorkstation[index].workstationList[workstationIndex].workstationName} seat already booked',);
                       } else if (validationWorkstation[index]
                               .workstationList[workstationIndex]
                               .bookingStatus ==

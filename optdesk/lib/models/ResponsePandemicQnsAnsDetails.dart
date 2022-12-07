@@ -10,48 +10,48 @@ String pandemicQnsAnsDetailsToJson(PandemicQnsAnsDetails data) => json.encode(da
 
 class PandemicQnsAnsDetails {
   PandemicQnsAnsDetails({
-    this.status,
-    this.showQa,
-    this.message,
+    required this.status,
+    required this.showQa,
+    required this.message,
     this.returnData,
-    this.method,
-    this.sessionId,
-    this.id,
+    required this.method,
+    required this.sessionId,
+    required this.id,
     this.isshow,
-    this.data,
+    required this.data,
   });
 
-  bool? status;
-  bool? showQa;
-  String? message;
+  bool status;
+  bool showQa;
+  String message;
   dynamic returnData;
-  String? method;
-  String? sessionId;
-  String? id;
+  String method;
+  String sessionId;
+  String id;
   dynamic isshow;
-  int? data;
+  int data;
 
   factory PandemicQnsAnsDetails.fromJson(Map<String, dynamic> json) => PandemicQnsAnsDetails(
-    status: json["Status"] == null ? null : json["Status"],
-    showQa: json["ShowQa"] == null ? null : json["ShowQa"],
-    message: json["Message"] == null ? null : json["Message"],
+    status: json["Status"],
+    showQa: json["ShowQa"],
+    message: json["Message"],
     returnData: json["ReturnData"],
-    method: json["Method"] == null ? null : json["Method"],
-    sessionId: json["SessionID"] == null ? null : json["SessionID"],
-    id: json["ID"] == null ? null : json["ID"],
+    method: json["Method"],
+    sessionId: json["SessionID"],
+    id: json["ID"],
     isshow: json["isshow"],
-    data: json["data"] == null ? null : json["data"],
+    data: json["data"],
   );
 
   Map<String, dynamic> toJson() => {
-    "Status": status == null ? null : status,
-    "ShowQa": showQa == null ? null : showQa,
-    "Message": message == null ? null : message,
+    "Status": status,
+    "ShowQa": showQa,
+    "Message": message,
     "ReturnData": returnData,
-    "Method": method == null ? null : method,
-    "SessionID": sessionId == null ? null : sessionId,
-    "ID": id == null ? null : id,
+    "Method": method,
+    "SessionID": sessionId,
+    "ID": id,
     "isshow": isshow,
-    "data": data == null ? null : data,
+    "data": data,
   };
 }

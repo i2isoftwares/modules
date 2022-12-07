@@ -1,22 +1,24 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
+
 import 'package:optdesk/helpers/shared_preferences_helper.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseLogin.dart';
 import 'package:optdesk/models/ResponseMultipleTimeValidation.dart';
 import 'package:optdesk/models/ResponseSettingDetails.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
-import 'package:optdesk/widgets/shared/button.dart';
-import 'package:toast/toast.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+import 'package:optdesk/widgets/button.dart';
+
+import '../api/network_utils.dart';
 
 class TimeSelectionScreen extends StatefulWidget {
   final Map<DateTime, List> events;
 
-  TimeSelectionScreen({@required this.events});
+  TimeSelectionScreen({required this.events});
 
   @override
   _TimeSelectionScreenState createState() => _TimeSelectionScreenState();
@@ -33,7 +35,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    settingDetail = Utils.settingDetail;
+    settingDetail = Utils.settingDetail!;
 
     SharedPreferencesHelper.getPrefString(
             SharedPreferencesHelper.LOGIN_RESPONSE, '')
@@ -138,37 +140,37 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
               flags.add(1);
             } else {
               flags.add(0);
-              Utils.showToastMsg('Please check office hours', context);
+              showToastMsg('Please check office hours');
             }
           } else {
-            Utils.showToastMsg('Please Check Min Time slot', context);
+            showToastMsg('Please Check Min Time slot');
             flags.add(0);
           }
         } else {
-          Utils.showToastMsg('EndTime is Greater than StartTime', context);
+          showToastMsg('EndTime is Greater than StartTime');
           flags.add(0);
         }
       } else {
-        Utils.showToastMsg('Please select Time', context);
+        showToastMsg('Please select Time');
         flags.add(0);
       }
     }
 
     if (!flags.contains(0)) {
       print(book);
-      _postMultipleTimeValidation(book, context);
+      _postMultipleTimeValidation(book,context);
     }
   }
 
   void _pickStartTime(int index, BuildContext context) async {
-    TimeOfDay t = await showTimePicker(
+    TimeOfDay? t = await showTimePicker(
       context: context,
       initialTime: slots[index].startTime != null
           ? slots[index].startTime
           : TimeOfDay.now(),
       builder: (BuildContext context, Widget child) {
         return MediaQuery(
-          data: MediaQuery.of(context)?.copyWith(alwaysUse24HourFormat: true),
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
           child: child,
         );
       },
@@ -181,13 +183,13 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
   }
 
   void _pickEndTime(int index, BuildContext context) async {
-    TimeOfDay t = await showTimePicker(
+    TimeOfDay? t = await showTimePicker(
       context: context,
       initialTime:
           slots[index].endTime != null ? slots[index].endTime : TimeOfDay.now(),
       builder: (BuildContext context, Widget child) {
         return MediaQuery(
-          data: MediaQuery.of(context)?.copyWith(alwaysUse24HourFormat: true),
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
           child: child,
         );
       },
@@ -229,14 +231,12 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
     if (response.returnData.validationWorkstation.length > 0) {
       print(response.returnData.validationWorkstation[0].date);
       Navigator.of(context).pushNamed('/workstation', arguments: response);
-      if (Utils.userDetail.roleformshowid != 1) {
-        Toast.show(
-            'Booked times ${Utils.settingDetail.bookingcount} out of ${Utils.settingDetail.numberofBooking}',
-            context,
-            duration: 3);
+      if (Utils.userDetail!.roleformshowid != 1) {
+        showToastMsg('Booked times ${Utils.settingDetail!.bookingcount} out of ${Utils.settingDetail!.numberofBooking}',longToast: true);
+
       }
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     Utils.hideLoader();
   }
@@ -263,7 +263,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                 .textTheme
                 .bodyText1
                 ?.apply(color: primary)
-                ?.copyWith(fontWeight: FontWeight.bold),
+                .copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         body: SizedBox(
@@ -274,9 +274,9 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 10),
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: primary,
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
                 ),
                 child: Column(
                   children: <Widget>[
@@ -287,7 +287,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                           height: 25,
                           width: 25,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             "These times are available for ${DateFormat('dd-MMM-yyyy').format(dates[index])}",
@@ -295,7 +295,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                                 .textTheme
                                 .bodyText1
                                 ?.apply(color: Colors.white)
-                                ?.copyWith(
+                                .copyWith(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 13),
                           ),
@@ -312,7 +312,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                                 .textTheme
                                 .bodyText1
                                 ?.apply(color: Colors.white)
-                                ?.copyWith(
+                                .copyWith(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 13),
                             textAlign: TextAlign.center,
@@ -326,7 +326,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                                 .textTheme
                                 .bodyText1
                                 ?.apply(color: Colors.white)
-                                ?.copyWith(
+                                .copyWith(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 13),
                             textAlign: TextAlign.center,
@@ -340,7 +340,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                         Expanded(
                           child: Container(
                             height: 50,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   bottomLeft: Radius.circular(10)),
@@ -357,7 +357,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                                         height: 20,
                                         width: 20,
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Text(
                                         slots[index].startTime != null
                                             ? '${slots[index].startTime.hour.toString().padLeft(2, '0')}:${slots[index].startTime.minute.toString().padLeft(2, '0')}:00'
@@ -393,7 +393,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                         Expanded(
                           child: Container(
                             height: 50,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(10),
                                   bottomRight: Radius.circular(10)),
@@ -410,7 +410,7 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
                                         height: 20,
                                         width: 20,
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Text(
                                         slots[index].endTime != null
                                             ? '${slots[index].endTime.hour.toString().padLeft(2, '0')}:${slots[index].endTime.minute.toString().padLeft(2, '0')}:00'
@@ -453,8 +453,8 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
 
 class Time {
   Time({
-    this.startTime,
-    this.endTime,
+    required this.startTime,
+    required this.endTime,
   });
 
   TimeOfDay startTime;
@@ -463,7 +463,7 @@ class Time {
 
 extension Precision on double {
   double toPrecision(int fractionDigits) {
-    double mod = pow(10, fractionDigits.toDouble());
+    num mod = pow(10, fractionDigits.toDouble());
     return ((this * mod).round().toDouble() / mod);
   }
 }

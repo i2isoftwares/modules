@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
+
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseUserRegistrationSignin.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
-import 'package:optdesk/widgets/shared/button.dart';
-import 'package:optdesk/widgets/shared/textfield.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+import 'package:optdesk/widgets/button.dart';
+import 'package:optdesk/widgets/textfield.dart';
+
+import '../../api/network_utils.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  final Map<String, String> data;
+  final Map<String, String>? data;
 
-  ForgotPasswordScreen({@required this.data});
+  ForgotPasswordScreen({this.data});
 
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
@@ -23,12 +26,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     if (emailController.text.trim().isNotEmpty) {
       Utils.showLoader(context);
       UserRegistrationSignin response =
-          await postForgetPasswordSignIn(emailController.text, context);
-      Utils.showToastMsg(response.message, context);
+          await postForgetPasswordSignIn(emailController.text,context);
+      showToastMsg(response.message);
       if (response.status) {
         Map<String, String> data = {
           'pin': response.returnData.toString(),
-          'email': '${emailController.text.trim()}',
+          'email': emailController.text.trim(),
           'token': response.id,
         };
         Navigator.of(context).pushNamed('/verification', arguments: data);
@@ -36,8 +39,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 //      if (widget.data != null) {
 //        Utils.showLoader(context);
 //        UserRegistrationSignin response =
-//            await postForgetPasswordSignIn(emailController.text, context);
-//        Utils.showToastMsg(response.message, context);
+//            await postForgetPasswordSignIn(emailController.text);
+//        showToastMsg(response.message);
 //        if (response.status) {
 //          Map<String, String> newData = widget.data;
 //          newData.addAll({
@@ -49,8 +52,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 //      } else {
 //        Utils.showLoader(context);
 //        EmailVerification response =
-//            await postEmailVerification(emailController.text, '1', context);
-//        Utils.showToastMsg(response.message, context);
+//            await postEmailVerification(emailController.text, '1');
+//        showToastMsg(response.message);
 //        if (response.status) {
 //          Map<String, String> data = {
 //            'pin': '${response.returnData.toString()}',
@@ -60,7 +63,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 //        }
 //      }
     } else {
-      Utils.showToastMsg('Please enter email', context);
+      showToastMsg('Please enter email');
     }
   }
 
@@ -75,7 +78,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .apply(color: primary)
+              ?.apply(color: primary)
               .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
@@ -95,7 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 Container(
                   transform: Matrix4.translationValues(0, -10, 0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -105,8 +108,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: <Widget>[
                       Container(
                         transform: Matrix4.translationValues(0, -15, 0),
-                        padding: EdgeInsets.all(7),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(7),
+                        decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
@@ -127,12 +130,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
-                            .apply(color: Colors.black)
+                            ?.apply(color: Colors.black)
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: <Widget>[
@@ -148,11 +151,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 24),
+                            const SizedBox(height: 24),
                             CustomButton(
                               buttonText: 'SUBMIT',
                               onPressed: () {
-                                this._submitTap(context);
+                                _submitTap(context);
                               },
                             ),
                           ],

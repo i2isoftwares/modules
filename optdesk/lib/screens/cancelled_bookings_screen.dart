@@ -2,10 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseCancelHistory.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+
+import '../api/network_utils.dart';
 
 class CancelledBookings extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _CancelledBookingsState extends State<CancelledBookings> {
 
   void _postBookingHistory(BuildContext context) async {
     Utils.showLoader(context);
-    CancelHistory response = await postCancelHistory(Utils.userDetail.userId.toString(), Utils.userDetail.roleformshowid.toString(), context);
+    CancelHistory response = await postCancelHistory(Utils.userDetail!.userId.toString(), Utils.userDetail!.roleformshowid.toString(),context);
 
     setState(() {
       if(response != null){

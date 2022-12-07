@@ -1,15 +1,16 @@
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
 import 'package:optdesk/helpers/shared_preferences_helper.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseEmailVerification.dart';
 import 'package:optdesk/models/ResponseLogin.dart';
-import 'package:optdesk/widgets/shared/button.dart';
-import 'package:optdesk/widgets/shared/textfield.dart';
+import 'package:optdesk/widgets/button.dart';
+import 'package:optdesk/widgets/textfield.dart';
 
+import '../../api/network_utils.dart';
 import '../../helpers/utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Utils.showLoader(context);
     FocusScope.of(context).unfocus();
     ResponseLogin response =
-        await getLoginDetail(emailController.text, passwordController.text, context);
+        await getLoginDetail(emailController.text, passwordController.text,context);
     if (response.returnData.userDetails != null) {
       resLogin = response;
       SharedPreferencesHelper.setPrefString(
@@ -77,11 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
         SharedPreferencesHelper.setPrefBool(
             SharedPreferencesHelper.IS_LOGIN, true);
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        Utils.showToastMsg(response.message, context);
+        showToastMsg(response.message);
       }else{
         Utils.showLoader(context);
         EmailVerification resGetOTP =
-        await getOtpForSignIn(resLogin.returnData.userDetails[0].emailId, context);
+        await getOtpForSignIn(resLogin.returnData.userDetails[0].emailId,context);
         if(resGetOTP.status){
           Map<String, String> data = {
             'pin': resGetOTP.returnData.toString(),
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
           print(resGetOTP.returnData.toString());
           Navigator.of(context).pushNamed('/verification_for_sign_in', arguments: data);
         }else{
-          Utils.showToastMsg(resGetOTP.message, context);
+          showToastMsg(resGetOTP.message);
         }
       }
       Utils.hideLoader();
@@ -105,10 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
 //        SharedPreferencesHelper.setPrefBool(
 //            SharedPreferencesHelper.IS_LOGIN, true);
 //        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-//        Utils.showToastMsg(response.message, context);
+//        showToastMsg(response.message);
 //      }
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
   }
 
@@ -117,9 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: GestureDetector(
         onTap: () => {
-          FocusScope.of(context).requestFocus(new FocusNode()),
+          FocusScope.of(context).requestFocus(FocusNode()),
         },
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: ListView(
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Container(
                 transform: Matrix4.translationValues(0, -10, 0),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
@@ -143,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     Container(
                       transform: Matrix4.translationValues(0, -15, 0),
-                      padding: EdgeInsets.all(7),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(7),
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
@@ -168,9 +169,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ?.apply(color: Colors.black)
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: <Widget>[
@@ -187,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           CustomTextField(
                             placeholder: "Password",
                             controller: passwordController,
@@ -204,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 FocusScope.of(context).unfocus(),
                             textInputAction: TextInputAction.done,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -262,13 +263,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           CustomButton(
                             buttonText: 'LOGIN',
                             onPressed: () =>
-                                this._signInWithEmailAndPassword(context),
+                                _signInWithEmailAndPassword(context),
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -277,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(fontSize: 13),
+                                    ?.copyWith(fontSize: 13),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -303,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           Text(
                             'Version 2.1',
                             style: Theme.of(context)

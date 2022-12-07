@@ -1,18 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
 import 'package:optdesk/helpers/shared_preferences_helper.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseLogin.dart';
 import 'package:optdesk/models/ResponseSettingDetails.dart';
 import 'package:optdesk/models/ResponseUserList.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
-import 'package:optdesk/widgets/shared/button.dart';
-import 'package:optdesk/widgets/shared/textfield.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+import 'package:optdesk/widgets/button.dart';
+import 'package:optdesk/widgets/textfield.dart';
 
+import '../api/network_utils.dart';
 import '../models/ResponseCancelBooking.dart';
 import '../models/response_check_booking.dart';
 
@@ -33,12 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<UserDetail1> masterUserList;
   late List<UserDetail1> userList;
 
-  late CompanyDetail selectedCompany;
-  late LocationDetail selectedLocation;
-  late BuildingDetail selectedBuilding;
-  late FloorDetail selectedFloor;
-  late String selectedUserRole;
-  late UserDetail1 selectedUser;
+  late CompanyDetail? selectedCompany;
+  late LocationDetail? selectedLocation;
+  late BuildingDetail? selectedBuilding;
+  late FloorDetail? selectedFloor;
+  late String? selectedUserRole;
+  late UserDetail1? selectedUser;
 
   late SettingDetail settingDetail;
   var departmentId;
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 companyDetails =
                                     responseLogin.returnData.companyDetails;
                               } else {
-                                companyDetails = new List();
+                                companyDetails = [];
                                 for (int i = 0;
                                     i <
                                         responseLogin
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 locationDetails =
                                     responseLogin.returnData.locationDetails;
                               } else {
-                                locationDetails = new List();
+                                locationDetails = [];
                                 for (int i = 0;
                                     i <
                                         responseLogin
@@ -254,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 buildingDetails =
                                     responseLogin.returnData.buildingDetails;
                               } else {
-                                buildingDetails = new List();
+                                buildingDetails = [];
                                 for (int i = 0;
                                     i <
                                         responseLogin
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 floorDetails =
                                     responseLogin.returnData.floorDetails;
                               } else {
-                                floorDetails = new List();
+                                floorDetails = [];
                                 for (int i = 0;
                                     i <
                                         responseLogin
@@ -420,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (val == null || val == "") {
                                 userRoles = ['Admin', 'User'];
                               } else {
-                                userRoles = new List();
+                                userRoles = [];
                                 for (int i = 0; i < userRoles.length; i++) {
                                   String s =
                                       ("${userRoles[i]}").toLowerCase().trim();
@@ -503,7 +503,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (val == null || val == "") {
                                 userList = masterUserList;
                               } else {
-                                userList = new List();
+                                userList = [];
                                 for (int i = 0;
                                     i < masterUserList.length;
                                     i++) {
@@ -563,13 +563,13 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          content: Text('\nAre you sure want to Scan ?'),
+          content: const Text('\nAre you sure want to Scan ?'),
           actions: <Widget>[
             CupertinoButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('No'),
+              child: const Text('No'),
               padding: EdgeInsets.zero,
             ),
             CupertinoButton(
@@ -579,7 +579,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     "#ff6666", "Cancel", false, ScanMode.QR);
                 api(scanData);
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
               padding: EdgeInsets.zero,
             ),
           ],
@@ -593,12 +593,12 @@ class _HomeScreenState extends State<HomeScreen> {
     var email = await SharedPreferencesHelper.getPrefString(
         SharedPreferencesHelper.USER_EMAIL, '');
     ResponseCheckBooking response = await checkCancelBooking(
-        Utils.userDetail.userId.toString(),
-        Utils.userDetail.roleformshowid.toString(),
+        Utils.userDetail!.userId.toString(),
+        Utils.userDetail!.roleformshowid.toString(),
         '$scanData',
         email,
         context);
-    Utils.showToastMsg(response.message, context);
+    showToastMsg(response.message);
     if (response.status) {
       _showConfirmationDialog(context, "\nBooking Scanned\nSuccessfully");
     }
@@ -617,7 +617,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.of(context).pop();
                 // Navigator.of(context).pop('reloadData');
               },
-              child: Text('Ok'),
+              child: const Text('Ok'),
               padding: EdgeInsets.zero,
             ),
           ],
@@ -640,7 +640,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   responseLogin != null &&
                   selectedLocation != null &&
                   selectedFloor != null) {
-                if (Utils.userDetail.roleformshowid == 1) {
+                if (Utils.userDetail!.roleformshowid == 1) {
                   if (selectedUserRole == 'Admin') {
                     _getSettingDetails(context);
                     SharedPreferencesHelper.selectedUser = "";
@@ -648,19 +648,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (selectedUser != null) {
                       _getSettingDetails(context);
                       SharedPreferencesHelper.selectedUser =
-                          selectedUser.emailId;
+                          selectedUser!.emailId;
                     } else {
-                      Utils.showToastMsg('Please select user', context);
+                      showToastMsg('Please select user');
                     }
                   } else {
-                    Utils.showToastMsg('Please select booking for', context);
+                    showToastMsg('Please select booking for');
                   }
                 } else {
                   SharedPreferencesHelper.selectedUser = "";
                   _getSettingDetails(context);
                 }
               } else {
-                Utils.showToastMsg('Please Select Fields', context);
+                showToastMsg('Please Select Fields');
               }
             },
             buttonText: 'Continue',
@@ -675,12 +675,12 @@ class _HomeScreenState extends State<HomeScreen> {
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
-                .apply(color: primary)
-                ?.copyWith(fontWeight: FontWeight.bold),
+                ?.apply(color: primary)
+                .copyWith(fontWeight: FontWeight.bold),
           ),
           leading: GestureDetector(
             onTap: () {
-              _scaffoldKey.currentState.openDrawer();
+              _scaffoldKey.currentState?.openDrawer();
             },
             child: Padding(
               padding: const EdgeInsets.all(17.0),
@@ -702,7 +702,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(width: 25),
+            const SizedBox(width: 25),
             GestureDetector(
               onTap: () {},
               child: Image.asset(
@@ -712,13 +712,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(width: 25),
+            const SizedBox(width: 25),
           ],
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.zero,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             height: MediaQuery.of(context).size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -730,7 +730,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         child: Row(
@@ -740,7 +740,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: AutoSizeText(
-                                  "${selectedCompany != null ? selectedCompany.companyName : companyDetails != null ? companyDetails[0].companyName : 'Select Company'}",
+                                  "${selectedCompany != null ? selectedCompany!.companyName : companyDetails != null ? companyDetails[0].companyName : 'Select Company'}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -753,7 +753,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Image.asset(
                               'assets/optdesk/downarrow-8.png',
                               height: 20,
@@ -775,7 +775,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         child: Row(
@@ -785,7 +785,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: AutoSizeText(
-                                  '${selectedLocation != null ? selectedLocation.locationName : 'Select Location'}',
+                                  '${selectedLocation != null ? selectedLocation!.locationName : 'Select Location'}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -798,7 +798,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Image.asset(
                               'assets/optdesk/downarrow-8.png',
                               height: 20,
@@ -810,8 +810,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (locationDetails != null) {
                             _showLocations(context);
                           } else {
-                            Utils.showToastMsg(
-                                "No Locations Available", context);
+                            showToastMsg(
+                                "No Locations Available");
                           }
                         },
                       ),
@@ -822,7 +822,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         child: Row(
@@ -832,7 +832,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: AutoSizeText(
-                                  '${selectedBuilding != null ? selectedBuilding.buildingName : 'Select Building'}',
+                                  '${selectedBuilding != null ? selectedBuilding!.buildingName : 'Select Building'}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -845,7 +845,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Image.asset(
                               'assets/optdesk/downarrow-8.png',
                               height: 20,
@@ -857,8 +857,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (buildingDetails != null) {
                             _showBuildings(context);
                           } else {
-                            Utils.showToastMsg(
-                                "No Buildings Available", context);
+                            showToastMsg(
+                                "No Buildings Available");
                           }
                         },
                       ),
@@ -869,7 +869,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         child: Row(
@@ -879,7 +879,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: AutoSizeText(
-                                  '${selectedFloor != null ? selectedFloor.floorName : 'Select Floor'}',
+                                  '${selectedFloor != null ? selectedFloor!.floorName : 'Select Floor'}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -892,7 +892,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Image.asset(
                               'assets/optdesk/downarrow-8.png',
                               height: 20,
@@ -904,12 +904,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (floorDetails != null) {
                             _showFloors(context);
                           } else {
-                            Utils.showToastMsg("No Floors Available", context);
+                            showToastMsg("No Floors Available");
                           }
                         },
                       ),
                     ),
-                    Utils.userDetail.roleformshowid == 1
+                    Utils.userDetail!.roleformshowid == 1
                         ? Column(
                             children: <Widget>[
                               const SizedBox(height: 12),
@@ -919,7 +919,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                   border: Border.all(color: grey),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                      const BorderRadius.all(Radius.circular(10)),
                                 ),
                                 child: ElevatedButton(
                                   child: Row(
@@ -943,7 +943,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Image.asset(
                                         'assets/optdesk/downarrow-8.png',
                                         height: 20,
@@ -955,24 +955,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                     if (selectedCompany != null) {
                                       _showUserRoles(context);
                                     } else {
-                                      Utils.showToastMsg(
-                                          'Please select company', context);
+                                      showToastMsg(
+                                          'Please select company');
                                     }
                                   },
                                 ),
                               ),
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               selectedUserRole == 'User'
                                   ? Container(
                                       width: MediaQuery.of(context).size.width,
                                       height: 50,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: grey),
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(10)),
                                       ),
-                                      child: RaisedButton(
-                                        elevation: 5,
+                                      child: ElevatedButton(
+                                        // elevation: 5,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -982,7 +982,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 padding:
                                                     const EdgeInsets.all(3.0),
                                                 child: AutoSizeText(
-                                                  '${selectedUser != null ? selectedUser.emailId : 'Select User'}',
+                                                  '${selectedUser != null ? selectedUser!.emailId : 'Select User'}',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyText1
@@ -1007,11 +1007,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onPressed: () {
                                           _showUsersList(context);
                                         },
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                        ),
+                                        // color: Colors.white,
+                                        // shape: RoundedRectangleBorder(
+                                        //   borderRadius:
+                                        //       new BorderRadius.circular(10.0),
+                                        // ),
                                       ),
                                     )
                                   : Container(),
@@ -1047,11 +1047,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       height: 60,
                       width: 60,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         color: Colors.white,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.person_outline,
                         size: 45,
                       ),
@@ -1059,7 +1059,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: AutoSizeText(
-                        '${Utils.userDetail.userFirstName != null ? Utils.userDetail.userFirstName : 'Username'}',
+                        '${Utils.userDetail!.userFirstName != null ? Utils.userDetail!.userFirstName : 'Username'}',
                         style: Theme.of(context).textTheme.bodyText1?.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -1171,7 +1171,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "0",
       "0",
       context,
-      companyId: selectedCompany.companyId.toString(),
+      companyId: selectedCompany!.companyId.toString(),
       userId: responseLogin.returnData.userDetails[0].userId.toString(),
       roleId: responseLogin.returnData.userDetails[0].roleformshowid.toString(),
       buildingId: "0",
@@ -1179,13 +1179,13 @@ class _HomeScreenState extends State<HomeScreen> {
       locationId: "0",
       departmentId: departmentId,
     );
-    if (response.returnData.locationDetails.length > 0) {
+    if (response.returnData.locationDetails.isNotEmpty) {
       locationDetails = response.returnData.locationDetails;
 
       selectedLocation = locationDetails[0];
-      _getBuilding(selectedCompany);
+      _getBuilding(selectedCompany!);
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     setState(() {});
     Utils.hideLoader();
@@ -1204,21 +1204,21 @@ class _HomeScreenState extends State<HomeScreen> {
       "0",
       "0",
       context,
-      companyId: selectedCompany.companyId.toString(),
+      companyId: selectedCompany!.companyId.toString(),
       userId: responseLogin.returnData.userDetails[0].userId.toString(),
       roleId: responseLogin.returnData.userDetails[0].roleformshowid.toString(),
       buildingId: "0",
       floorId: "0",
-      locationId: selectedLocation.locationId.toString(),
+      locationId: selectedLocation!.locationId.toString(),
       departmentId: departmentId,
     );
-    if (response.returnData.buildingDetails.length > 0) {
+    if (response.returnData.buildingDetails.isNotEmpty) {
       buildingDetails = response.returnData.buildingDetails;
 
       selectedBuilding = buildingDetails[0];
       _getFloor();
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     setState(() {});
     Utils.hideLoader();
@@ -1234,19 +1234,19 @@ class _HomeScreenState extends State<HomeScreen> {
       "0",
       "0",
       context,
-      companyId: selectedCompany.companyId.toString(),
+      companyId: selectedCompany!.companyId.toString(),
       userId: responseLogin.returnData.userDetails[0].userId.toString(),
       roleId: responseLogin.returnData.userDetails[0].roleformshowid.toString(),
-      buildingId: selectedBuilding.buildingId.toString(),
+      buildingId: selectedBuilding!.buildingId.toString(),
       floorId: "0",
-      locationId: selectedLocation.locationId.toString(),
+      locationId: selectedLocation!.locationId.toString(),
       departmentId: departmentId,
     );
-    if (response.returnData.floorDetails.length > 0) {
+    if (response.returnData.floorDetails.isNotEmpty) {
       floorDetails = response.returnData.floorDetails;
       selectedFloor = floorDetails[0];
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     setState(() {});
     Utils.hideLoader();
@@ -1259,13 +1259,13 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedUser = null;
     });
     UserList response =
-        await getUserList(selectedCompany.companyId.toString(), context);
-    if (response.returnData.userDetails.length > 0) {
+        await getUserList(selectedCompany!.companyId.toString(),context);
+    if (response.returnData.userDetails.isNotEmpty) {
       userList = response.returnData.userDetails;
       masterUserList = response.returnData.userDetails;
       selectedUser = userList[0];
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     setState(() {});
     Utils.hideLoader();
@@ -1274,27 +1274,27 @@ class _HomeScreenState extends State<HomeScreen> {
   void _getSettingDetails(BuildContext context) async {
     Utils.showLoader(context);
     SettingDetails response = await getSettingDetails(
-        selectedCompany.companyId.toString(),
+        selectedCompany!.companyId.toString(),
         responseLogin.returnData.userDetails[0].roleformshowid.toString(),
-        selectedLocation.locationId.toString(),
+        selectedLocation!.locationId.toString(),
         responseLogin.returnData.userDetails[0].userId.toString(),
         context);
-    if (response.returnData.settingDetails.length > 0) {
+    if (response.returnData.settingDetails.isNotEmpty) {
       settingDetail = response.returnData.settingDetails[0];
       Utils.settingDetail = settingDetail;
 
       SharedPreferencesHelper.setPrefString(
           SharedPreferencesHelper.selectedCompany,
-          selectedCompany.companyId.toString());
+          selectedCompany!.companyId.toString());
       SharedPreferencesHelper.setPrefString(
           SharedPreferencesHelper.selectedLocation,
-          selectedLocation.locationId.toString());
+          selectedLocation!.locationId.toString());
       SharedPreferencesHelper.setPrefString(
           SharedPreferencesHelper.selectedBuilding,
-          selectedBuilding.buildingId.toString());
+          selectedBuilding!.buildingId.toString());
       SharedPreferencesHelper.setPrefString(
           SharedPreferencesHelper.selectedFloor,
-          selectedFloor.floorId.toString());
+          selectedFloor!.floorId.toString());
 
       //Navigator.of(context).pushNamed('/covid_screen'); //For testing
       if (response.isShow == '1') {
@@ -1305,7 +1305,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.of(context).pushNamed('/calender_screen');
       }
     } else {
-      Utils.showToastMsg(response.message, context);
+      showToastMsg(response.message);
     }
     Utils.hideLoader();
   }

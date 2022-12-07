@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget customAppBar(
+AppBar customAppBar(
   BuildContext context, {
   Widget? title,
   Widget? bottom,
@@ -13,7 +13,7 @@ Widget customAppBar(
 }) {
   return AppBar(
     elevation: 0,
-    bottom: bottom ?? SizedBox(),
+    // bottom: bottom ?? SizedBox(),
     backgroundColor: backgroundColor,
     iconTheme: iconTheme,
     leading: noLeading

@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:optdesk/helpers/url_utils.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
+import 'package:optdesk/api/url_utils.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseBookingHistory.dart';
 import 'package:optdesk/models/ResponseCancelBooking.dart';
@@ -57,7 +58,7 @@ Future<ResponseLogin> getLoginDetail(
     return ResponseLogin.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -85,7 +86,7 @@ Future<SettingDetails> getSettingDetails(String companyId, String roleId,
     return SettingDetails.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -99,7 +100,6 @@ Future<MultipleTimeValidation> postMultipleTimeValidation(
     List<Map<String, String>> book,
     String departmentId,
     BuildContext context) async {
-
   Map<String, dynamic> body = {
     'Companyid': companyId,
     'FloorId': floorId,
@@ -123,7 +123,7 @@ Future<MultipleTimeValidation> postMultipleTimeValidation(
     return MultipleTimeValidation.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 
@@ -135,7 +135,7 @@ Future<MultipleTimeValidation> postMultipleTimeValidation(
 //    final responseJson = json.decode(response.body);
 //    return MultipleTimeValidation.fromJson(responseJson);
 //  } else {
-//    Utils.showToastMsg("Something went wrong!", context);
+//    showToastMsg("Something went wrong!");
 //    return null;
 //  }
 }
@@ -172,7 +172,7 @@ Future<ConfirmationBooking> postConfirmBooking(
     return ConfirmationBooking.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -228,7 +228,7 @@ Future<MultipleSave> postMultipleSave(
     return MultipleSave.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -253,7 +253,7 @@ Future<BookingHistory> getBookingHistory(
     return BookingHistory.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 
@@ -268,7 +268,7 @@ Future<BookingHistory> getBookingHistory(
 //    final responseJson = json.decode(response.body);
 //    return BookingHistory.fromJson(responseJson);
 //  } else {
-//    Utils.showToastMsg("Something went wrong!", context);
+//    showToastMsg("Something went wrong!");
 //    return null;
 //  }
 }
@@ -291,7 +291,7 @@ Future<UserList> getUserList(String companyId, BuildContext context) async {
     return UserList.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -316,7 +316,7 @@ Future<CancelHistory> postCancelHistory(
     return CancelHistory.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -341,7 +341,7 @@ Future<EmailVerification> postEmailVerification(
     return EmailVerification.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -366,7 +366,7 @@ Future<ResetPassword> postResetPassword(
     return ResetPassword.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -406,7 +406,7 @@ Future<EmailVerification> postUserRegistration(String fName, String lName,
     return EmailVerification.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -442,7 +442,7 @@ Future<UserRegistrationSignin> postUserRegistrationSignin(String fName,
     return UserRegistrationSignin.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -467,7 +467,7 @@ Future<UserRegistrationSignin> postSaveRegPassword(
     return UserRegistrationSignin.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -491,7 +491,7 @@ Future<UserRegistrationSignin> postForgetPasswordSignIn(
     return UserRegistrationSignin.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -516,7 +516,7 @@ Future<EmailVerification> postOtpRequest(
     return EmailVerification.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -540,7 +540,7 @@ Future<EmailVerification> getOtpForSignIn(
     return EmailVerification.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -566,7 +566,7 @@ Future<EmailVerification> getInsertSignIn(
     return EmailVerification.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -603,7 +603,7 @@ Future<CancelBooking> postCancelBooking(
     return CancelBooking.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -639,7 +639,7 @@ Future<ResponseCheckBooking> checkCancelBooking(String userId, String roleId,
     // return null;
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -663,7 +663,7 @@ Future<GetQuestions> getQuestions(
     return GetQuestions.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -683,7 +683,7 @@ Future<PandemicQnsAnsDetails> postQnsAnsDetails(
     return PandemicQnsAnsDetails.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }
@@ -706,10 +706,10 @@ Future<PandemicQnsAnsDetails?> postQnsAnsDetailsUpload(
   var response =
       await dio.post(URL_PandemicQnsAnsDetailsUpload, data: formData);
   Utils.hideLoader();
-  if (response.statusCode <= 205) {
+  if ((response.statusCode ?? 500) <= 205) {
     return PandemicQnsAnsDetails.fromJson(response.data);
   } else {
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     return null;
   }
 }
@@ -735,7 +735,7 @@ Future<UpdateLogOff> updateLogOff(String floorMapBookingId, String userId,
     return UpdateLogOff.fromJson(response.data);
   } catch (e) {
     Utils.hideLoader();
-    Utils.showToastMsg("Something went wrong!", context);
+    showToastMsg("Something went wrong!");
     throw Exception(e.toString());
   }
 }

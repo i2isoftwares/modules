@@ -11,30 +11,30 @@ String updateLogOffToJson(UpdateLogOff data) => json.encode(data.toJson());
 
 class UpdateLogOff {
   UpdateLogOff({
-    @required this.status,
-    @required this.showQa,
-    @required this.message,
-    @required this.returnData,
-    @required this.method,
-    @required this.sessionId,
-    @required this.id,
-    @required this.isshow,
-    @required this.data,
-    @required this.isOtp,
-    @required this.isfeedback,
+    required this.status,
+    required this.showQa,
+    required this.message,
+    required this.returnData,
+    required this.method,
+    required this.sessionId,
+    required this.id,
+    required this.isshow,
+    required this.data,
+    required this.isOtp,
+    required this.isfeedback,
   });
 
-  bool? status;
-  bool? showQa;
-  String? message;
-  String? returnData;
-  String? method;
-  String? sessionId;
-  String? id;
+  bool status;
+  bool showQa;
+  String message;
+  String returnData;
+  String method;
+  String sessionId;
+  String id;
   dynamic isshow;
-  int? data;
+  int data;
   dynamic isOtp;
-  int? isfeedback;
+  int isfeedback;
 
   factory UpdateLogOff.fromJson(Map<String, dynamic> json) => UpdateLogOff(
     status: json["Status"],

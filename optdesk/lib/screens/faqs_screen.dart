@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:optdesk/helpers/colors.dart';
 import 'package:optdesk/helpers/constants.dart';
 import 'package:optdesk/helpers/utils.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
+import 'package:optdesk/widgets/app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FAQsScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _FAQsScreenState extends State<FAQsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (Utils.userDetail.roleformshowid == 1) {
+    if (Utils.userDetail!.roleformshowid == 1) {
       this.dataLocationSetting = dataLocationSettingsAdmin;
       this.dataUserCan = dataUsersCanAdmin;
       this.dataNotification = dataNotificationsAdmin;

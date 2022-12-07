@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:optdesk/helpers/colors.dart';
-import 'package:optdesk/helpers/network_utils.dart';
+
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseBookingHistory.dart';
 import 'package:optdesk/models/ResponseCancelBooking.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
-import 'package:optdesk/widgets/shared/button.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+import 'package:optdesk/widgets/button.dart';
+
+import '../api/network_utils.dart';
 
 class BookingDetails extends StatefulWidget {
   final Occupied data;
 
-  BookingDetails({@required this.data});
+  BookingDetails({required this.data});
 
   @override
   _BookingDetailsState createState() => _BookingDetailsState();
@@ -32,13 +34,13 @@ class _BookingDetailsState extends State<BookingDetails> {
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            content: Text('\nAre you sure want to Scan ?'),
+            content: const Text('\nAre you sure want to Scan ?'),
             actions: <Widget>[
               CupertinoButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('No'),
+                child: const Text('No'),
                 padding: EdgeInsets.zero,
               ),
               CupertinoButton(
@@ -47,7 +49,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                   String scanData = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.QR);
                   api(scanData);
                 },
-                child: Text('Yes'),
+                child: const Text('Yes'),
                 padding: EdgeInsets.zero,
               ),
             ],
@@ -55,7 +57,7 @@ class _BookingDetailsState extends State<BookingDetails> {
         },
       );
     }else{
-      Utils.showToastMsg('Upcoming Booking', context);
+      showToastMsg('Upcoming Booking');
     }
   }
 
@@ -70,7 +72,7 @@ class _BookingDetailsState extends State<BookingDetails> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('No'),
+              child: const Text('No'),
               padding: EdgeInsets.zero,
             ),
             CupertinoButton(
@@ -80,15 +82,15 @@ class _BookingDetailsState extends State<BookingDetails> {
                     widget.data.floorMapBookingId.toString(),
                     '1',
                     '0',
-                    Utils.userDetail.userId.toString(),
-                    Utils.userDetail.roleformshowid.toString(),
+                    Utils.userDetail!.userId.toString(),
+                    Utils.userDetail!.roleformshowid.toString(),
                     context);
                 if (response.status) {
                   Navigator.of(context).pop();
                   _showConfirmationDialog(context, "\nBooking Cancelled\nSuccessfully");
                 }
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
               padding: EdgeInsets.zero,
             ),
           ],
@@ -110,7 +112,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop('reloadData');
               },
-              child: Text('Ok'),
+              child: const Text('Ok'),
               padding: EdgeInsets.zero,
             ),
           ],
@@ -124,11 +126,11 @@ class _BookingDetailsState extends State<BookingDetails> {
     CancelBooking response = await postCancelBooking(
         widget.data.floorMapBookingId.toString(),
         '0',
-        '$scanData',
-        Utils.userDetail.userId.toString(),
-        Utils.userDetail.roleformshowid.toString(),
+        scanData,
+        Utils.userDetail!.userId.toString(),
+        Utils.userDetail!.roleformshowid.toString(),
         context);
-    Utils.showToastMsg(response.message, context);
+    showToastMsg(response.message);
     if (response.status) {
       _showConfirmationDialog(context, "\nBooking Scanned\nSuccessfully");
     }
@@ -157,13 +159,13 @@ class _BookingDetailsState extends State<BookingDetails> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Card(
-                margin: EdgeInsets.all(15),
+                margin: const EdgeInsets.all(15),
                 child: Container(
-                  margin: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -178,7 +180,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.grey)
+                                      ?.apply(color: Colors.grey)
                                       .copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.normal),
@@ -188,7 +190,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.black)
+                                      ?.apply(color: Colors.black)
                                       .copyWith(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -196,7 +198,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                               ],
                             ),
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Expanded(
                             child: Column(
                               mainAxisAlignment:
@@ -209,7 +211,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.grey)
+                                      ?.apply(color: Colors.grey)
                                       .copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.normal),
@@ -219,7 +221,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.black)
+                                      ?.apply(color: Colors.black)
                                       .copyWith(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -244,7 +246,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.grey)
+                                      ?.apply(color: Colors.grey)
                                       .copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.normal),
@@ -254,7 +256,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.black)
+                                      ?.apply(color: Colors.black)
                                       .copyWith(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -275,7 +277,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.grey)
+                                      ?.apply(color: Colors.grey)
                                       .copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.normal),
@@ -285,7 +287,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle2
-                                      ??.apply(color: Colors.black)
+                                      ?.apply(color: Colors.black)
                                       .copyWith(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -295,7 +297,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Row(
                         children: <Widget>[
                           Expanded(
@@ -313,7 +315,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                           const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              '${widget.data.book[0].workstationName}',
+                              widget.data.book[0].workstationName,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -325,7 +327,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Text(
                         'From',
                         style: Theme.of(context)
@@ -342,7 +344,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              '${widget.data.book[0].date}',
+                              widget.data.book[0].date,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -355,7 +357,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                           const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              '${widget.data.book[0].startTime}',
+                              widget.data.book[0].startTime,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -384,7 +386,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              '${widget.data.book[0].date}',
+                              widget.data.book[0].date,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -397,7 +399,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                           const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              '${widget.data.book[0].toTime}',
+                              widget.data.book[0].toTime,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2

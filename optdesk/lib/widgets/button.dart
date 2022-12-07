@@ -5,7 +5,7 @@ class CustomButton extends StatelessWidget {
   CustomButton({
     Key? key,
     required this.buttonText,
-    required this.onPressed,
+    this.onPressed,
     this.buttonType = ButtonType.primary,
     this.smallText = false,
     this.width,
@@ -21,22 +21,22 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
-  final Function() onPressed;
+  final Function()? onPressed;
   final bool smallText;
   final double? textSize;
   final double? height;
   final Color borderColor;
 
   Color _buttonColor(BuildContext context) {
-    if (this.buttonType == ButtonType.primary) {
+    if (buttonType == ButtonType.primary) {
       return Colors.black;
     }
 
-    if (this.buttonType == ButtonType.secondary) {
+    if (buttonType == ButtonType.secondary) {
       return Theme.of(context).primaryColor;
     }
 
-    if (this.buttonType == ButtonType.third) {
+    if (buttonType == ButtonType.third) {
       return Colors.white;
     }
     return primary;
@@ -45,22 +45,20 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: this.margin,
-      padding: this.padding,
-      height: this.height ?? 55,
-      width: this.width ?? MediaQuery.of(context).size.width * 1,
+      margin: margin,
+      padding: padding,
+      height: height ?? 55,
+      width: width ?? MediaQuery.of(context).size.width * 1,
       child: ElevatedButton(
+        onPressed: onPressed,
         child: Text(
-          this.buttonText,
+          buttonText,
           style: Theme.of(context).textTheme.bodyText1?.copyWith(
-            color: this.buttonType == ButtonType.primary ? primary : this.buttonType == ButtonType.third ? Colors.black : Colors.white,
+            color: buttonType == ButtonType.primary ? primary : buttonType == ButtonType.third ? Colors.black : Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: this.textSize != null
-                ? this.textSize
-                : this.smallText ? 14 : 17,
+            fontSize: textSize ?? (smallText ? 14 : 17),
           ),
         ),
-        onPressed: this.onPressed,
 
       ),
     );

@@ -10,80 +10,80 @@ String responseLoginToJson(ResponseLogin data) => json.encode(data.toJson());
 
 class ResponseLogin {
   ResponseLogin({
-    this.status,
-    this.showQa,
-    this.message,
-    this.returnData,
-    this.method,
-    this.sessionId,
-    this.id,
-    this.isshow,
-    this.data,
-    this.isOTP,
+    required this.status,
+    required this.showQa,
+    required this.message,
+    required this.returnData,
+    required this.method,
+    required this.sessionId,
+    required this.id,
+    required this.isshow,
+    required this.data,
+    required this.isOTP,
   });
 
-  bool? status;
-  bool? showQa;
-  String? message;
-  ReturnData? returnData;
-  String? method;
-  String? sessionId;
-  String? id;
-  String? isshow;
-  int? data;
-  String? isOTP;
+  bool status;
+  bool showQa;
+  String message;
+  ReturnData returnData;
+  String method;
+  String sessionId;
+  String id;
+  String isshow;
+  int data;
+  String isOTP;
 
   factory ResponseLogin.fromJson(Map<String, dynamic> json) => ResponseLogin(
-    status: json["Status"] == null ? null : json["Status"],
-    showQa: json["ShowQa"] == null ? null : json["ShowQa"],
-    message: json["Message"] == null ? null : json["Message"],
-    returnData: json["ReturnData"] == null ? null : ReturnData.fromJson(json["ReturnData"]),
-    method: json["Method"] == null ? null : json["Method"],
-    sessionId: json["SessionID"] == null ? null : json["SessionID"],
-    id: json["ID"] == null ? null : json["ID"],
-    isshow: json["isshow"] == null ? null : json["isshow"],
-    data: json["data"] == null ? null : json["data"],
-    isOTP: json["isOTP"] == null ? null : json["isOTP"],
+    status: json["Status"],
+    showQa: json["ShowQa"],
+    message: json["Message"],
+    returnData:ReturnData.fromJson(json["ReturnData"]),
+    method: json["Method"],
+    sessionId: json["SessionID"],
+    id: json["ID"],
+    isshow: json["isshow"],
+    data: json["data"],
+    isOTP: json["isOTP"],
   );
 
   Map<String, dynamic> toJson() => {
-    "Status": status == null ? null : status,
-    "ShowQa": showQa == null ? null : showQa,
-    "Message": message == null ? null : message,
+    "Status": status,
+    "ShowQa": showQa,
+    "Message": message,
     "ReturnData": returnData == null ? null : returnData.toJson(),
-    "Method": method == null ? null : method,
-    "SessionID": sessionId == null ? null : sessionId,
-    "ID": id == null ? null : id,
-    "isshow": isshow == null ? null : isshow,
-    "data": data == null ? null : data,
-    "isOTP": isOTP == null ? null : isOTP,
+    "Method": method,
+    "SessionID": sessionId,
+    "ID": id,
+    "isshow": isshow,
+    "data": data,
+    "isOTP": isOTP,
   };
 }
 
 class ReturnData {
   ReturnData({
-    this.userDetails,
-    this.companyDetails,
-    this.locationDetails,
-    this.buildingDetails,
-    this.floorDetails,
-    this.workStationDetails,
+    required this.userDetails,
+    required this.companyDetails,
+    required this.locationDetails,
+    required this.buildingDetails,
+    required this.floorDetails,
+    required this.workStationDetails,
   });
 
-  List<UserDetail>? userDetails;
-  List<CompanyDetail>? companyDetails;
-  List<LocationDetail>? locationDetails;
-  List<BuildingDetail>? buildingDetails;
-  List<FloorDetail>? floorDetails;
-  List<WorkStationDetail>? workStationDetails;
+  List<UserDetail> userDetails;
+  List<CompanyDetail> companyDetails;
+  List<LocationDetail> locationDetails;
+  List<BuildingDetail> buildingDetails;
+  List<FloorDetail> floorDetails;
+  List<WorkStationDetail> workStationDetails;
 
   factory ReturnData.fromJson(Map<String, dynamic> json) => ReturnData(
-    userDetails: json["UserDetails"] == null ? null : List<UserDetail>.from(json["UserDetails"].map((x) => UserDetail.fromJson(x))),
-    companyDetails: json["CompanyDetails"] == null ? null : List<CompanyDetail>.from(json["CompanyDetails"].map((x) => CompanyDetail.fromJson(x))),
-    locationDetails: json["LocationDetails"] == null ? null : List<LocationDetail>.from(json["LocationDetails"].map((x) => LocationDetail.fromJson(x))),
-    buildingDetails: json["BuildingDetails"] == null ? null : List<BuildingDetail>.from(json["BuildingDetails"].map((x) => BuildingDetail.fromJson(x))),
-    floorDetails: json["FloorDetails"] == null ? null : List<FloorDetail>.from(json["FloorDetails"].map((x) => FloorDetail.fromJson(x))),
-    workStationDetails: json["WorkStationDetails"] == null ? null : List<WorkStationDetail>.from(json["WorkStationDetails"].map((x) => WorkStationDetail.fromJson(x))),
+    userDetails: List<UserDetail>.from(json["UserDetails"].map((x) => UserDetail.fromJson(x))),
+    companyDetails:  List<CompanyDetail>.from(json["CompanyDetails"].map((x) => CompanyDetail.fromJson(x))),
+    locationDetails:  List<LocationDetail>.from(json["LocationDetails"].map((x) => LocationDetail.fromJson(x))),
+    buildingDetails:  List<BuildingDetail>.from(json["BuildingDetails"].map((x) => BuildingDetail.fromJson(x))),
+    floorDetails: List<FloorDetail>.from(json["FloorDetails"].map((x) => FloorDetail.fromJson(x))),
+    workStationDetails: List<WorkStationDetail>.from(json["WorkStationDetails"].map((x) => WorkStationDetail.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -98,298 +98,298 @@ class ReturnData {
 
 class BuildingDetail {
   BuildingDetail({
-    this.buildingId,
-    this.buildingName,
+    required this.buildingId,
+    required this.buildingName,
   });
 
-  int? buildingId;
-  String? buildingName;
+  int buildingId;
+  String buildingName;
 
   factory BuildingDetail.fromJson(Map<String, dynamic> json) => BuildingDetail(
-    buildingId: json["BuildingID"] == null ? null : json["BuildingID"],
-    buildingName: json["BuildingName"] == null ? null : json["BuildingName"],
+    buildingId: json["BuildingID"],
+    buildingName: json["BuildingName"],
   );
 
   Map<String, dynamic> toJson() => {
-    "BuildingID": buildingId == null ? null : buildingId,
-    "BuildingName": buildingName == null ? null : buildingName,
+    "BuildingID": buildingId,
+    "BuildingName": buildingName,
   };
 }
 
 class CompanyDetail {
   CompanyDetail({
-    this.cuid,
-    this.companyId,
-    this.companyName,
-    this.countryId,
+    required this.cuid,
+    required this.companyId,
+    required this.companyName,
+    required this.countryId,
     this.logoname,
   });
 
-  int? cuid;
-  int? companyId;
-  String? companyName;
-  String? countryId;
+  int cuid;
+  int companyId;
+  String companyName;
+  String countryId;
   dynamic logoname;
 
   factory CompanyDetail.fromJson(Map<String, dynamic> json) => CompanyDetail(
-    cuid: json["CUID"] == null ? null : json["CUID"],
-    companyId: json["CompanyID"] == null ? null : json["CompanyID"],
-    companyName: json["CompanyName"] == null ? null : json["CompanyName"],
-    countryId: json["CountryId"] == null ? null : json["CountryId"],
+    cuid: json["CUID"],
+    companyId: json["CompanyID"],
+    companyName: json["CompanyName"],
+    countryId: json["CountryId"],
     logoname: json["Logoname"],
   );
 
   Map<String, dynamic> toJson() => {
-    "CUID": cuid == null ? null : cuid,
-    "CompanyID": companyId == null ? null : companyId,
-    "CompanyName": companyName == null ? null : companyName,
-    "CountryId": countryId == null ? null : countryId,
+    "CUID": cuid,
+    "CompanyID": companyId,
+    "CompanyName": companyName,
+    "CountryId": countryId,
     "Logoname": logoname,
   };
 }
 
 class FloorDetail {
   FloorDetail({
-    this.floorId,
-    this.floorName,
+    required this.floorId,
+    required this.floorName,
   });
 
-  int? floorId;
-  String? floorName;
+  int floorId;
+  String floorName;
 
   factory FloorDetail.fromJson(Map<String, dynamic> json) => FloorDetail(
-    floorId: json["FloorID"] == null ? null : json["FloorID"],
-    floorName: json["FloorName"] == null ? null : json["FloorName"],
+    floorId: json["FloorID"],
+    floorName: json["FloorName"],
   );
 
   Map<String, dynamic> toJson() => {
-    "FloorID": floorId == null ? null : floorId,
-    "FloorName": floorName == null ? null : floorName,
+    "FloorID": floorId,
+    "FloorName": floorName,
   };
 }
 
 class LocationDetail {
   LocationDetail({
-    this.locationId,
-    this.locationName,
+    required this.locationId,
+    required this.locationName,
   });
 
-  int? locationId;
-  String? locationName;
+  int locationId;
+  String locationName;
 
   factory LocationDetail.fromJson(Map<String, dynamic> json) => LocationDetail(
-    locationId: json["LocationID"] == null ? null : json["LocationID"],
-    locationName: json["LocationName"] == null ? null : json["LocationName"],
+    locationId: json["LocationID"],
+    locationName: json["LocationName"],
   );
 
   Map<String, dynamic> toJson() => {
-    "LocationID": locationId == null ? null : locationId,
-    "LocationName": locationName == null ? null : locationName,
+    "LocationID": locationId,
+    "LocationName": locationName,
   };
 }
 
 class UserDetail {
   UserDetail({
-    this.fromFramework,
-    this.countryId,
-    this.countryIdCurrent,
-    this.roleId,
-    this.userId,
-    this.companyIdUser,
-    this.locationIdUser,
-    this.companyName,
-    this.companyIdCurrent,
-    this.locationName,
-    this.locationIdCurrent,
-    this.groupId,
-    this.groupIdCurrent,
-    this.languageId,
-    this.userFirstName,
-    this.userLastName,
-    this.themeFolderPath,
-    this.compLogo,
-    this.announcement,
-    this.isWorkstationLogin,
-    this.roleformshowid,
-    this.emailId,
-    this.showQa,
-    this.DepartmentID,
-    this.DepartmentName
+    required this.fromFramework,
+    required this.countryId,
+    required this.countryIdCurrent,
+    required this.roleId,
+    required this.userId,
+    required this.companyIdUser,
+    required this.locationIdUser,
+    required this.companyName,
+    required this.companyIdCurrent,
+    required this.locationName,
+    required this.locationIdCurrent,
+    required this.groupId,
+    required this.groupIdCurrent,
+    required this.languageId,
+    required this.userFirstName,
+    required this.userLastName,
+    required this.themeFolderPath,
+    required this.compLogo,
+    required this.announcement,
+    required this.isWorkstationLogin,
+    required this.roleformshowid,
+    required this.emailId,
+    required this.showQa,
+    required this.DepartmentID,
+    required this.DepartmentName
   });
 
-  bool? fromFramework;
-  int? countryId;
-  int? countryIdCurrent;
-  int? roleId;
-  int? userId;
-  int? companyIdUser;
-  int? locationIdUser;
+  bool fromFramework;
+  int countryId;
+  int countryIdCurrent;
+  int roleId;
+  int userId;
+  int companyIdUser;
+  int locationIdUser;
   dynamic companyName;
-  int? companyIdCurrent;
-  String? locationName;
-  int? locationIdCurrent;
-  int? groupId;
-  int? groupIdCurrent;
-  int? languageId;
-  String? userFirstName;
-  String? userLastName;
+  int companyIdCurrent;
+  String locationName;
+  int locationIdCurrent;
+  int groupId;
+  int groupIdCurrent;
+  int languageId;
+  String userFirstName;
+  String userLastName;
   dynamic themeFolderPath;
-  String? compLogo;
-  String? announcement;
-  int? isWorkstationLogin;
-  int? roleformshowid;
-  dynamic? emailId;
-  bool? showQa;
-  int? DepartmentID;
-  String? DepartmentName;
+  String compLogo;
+  String announcement;
+  int isWorkstationLogin;
+  int roleformshowid;
+  dynamic emailId;
+  bool showQa;
+  int DepartmentID;
+  String DepartmentName;
 
   factory UserDetail.fromJson(Map<String, dynamic> json) => UserDetail(
-    fromFramework: json["FromFramework"] == null ? null : json["FromFramework"],
-    countryId: json["CountryID"] == null ? null : json["CountryID"],
-    countryIdCurrent: json["CountryIDCurrent"] == null ? null : json["CountryIDCurrent"],
-    roleId: json["RoleID"] == null ? null : json["RoleID"],
-    userId: json["UserID"] == null ? null : json["UserID"],
-    companyIdUser: json["CompanyIDUser"] == null ? null : json["CompanyIDUser"],
-    locationIdUser: json["LocationIDUser"] == null ? null : json["LocationIDUser"],
+    fromFramework: json["FromFramework"],
+    countryId: json["CountryID"],
+    countryIdCurrent: json["CountryIDCurrent"],
+    roleId: json["RoleID"],
+    userId: json["UserID"],
+    companyIdUser: json["CompanyIDUser"],
+    locationIdUser: json["LocationIDUser"],
     companyName: json["CompanyName"],
-    companyIdCurrent: json["CompanyIDCurrent"] == null ? null : json["CompanyIDCurrent"],
-    locationName: json["LocationName"] == null ? null : json["LocationName"],
-    locationIdCurrent: json["LocationIDCurrent"] == null ? null : json["LocationIDCurrent"],
-    groupId: json["GroupID"] == null ? null : json["GroupID"],
-    groupIdCurrent: json["GroupIDCurrent"] == null ? null : json["GroupIDCurrent"],
-    languageId: json["LanguageID"] == null ? null : json["LanguageID"],
-    userFirstName: json["UserFirstName"] == null ? null : json["UserFirstName"],
-    userLastName: json["UserLastName"] == null ? null : json["UserLastName"],
+    companyIdCurrent: json["CompanyIDCurrent"],
+    locationName: json["LocationName"],
+    locationIdCurrent: json["LocationIDCurrent"],
+    groupId: json["GroupID"],
+    groupIdCurrent: json["GroupIDCurrent"],
+    languageId: json["LanguageID"],
+    userFirstName: json["UserFirstName"],
+    userLastName: json["UserLastName"],
     themeFolderPath: json["ThemeFolderPath"],
-    compLogo: json["CompLogo"] == null ? null : json["CompLogo"],
-    announcement: json["Announcement"] == null ? null : json["Announcement"],
-    isWorkstationLogin: json["IsWorkstationLogin"] == null ? null : json["IsWorkstationLogin"],
-    roleformshowid: json["Roleformshowid"] == null ? null : json["Roleformshowid"],
+    compLogo: json["CompLogo"],
+    announcement: json["Announcement"],
+    isWorkstationLogin: json["IsWorkstationLogin"],
+    roleformshowid: json["Roleformshowid"],
     emailId: json["EmailID"],
-    showQa: json["showQA"] == null ? null : json["showQA"],
-    DepartmentID: json["DepartmentID"] == null ? null : json["DepartmentID"],
-    DepartmentName: json["DepartmentName"] == null ? null : json["DepartmentName"],
+    showQa: json["showQA"],
+    DepartmentID: json["DepartmentID"],
+    DepartmentName: json["DepartmentName"],
   );
 
   Map<String, dynamic> toJson() => {
-    "FromFramework": fromFramework == null ? null : fromFramework,
-    "CountryID": countryId == null ? null : countryId,
-    "CountryIDCurrent": countryIdCurrent == null ? null : countryIdCurrent,
-    "RoleID": roleId == null ? null : roleId,
-    "UserID": userId == null ? null : userId,
-    "CompanyIDUser": companyIdUser == null ? null : companyIdUser,
-    "LocationIDUser": locationIdUser == null ? null : locationIdUser,
+    "FromFramework": fromFramework,
+    "CountryID": countryId,
+    "CountryIDCurrent": countryIdCurrent,
+    "RoleID": roleId,
+    "UserID": userId,
+    "CompanyIDUser": companyIdUser,
+    "LocationIDUser": locationIdUser,
     "CompanyName": companyName,
-    "CompanyIDCurrent": companyIdCurrent == null ? null : companyIdCurrent,
-    "LocationName": locationName == null ? null : locationName,
-    "LocationIDCurrent": locationIdCurrent == null ? null : locationIdCurrent,
-    "GroupID": groupId == null ? null : groupId,
-    "GroupIDCurrent": groupIdCurrent == null ? null : groupIdCurrent,
-    "LanguageID": languageId == null ? null : languageId,
-    "UserFirstName": userFirstName == null ? null : userFirstName,
-    "UserLastName": userLastName == null ? null : userLastName,
+    "CompanyIDCurrent": companyIdCurrent,
+    "LocationName": locationName,
+    "LocationIDCurrent": locationIdCurrent,
+    "GroupID": groupId,
+    "GroupIDCurrent": groupIdCurrent,
+    "LanguageID": languageId,
+    "UserFirstName": userFirstName,
+    "UserLastName": userLastName,
     "ThemeFolderPath": themeFolderPath,
-    "CompLogo": compLogo == null ? null : compLogo,
-    "Announcement": announcement == null ? null : announcement,
-    "IsWorkstationLogin": isWorkstationLogin == null ? null : isWorkstationLogin,
-    "Roleformshowid": roleformshowid == null ? null : roleformshowid,
+    "CompLogo": compLogo,
+    "Announcement": announcement,
+    "IsWorkstationLogin": isWorkstationLogin,
+    "Roleformshowid": roleformshowid,
     "EmailID": emailId,
-    "showQA": showQa == null ? null : showQa,
+    "showQA": showQa,
   };
 }
 
 class WorkStationDetail {
   WorkStationDetail({
-    this.workStationId,
-    this.amenityId,
-    this.companyId,
-    this.locationId,
-    this.buildingId,
-    this.floorId,
-    this.wingId,
-    this.workStationName,
-    this.isActive,
-    this.isDelete,
-    this.cuId,
-    this.cDate,
-    this.muId,
-    this.mDate,
-    this.qrCode,
-    this.qrId,
-    this.x1,
-    this.y1,
-    this.x2,
-    this.y2,
-    this.isSocialDistance,
+    required this.workStationId,
+    required this.amenityId,
+    required this.companyId,
+    required this.locationId,
+    required this.buildingId,
+    required this.floorId,
+    required this.wingId,
+    required this.workStationName,
+    required this.isActive,
+    required this.isDelete,
+    required this.cuId,
+    required this.cDate,
+    required this.muId,
+    required this.mDate,
+    required this.qrCode,
+    required this.qrId,
+    required this.x1,
+    required this.y1,
+    required this.x2,
+    required this.y2,
+    required this.isSocialDistance,
   });
 
-  int? workStationId;
+  int workStationId;
   String amenityId;
-  int? companyId;
-  int? locationId;
-  int? buildingId;
-  int? floorId;
-  int? wingId;
-  String? workStationName;
-  bool? isActive;
-  bool? isDelete;
-  int? cuId;
-  DateTime? cDate;
+  int companyId;
+  int locationId;
+  int buildingId;
+  int floorId;
+  int wingId;
+  String workStationName;
+  bool isActive;
+  bool isDelete;
+  int cuId;
+  DateTime cDate;
   dynamic muId;
   dynamic mDate;
   dynamic qrCode;
   dynamic qrId;
-  int? x1;
-  int? y1;
-  int? x2;
-  int? y2;
-  bool? isSocialDistance;
+  int x1;
+  int y1;
+  int x2;
+  int y2;
+  bool isSocialDistance;
 
   factory WorkStationDetail.fromJson(Map<String, dynamic> json) => WorkStationDetail(
-    workStationId: json["WorkStationId"] == null ? null : json["WorkStationId"],
-    amenityId: json["AmenityId"] == null ? null : json["AmenityId"],
-    companyId: json["CompanyId"] == null ? null : json["CompanyId"],
-    locationId: json["LocationId"] == null ? null : json["LocationId"],
-    buildingId: json["BuildingId"] == null ? null : json["BuildingId"],
-    floorId: json["FloorID"] == null ? null : json["FloorID"],
-    wingId: json["WingId"] == null ? null : json["WingId"],
-    workStationName: json["WorkStationName"] == null ? null : json["WorkStationName"],
-    isActive: json["IsActive"] == null ? null : json["IsActive"],
-    isDelete: json["IsDelete"] == null ? null : json["IsDelete"],
-    cuId: json["CuID"] == null ? null : json["CuID"],
-    cDate: json["CDate"] == null ? null : DateTime.parse(json["CDate"]),
+    workStationId: json["WorkStationId"],
+    amenityId: json["AmenityId"],
+    companyId: json["CompanyId"],
+    locationId: json["LocationId"],
+    buildingId: json["BuildingId"],
+    floorId: json["FloorID"],
+    wingId: json["WingId"],
+    workStationName: json["WorkStationName"],
+    isActive: json["IsActive"],
+    isDelete: json["IsDelete"],
+    cuId: json["CuID"],
+    cDate: DateTime.parse(json["CDate"]),
     muId: json["MuID"],
     mDate: json["MDate"],
     qrCode: json["QrCode"],
     qrId: json["QrId"],
-    x1: json["X1"] == null ? null : json["X1"],
-    y1: json["Y1"] == null ? null : json["Y1"],
-    x2: json["X2"] == null ? null : json["X2"],
-    y2: json["Y2"] == null ? null : json["Y2"],
-    isSocialDistance: json["IsSocialDistance"] == null ? null : json["IsSocialDistance"],
+    x1: json["X1"],
+    y1: json["Y1"],
+    x2: json["X2"],
+    y2: json["Y2"],
+    isSocialDistance: json["IsSocialDistance"],
   );
 
   Map<String, dynamic> toJson() => {
-    "WorkStationId": workStationId == null ? null : workStationId,
-    "AmenityId": amenityId == null ? null : amenityId,
-    "CompanyId": companyId == null ? null : companyId,
-    "LocationId": locationId == null ? null : locationId,
-    "BuildingId": buildingId == null ? null : buildingId,
-    "FloorID": floorId == null ? null : floorId,
-    "WingId": wingId == null ? null : wingId,
-    "WorkStationName": workStationName == null ? null : workStationName,
-    "IsActive": isActive == null ? null : isActive,
-    "IsDelete": isDelete == null ? null : isDelete,
-    "CuID": cuId == null ? null : cuId,
+    "WorkStationId": workStationId,
+    "AmenityId": amenityId,
+    "CompanyId": companyId,
+    "LocationId": locationId,
+    "BuildingId": buildingId,
+    "FloorID": floorId,
+    "WingId": wingId,
+    "WorkStationName": workStationName,
+    "IsActive": isActive,
+    "IsDelete": isDelete,
+    "CuID": cuId,
     "CDate": cDate == null ? null : cDate.toIso8601String(),
     "MuID": muId,
     "MDate": mDate,
     "QrCode": qrCode,
     "QrId": qrId,
-    "X1": x1 == null ? null : x1,
-    "Y1": y1 == null ? null : y1,
-    "X2": x2 == null ? null : x2,
-    "Y2": y2 == null ? null : y2,
-    "IsSocialDistance": isSocialDistance == null ? null : isSocialDistance,
+    "X1": x1,
+    "Y1": y1,
+    "X2": x2,
+    "Y2": y2,
+    "IsSocialDistance": isSocialDistance,
   };
 }

@@ -10,36 +10,37 @@ String emailVerificationToJson(EmailVerification data) => json.encode(data.toJso
 
 class EmailVerification {
   EmailVerification({
-    this.status,
-    this.message,
+    required this.status,
+    required this.message,
     this.returnData,
-    this.method,
-    this.sessionId,
-    this.id,
+    required this.method,
+    required this.sessionId,
+    required this.id,
   });
 
-  bool? status;
-  String? message;
-  dynamic returnData;
-  String? method;
-  String? sessionId;
-  String? id;
+  late bool status;
+  late String message;
+  late dynamic returnData;
+  late String method;
+  late String sessionId;
+  late String id;
+
 
   factory EmailVerification.fromJson(Map<String, dynamic> json) => EmailVerification(
-    status: json["Status"] == null ? null : json["Status"],
-    message: json["Message"] == null ? null : json["Message"],
-    returnData: json["ReturnData"] == null ? null : json["ReturnData"],
-    method: json["Method"] == null ? null : json["Method"],
-    sessionId: json["SessionID"] == null ? null : json["SessionID"],
-    id: json["ID"] == null ? null : json["ID"],
+    status: json["Status"],
+    message: json["Message"],
+    returnData: json["ReturnData"],
+    method: json["Method"],
+    sessionId: json["SessionID"],
+    id: json["ID"],
   );
 
   Map<String, dynamic> toJson() => {
-    "Status": status == null ? null : status,
-    "Message": message == null ? null : message,
-    "ReturnData": returnData == null ? null : returnData,
-    "Method": method == null ? null : method,
-    "SessionID": sessionId == null ? null : sessionId,
-    "ID": id == null ? null : id,
+    "Status": status,
+    "Message": message,
+    "ReturnData": returnData,
+    "Method": method,
+    "SessionID": sessionId,
+    "ID": id,
   };
 }

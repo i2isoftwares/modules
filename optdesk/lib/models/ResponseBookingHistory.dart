@@ -10,28 +10,28 @@ String bookingHistoryToJson(BookingHistory data) => json.encode(data.toJson());
 
 class BookingHistory {
   BookingHistory({
-    this.status,
-    this.showQa,
-    this.message,
-    this.returnData,
-    this.method,
-    this.sessionId,
-    this.id,
+    required this.status,
+    required this.showQa,
+    required this.message,
+    required this.returnData,
+    required this.method,
+    required this.sessionId,
+    required this.id,
     this.isshow,
-    this.data,
+    required this.data,
     this.isOtp,
   });
 
-  bool? status;
-  bool? showQa;
-  String? message;
-  ReturnData? returnData;
-  String? method;
-  String? sessionId;
-  String? id;
-  dynamic isshow;
-  int? data;
-  dynamic isOtp;
+  late bool status;
+  late bool showQa;
+  late String message;
+  late ReturnData returnData;
+  late String method;
+  late String sessionId;
+  late String id;
+  late dynamic isshow;
+  late int data;
+  late dynamic isOtp;
 
   factory BookingHistory.fromJson(Map<String, dynamic> json) => BookingHistory(
     status: json["Status"],
@@ -62,14 +62,14 @@ class BookingHistory {
 
 class ReturnData {
   ReturnData({
-    this.upcomingBookingHistory,
-    this.occupied,
-    this.pastBookingHistory,
+    required this.upcomingBookingHistory,
+    required this.occupied,
+    required this.pastBookingHistory,
   });
 
-  List<Occupied>? upcomingBookingHistory;
-  List<Occupied>? occupied;
-  List<Occupied>? pastBookingHistory;
+  late List<Occupied> upcomingBookingHistory;
+  late List<Occupied> occupied;
+  late List<Occupied> pastBookingHistory;
 
   factory ReturnData.fromJson(Map<String, dynamic> json) => ReturnData(
     upcomingBookingHistory: List<Occupied>.from(json["UpcomingBookingHistory"].map((x) => Occupied.fromJson(x))),
@@ -86,37 +86,37 @@ class ReturnData {
 
 class Occupied {
   Occupied({
-    this.startTime,
-    this.endTime,
-    this.startDate,
-    this.endDate,
-    this.floorMapBookingId,
-    this.book,
-    this.companyId,
-    this.companyName,
-    this.locationName,
-    this.buildingName,
-    this.floorName,
+    required this.startTime,
+    required this.endTime,
+    required this.startDate,
+    required this.endDate,
+    required this.floorMapBookingId,
+    required this.book,
+    required this.companyId,
+    required this.companyName,
+    required this.locationName,
+    required this.buildingName,
+    required this.floorName,
     this.wingName,
-    this.foodpreference,
-    this.floorid,
+    required this.foodpreference,
+    required this.floorid,
   });
 
-  String? startTime;
-  String? endTime;
-  String? startDate;
-  String? endDate;
-  int? floorMapBookingId;
-  List<Book>? book;
-  int? companyId;
-  CompanyName? companyName;
-  LocationName? locationName;
-  BuildingName? buildingName;
-  FloorName? floorName;
-  dynamic wingName;
-  String? foodpreference;
-  int? floorid;
 
+  late String startTime;
+  late String endTime;
+  late String startDate;
+  late String endDate;
+  late int floorMapBookingId;
+  late List<Book> book;
+  late int companyId;
+  late CompanyName? companyName;
+  late LocationName? locationName;
+  late BuildingName? buildingName;
+  late FloorName? floorName;
+  late dynamic wingName;
+  late String foodpreference;
+  late int floorid;
   factory Occupied.fromJson(Map<String, dynamic> json) => Occupied(
     startTime: json["StartTime"],
     endTime: json["EndTime"],
@@ -130,9 +130,11 @@ class Occupied {
     buildingName: buildingNameValues.map[json["BuildingName"]],
     floorName: floorNameValues.map[json["FloorName"]],
     wingName: json["WingName"],
-    foodpreference: json["Foodpreference"] == null ? null : json["Foodpreference"],
+    foodpreference: json["Foodpreference"],
     floorid: json["Floorid"],
   );
+
+
 
   Map<String, dynamic> toJson() => {
     "StartTime": startTime,
@@ -147,29 +149,30 @@ class Occupied {
     "BuildingName": buildingNameValues.reverse[buildingName],
     "FloorName": floorNameValues.reverse[floorName],
     "WingName": wingName,
-    "Foodpreference": foodpreference == null ? null : foodpreference,
+    "Foodpreference": foodpreference,
     "Floorid": floorid,
   };
 }
 
 class Book {
   Book({
-    this.date,
-    this.startTime,
-    this.toTime,
-    this.workstationId,
-    this.workstationName,
-    this.logofftime,
-    this.islogoff,
+    required this.date,
+    required this.startTime,
+    required this.toTime,
+    required this.workstationId,
+    required this.workstationName,
+    required this.logofftime,
+    required this.islogoff,
   });
 
-  String? date;
-  String? startTime;
-  String? toTime;
-  int? workstationId;
-  String? workstationName;
-  String? logofftime;
-  int? islogoff;
+
+  late String date;
+  late String startTime;
+  late String toTime;
+  late int workstationId;
+  late String workstationName;
+  late String logofftime;
+  late int islogoff;
 
   factory Book.fromJson(Map<String, dynamic> json) => Book(
     date: json["Date"],
@@ -261,14 +264,12 @@ final locationNameValues = EnumValues({
 
 class EnumValues<T> {
   Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
   Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
+    reverseMap ??= map.map((k, v) => MapEntry(v, k));
+    return reverseMap!;
   }
 }

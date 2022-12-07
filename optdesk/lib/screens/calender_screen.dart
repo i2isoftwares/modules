@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:optdesk/helpers/colors.dart';
 import 'package:optdesk/helpers/shared_preferences_helper.dart';
 import 'package:optdesk/helpers/utils.dart';
 import 'package:optdesk/models/ResponseLogin.dart';
 import 'package:optdesk/models/ResponseSettingDetails.dart';
-import 'package:optdesk/widgets/shared/app_bar.dart';
-import 'package:optdesk/widgets/shared/button.dart';
+import 'package:optdesk/widgets/app_bar.dart';
+import 'package:optdesk/widgets/button.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalenderScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
       userDetail = responseLoginFromJson(response).returnData.userDetails[0],
       setState(() {})
     });
-    settingDetail = Utils.settingDetail;
+    settingDetail = Utils.settingDetail!;
     _calendarController = CalendarController();
   }
 
@@ -63,11 +64,11 @@ class _CalenderScreenState extends State<CalenderScreen> {
         if(isValid){
           _usualCondition();
         }else{
-          Utils.showToastMsg('Future or Past dates are not allowed', context);
+          showToastMsg('Future or Past dates are not allowed');
         }
       }
     } else {
-      Utils.showToastMsg('Please Select Date', context);
+      showToastMsg('Please Select Date');
     }
   }
 
@@ -101,16 +102,16 @@ class _CalenderScreenState extends State<CalenderScreen> {
             Navigator.of(context)
                 .pushNamed('/time_selection', arguments: _events);
           }else{
-            Utils.showToastMsg('Unable to book Saturday & Sunday', context);
+            showToastMsg('Unable to book Saturday & Sunday');
           }
         } else {
-          Utils.showToastMsg('Prior Days Issue', context);
+          showToastMsg('Prior Days Issue');
         }
       } else {
-        Utils.showToastMsg('Maximum Date reached contact admin', context);
+        showToastMsg('Maximum Date reached contact admin');
       }
     } else {
-      Utils.showToastMsg('Please Select Valid Date', context);
+      showToastMsg('Please Select Valid Date');
     }
   }
 

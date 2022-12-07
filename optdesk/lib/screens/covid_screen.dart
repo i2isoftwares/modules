@@ -3,22 +3,22 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:optdesk/helpers/colors.dart';
 import 'package:optdesk/models/ResponseGetQuestions.dart';
 import 'package:optdesk/models/ResponseLogin.dart';
 import 'package:optdesk/models/ResponsePandemicQnsAnsDetails.dart';
 import 'package:optdesk/screens/covie_links_screen.dart';
-import 'package:optdesk/widgets/shared/textfield.dart';
+import 'package:optdesk/widgets/textfield.dart';
 
-import '../helpers/network_utils.dart';
-import '../helpers/network_utils.dart';
+import '../api/network_utils.dart';
 import '../helpers/shared_preferences_helper.dart';
 import '../helpers/utils.dart';
 
 class CovidScreen extends StatefulWidget {
   final String companyId;
 
-  CovidScreen({@required this.companyId});
+  CovidScreen({required this.companyId});
 
   @override
   _CovidScreenState createState() => _CovidScreenState();
@@ -29,7 +29,7 @@ class _CovidScreenState extends State<CovidScreen> {
   TextEditingController textEditingController = TextEditingController();
   GetQuestions mainQuestions = GetQuestions();
   List<Option> answer = [];
-  late File file;
+  late File? file;
   late String selectedCompanyId;
 
   @override
@@ -41,7 +41,7 @@ class _CovidScreenState extends State<CovidScreen> {
 
   _getQuestions() async {
     selectedCompanyId = await SharedPreferencesHelper.getPrefString(SharedPreferencesHelper.selectedCompany, '');
-    GetQuestions response = await getQuestions(widget.companyId, context);
+    GetQuestions response = await getQuestions(widget.companyId,context);
     if (response.status) {
       for (int i = 0; i <= response.returnData.length; i++) {
         answer.add(Option());
@@ -72,7 +72,7 @@ class _CovidScreenState extends State<CovidScreen> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => CovieLinksScreen()));
             },
-            icon: Icon(Icons.info),
+            icon: const Icon(Icons.info),
             tooltip: "Sources of Information",
           ),
         ],
@@ -174,7 +174,7 @@ class _CovidScreenState extends State<CovidScreen> {
                                       .copyWith(fontWeight: FontWeight.w600),
                                 ),
                                 const SizedBox(height: 12),
-                                this.file != null
+                                file != null
                                     ? Row(
                                         children: [
                                           const Padding(
@@ -184,7 +184,7 @@ class _CovidScreenState extends State<CovidScreen> {
                                           ),
                                           Expanded(
                                             child: AutoSizeText(
-                                              file.path,
+                                              file!.path,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2
@@ -199,10 +199,10 @@ class _CovidScreenState extends State<CovidScreen> {
                                           IconButton(
                                               onPressed: () {
                                                 setState(() {
-                                                  this.file = null;
+                                                  file = null;
                                                 });
                                               },
-                                              icon: Icon(Icons.cancel))
+                                              icon: const Icon(Icons.cancel))
                                         ],
                                       )
                                     : Row(
@@ -274,16 +274,16 @@ class _CovidScreenState extends State<CovidScreen> {
       });
     }
     if ((mainQuestions.returnData[index].answer == null) ||
-        (mainQuestions.returnData[index].answer.isEmpty)) {
-      Utils.showToastMsg('Please enter the value', context);
+        (mainQuestions.returnData[index].answer?.isEmpty ?? true)) {
+      showToastMsg('Please enter the value');
     } else {
       if (index == mainQuestions.returnData.length - 1) {
         // API
         List<Map<String, String>> quiz = [];
 
         Map<String, dynamic> object = {
-          "CUID": "${Utils.userDetail.userId}",
-          "RoleFormid": "${Utils.userDetail.roleformshowid}",
+          "CUID": "${Utils.userDetail!.userId}",
+          "RoleFormid": "${Utils.userDetail!.roleformshowid}",
           "Quiz": []
         };
 
@@ -299,10 +299,12 @@ class _CovidScreenState extends State<CovidScreen> {
         object["Quiz"] = quiz;
 
         Utils.showLoader(context);
-        PandemicQnsAnsDetails response =
+        PandemicQnsAnsDetails? response =
         await postQnsAnsDetailsUpload(
-            object, file, context);
-        Utils.showToastMsg(response.message, context);
+            object, file!,context);
+        if(response==null) return;
+
+        showToastMsg(response.message);
 
         if (response.status) {
           if (response.data.toString() == "1") {
@@ -311,7 +313,7 @@ class _CovidScreenState extends State<CovidScreen> {
             SharedPreferencesHelper.setPrefString(
                 SharedPreferencesHelper.LOGIN_RESPONSE, '');
             Utils.responseLogin = null;
-            Utils.userDetail = UserDetail();
+            // Utils.userDetail = UserDetail();
 
             Navigator.of(context).pushNamedAndRemoveUntil(
                 '/login', (Route<dynamic> route) => false);
@@ -334,8 +336,8 @@ class _CovidScreenState extends State<CovidScreen> {
     List<Map<String, String>> quiz = [];
 
     Map<String, dynamic> object = {
-      "CUID": "${Utils.userDetail.userId}",
-      "RoleFormid": "${Utils.userDetail.roleformshowid}",
+      "CUID": "${Utils.userDetail!.userId}",
+      "RoleFormid": "${Utils.userDetail!.roleformshowid}",
       "Quiz": []
     };
 
@@ -348,10 +350,13 @@ class _CovidScreenState extends State<CovidScreen> {
     print(object);
 
     Utils.showLoader(context);
-    PandemicQnsAnsDetails response =
+    PandemicQnsAnsDetails? response =
         await postQnsAnsDetailsUpload(
-        object, file, context);
-    Utils.showToastMsg(response.message, context);
+        object, file,context);
+
+    if(response==null) return;
+
+    showToastMsg(response.message);
 
     if (response.status) {
       if (response.data.toString() == "1") {
@@ -360,7 +365,7 @@ class _CovidScreenState extends State<CovidScreen> {
         SharedPreferencesHelper.setPrefString(
             SharedPreferencesHelper.LOGIN_RESPONSE, '');
         Utils.responseLogin = null;
-        Utils.userDetail = UserDetail();
+        // Utils.userDetail = UserDetail();
 
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/login', (Route<dynamic> route) => false);
