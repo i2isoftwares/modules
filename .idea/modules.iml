@@ -15,6 +15,9 @@
       <excludeFolder url="file://$MODULE_DIR$/customerfeedback/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/customerfeedback/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/customerfeedback/build" />
+      <excludeFolder url="file://$MODULE_DIR$/optdesk/build" />
+      <excludeFolder url="file://$MODULE_DIR$/optdesk/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/optdesk/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

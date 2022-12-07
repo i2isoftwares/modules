@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     await SharedPreferencesHelper.getPrefBool(SharedPreferencesHelper.IS_LOGIN)
         .then((isLoggedIn) {
       if (isLoggedIn) {
-        Get.toNamed(CFRoutes.download);
+        Get.offAndToNamed(CFRoutes.download);
         // Navigator.popAndPushNamed(key.currentContext!, '/cf/home');
       } else {
         api();
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SharedPreferencesHelper.IS_FEEDBACK,
             response.isfeedback.toString());
 
-        Get.toNamed(CFRoutes.download);
+        Get.offAndToNamed(CFRoutes.download);
 
         // Navigator.popAndPushNamed(key.currentContext!, '/cf/download');
       }
