@@ -16,6 +16,4 @@ class CFRoutes{
   static const faqsscreen = "/od/faqs_screen";
   static const covidscreen = "/od/covid_screen";
   static const viewfloormapscreen = "/od/view_floor_map_screen";
-
-
 }

@@ -1,8 +1,5 @@
-import 'package:customerfeedback/routes/app_pages.dart';
-import 'package:customerfeedback/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:get/get.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 
 import '../api/customerfeedback_api_call.dart';
@@ -12,6 +9,7 @@ import '../helpers/shared_preferences_helper.dart';
 import '../helpers/utils.dart';
 import '../models/otpdetails.dart';
 import '../widgets/app_bar.dart';
+import '../widgets/button.dart';
 
 class OTPVerifyScreen extends StatefulWidget {
   const OTPVerifyScreen({Key? key}) : super(key: key);
@@ -48,15 +46,14 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
       if (response.status == 1) {
         apiGetOTP = response.otp!;
 
-        print('OTP CHECK${response.otp!}');
+        print('OTP CHECK' + response.otp!);
       }
     }
   }
 
   verifyOtp(){
     if (apiGetOTP == typedCode) {
-      Get.offAndToNamed(CFRoutes.submit);
-      // Navigator.popAndPushNamed(context, '/cf/submit');
+      Navigator.popAndPushNamed(context, '/submit');
     } else {
       showToastMsg('OTP Wrong');
     }
@@ -74,52 +71,57 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
     backgroundColor: primaryDark,
 
       ),
-      body: Column(
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
 
-      Image.asset('assets/customerfeedback/otp_enter.png',width: 250,height: 250,),
-      const SizedBox(height: 64,),
-      OtpTextField(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        numberOfFields: 6,
-        borderColor: const Color(0xFF90151A),
-        //set to true to show as box or false to show as dash
-        showFieldAsBox: true,
-        //runs when every textfield is filled
-        onSubmit: (val) {
-          debugPrint('sub $val');
-          typedCode=val;
-          // verifyOtp();
-        }, // end onSubmit
-      ),
-      const SizedBox(
-        height: 40,
-      ),
-      Container(
-        margin: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: CustomButton(
-                  buttonText: 'RESEND OTP',
-                  textSize: 15,
-                  buttonType: ButtonType.third,
-                  onPressed: () => getOTP()),
+          Image.asset('assets/images/otp_enter.png',width: 250,height: 250,),
+          const SizedBox(height: 64,),
+          OtpTextField(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            numberOfFields: 6,
+            borderColor: const Color(0xFF90151A),
+            //set to true to show as box or false to show as dash
+            showFieldAsBox: true,
+            //runs when every textfield is filled
+            onSubmit: (val) {
+              debugPrint('sub $val');
+              typedCode=val;
+              // verifyOtp();
+            }, // end onSubmit
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CustomButton(
+                      buttonText: 'RESEND OTP',
+                      textSize: 15,
+                      buttonType: ButtonType.third,
+                      onPressed: () => getOTP()),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: CustomButton(
+                      buttonText: 'NEXT',
+                      textSize: 15,
+                      onPressed: ()=>verifyOtp()),
+                ),
+              ],
             ),
-            const SizedBox(
-              width: 16,
-            ),
-            Expanded(
-              child: CustomButton(
-                  buttonText: 'NEXT',
-                  textSize: 15,
-                  onPressed: ()=>verifyOtp()),
-            ),
-          ],
-        ),
-      ),
+          ),
     ],
+          ),
+        ),
       ),
     );
   }

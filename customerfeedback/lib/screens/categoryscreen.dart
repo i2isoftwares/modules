@@ -1,15 +1,13 @@
 import 'dart:convert';
 
-import 'package:customerfeedback/routes/app_pages.dart';
-import 'package:customerfeedback/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../database/database_helper.dart';
 import '../helpers/colors.dart';
 import '../helpers/shared_preferences_helper.dart';
 import '../helpers/utils.dart';
+import '../widgets/app_bar.dart';
 import '../widgets/button.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -26,7 +24,7 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> key = new GlobalKey<NavigatorState>();
 
   List<Map> categoryDetails = [];
   var percentage;
@@ -61,7 +59,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     await SharedPreferencesHelper.setPrefString(
         SharedPreferencesHelper.CATEGORY_ID, categoryId);
     //After close the qns page it returns the result true
-    var result = await Get.toNamed(CFRoutes.question);
+    var result = await Navigator.pushNamed(context, '/question');
     debugPrint('result is a $result');
     if (result != null && result == true) {
       get();
@@ -73,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     var submit =
         categoryDetails.every((element) => element['percentage'] == "100");
     if (submit) {
-      Get.toNamed(CFRoutes.score);
+      Navigator.pushNamed(context, '/score');
     } else {
       //Show the alert dialog for enter details
       Utils.showMessage(

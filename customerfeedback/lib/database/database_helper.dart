@@ -624,7 +624,7 @@ class DatabaseHelper {
     print(tex);
 
     return await db.rawQuery(
-        "Select $CatData_Weightage,$CatData_ScoreId from $_categoryData where $CatData_ScoreId != -1 AND  $CatData_SbuId  = $sbuId  AND $CatData_CompanyId = $companyId AND $CatData_LocationId = $locationId AND $CatData_AuditId = $auditId");
+        "Select $CatData_Weightage,$CatData_ScoreId from $_categoryData where $CatData_ScoreId != 'N/a' AND  $CatData_SbuId  = $sbuId  AND $CatData_CompanyId = $companyId AND $CatData_LocationId = $locationId AND $CatData_AuditId = $auditId");
   }
 
   //Get the category details individual category percentage

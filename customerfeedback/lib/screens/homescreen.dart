@@ -1,20 +1,18 @@
 import 'dart:async';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:customerfeedback/database/database_helper.dart';
-import 'package:customerfeedback/helpers/utils.dart';
-import 'package:customerfeedback/routes/app_pages.dart';
-import 'package:customerfeedback/screens/loginscreen.dart';
-import 'package:customerfeedback/utils/sync_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
+import '../database/database_helper.dart';
 import '../helpers/colors.dart';
 import '../helpers/shared_preferences_helper.dart';
+import '../helpers/utils.dart';
+import '../utils/sync_data.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/button.dart';
 import '../widgets/textfield.dart';
+import 'loginscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -147,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(
-                                'assets/customerfeedback/search-8.png',
+                                'assets/images/search-8.png',
                                 height: 15,
                                 width: 15,
                               ),
@@ -168,8 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       sbuDetails[index]["locationsettingsid"],
                                     );
 
-                                    Get.back();
-                                    // Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
                                     // _getLocation();
                                   },
                                   title: Text(
@@ -231,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(
-                                'assets/customerfeedback/search-8.png',
+                                'assets/images/search-8.png',
                                 height: 15,
                                 width: 15,
                               ),
@@ -255,8 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     _getLocation(
                                         companyDetails[index]["CompanyID"]);
 
-                                    Get.back();
-                                    // Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
                                   },
                                   title: Text(
                                     '${companyDetails[index]["CompanyName"]}',
@@ -317,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(
-                                'assets/customerfeedback/search-8.png',
+                                'assets/images/search-8.png',
                                 height: 15,
                                 width: 15,
                               ),
@@ -344,8 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SharedPreferencesHelper.SECTOR_ID,
                                         locationDetails[index]["sectorid"]);
 
-                                    Get.back();
-                                    // Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
                                     // _getLocation();
                                   },
                                   title: Text(
@@ -407,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             prefixIcon: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(
-                                'assets/customerfeedback/search-8.png',
+                                'assets/images/search-8.png',
                                 height: 15,
                                 width: 15,
                               ),
@@ -427,8 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         feedbackDetails[index]["auditname"],
                                         feedbackDetails[index]["auditid"]);
 
-                                    Get.back();
-                                    // Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
                                   },
                                   title: Text(
                                     '${feedbackDetails[index]["auditname"]}',
@@ -462,7 +456,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //Timer used for count show
   void checkCount() {
-    timer = Timer.periodic(const Duration(seconds: 10), (t) async {
+    timer = Timer.periodic(Duration(seconds: 10), (t) async {
       setCount();
     });
   }
@@ -509,234 +503,226 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(
-        context,
-        title: const Text(
-          'HOME',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: primaryDark,
-        actions: [
-          InkWell(
-            onTap: () {
-              Get.toNamed(CFRoutes.offline);
-              // Navigator.pushNamed(context, '/cf/offline');
-            },
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Image.asset(
-                    'assets/customerfeedback/cloud-computing.png',
-                    height: 25,
-                    width: 25,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                Positioned(
-                  top: 8,
-                  right: 0,
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '$count',
-                      style: const TextStyle(color: Colors.black),
-                      textAlign: TextAlign.center,
+    return WillPopScope(
+      onWillPop: () async {
+        Utils.showExitDialog(context, 'Do you want to exit from the app', () =>
+            SystemNavigator.pop(animated: true));
+        return true;
+      },
+      child: Scaffold(
+        appBar: customAppBar(
+          context,
+          title: const Text(
+            'HOME',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: primaryDark,
+          actions: [
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/offline');
+              },
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Image.asset(
+                      'assets/images/cloud-computing.png',
+                      height: 25,
+                      width: 25,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                )
-              ],
+                  Positioned(
+                    top: 8,
+                    right: 0,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '$count',
+                        style: TextStyle(color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+            const SizedBox(
+              width: 12,
+            ),
+            InkWell(
+                onTap: () async {
+                  await Utils.showExitDialog(
+                      context, 'Do you want to logout from the app', () {
+                    SharedPreferencesHelper.setPrefBool(
+                        SharedPreferencesHelper.IS_LOGIN, false);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            (Route<dynamic> route) => false);
+                  });
 
-          padding
-              :
+                  // await SharedPreferencesHelper.setPrefBool(
+                  //     SharedPreferencesHelper.IS_LOGIN, false);
+                  // Navigator.pushAndRemoveUntil(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => LoginScreen()),
+                  //     (Route<dynamic> route) => false);
+                },
+                child: const Icon(Icons.logout)
+            ),
 
-          const EdgeInsets.only
+            const SizedBox(
+              width: 12,
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
 
-            (
-
-              left
-                  :
-
-              10.0
-
-              ,
-
-              right
-                  :
-
-              10.0
-
-          )
-
-          ,
-
-          child
-              :
-
-          Column
-
-            (
-
-            crossAxisAlignment
+            padding
                 :
 
-            CrossAxisAlignment.start
+            EdgeInsets.only
+
+              (
+
+                left
+                    :
+
+                10.0
+
+                ,
+
+                right
+                    :
+
+                10.0
+
+            )
 
             ,
 
-            children
+            child
                 :
 
-            [
+            Column
 
-              const SizedBox
+              (
 
-                (
+              crossAxisAlignment
+                  :
+
+              CrossAxisAlignment.start
+
+              ,
+
+              children
+                  :
+
+              [
+
+                SizedBox
+
+                  (
+
+                    height
+                        :
+
+                    40
+
+                )
+
+                ,
+
+                Container
+
+                  (
+
+                  width
+                      :
+
+                  MediaQuery
+                      .of(context)
+
+                      .
+                  size
+                      .width
+
+                  ,
 
                   height
                       :
 
-                  40
+                  50
 
-              )
+                  ,
 
-              ,
-
-              Container
-
-                (
-
-                width
-                    :
-
-                MediaQuery
-                    .of(context)
-
-                    .
-                size
-                    .width
-
-                ,
-
-                height
-                    :
-
-                50
-
-                ,
-
-                padding
-                    :
-
-                const EdgeInsets.all
-
-                  (
-
-                    2.0
-
-                )
-
-                ,
-
-                decoration
-                    :
-
-                BoxDecoration
-
-                  (
-
-                  border
+                  padding
                       :
 
-                  Border.all
+                  EdgeInsets.all
 
                     (
 
-                      color
-                          :
-
-                      grey
+                      2.0
 
                   )
 
                   ,
 
-                  borderRadius
+                  decoration
                       :
 
-                  const BorderRadius.all
+                  BoxDecoration
 
                     (
 
-                      Radius.circular
-
-                        (
-
-                          10
-
-                      )
-
-                  )
-
-                  ,
-
-                )
-
-                ,
-
-                child
-                    :
-
-                ElevatedButton
-
-                  (
-
-                  style
-                      :
-
-                  ElevatedButton.styleFrom
-
-                    (
-
-                    backgroundColor
+                    border
                         :
 
-                    Colors.white
+                    Border.all
+
+                      (
+
+                        color
+                            :
+
+                        grey
+
+                    )
 
                     ,
 
-                    elevation
+                    borderRadius
                         :
 
-                    7
+                    BorderRadius.all
+
+                      (
+
+                        Radius.circular
+
+                          (
+
+                            10
+
+                        )
+
+                    )
 
                     ,
 
-                    foregroundColor
-                        :
-
-                    Colors.black
-
-                    , // foreground (text) color
                   )
 
                   ,
@@ -744,65 +730,107 @@ class _HomeScreenState extends State<HomeScreen> {
                   child
                       :
 
-                  Row
+                  ElevatedButton
 
                     (
 
-                    mainAxisAlignment
+                    style
                         :
 
-                    MainAxisAlignment.spaceBetween
+                    ElevatedButton.styleFrom
+
+                      (
+
+                      backgroundColor
+                          :
+
+                      Colors.white
+
+                      ,
+
+                      elevation
+                          :
+
+                      7
+
+                      ,
+
+                      foregroundColor
+                          :
+
+                      Colors.black
+
+                      , // foreground (text) color
+                    )
 
                     ,
 
-                    children
+                    child
                         :
 
-                    [
+                    Row
 
-                      Text
+                      (
 
-                        (
+                      mainAxisAlignment
+                          :
 
-                        '$sbuText'
+                      MainAxisAlignment.spaceBetween
 
-                        ,
+                      ,
 
-                        style
-                            :
+                      children
+                          :
 
-                        Theme
-                            .of(context)
+                      [
 
-                            .
-                        textTheme
-                            .bodyText1
-
-                        !
-
-                            .
-                        copyWith
+                        Text
 
                           (
 
-                          color
-                              :
-
-                          Colors.black
+                          '$sbuText'
 
                           ,
 
-                          fontWeight
+                          style
                               :
 
-                          FontWeight.normal
+                          Theme
+                              .of(context)
 
-                          ,
+                              .
+                          textTheme
+                              .bodyText1
 
-                          fontSize
-                              :
+                          !
 
-                          15
+                              .
+                          copyWith
+
+                            (
+
+                            color
+                                :
+
+                            Colors.black
+
+                            ,
+
+                            fontWeight
+                                :
+
+                            FontWeight.normal
+
+                            ,
+
+                            fontSize
+                                :
+
+                            15
+
+                            ,
+
+                          )
 
                           ,
 
@@ -810,176 +838,134 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         ,
 
-                      )
+                        // SizedBox(width: 10),
+                        Image.asset
+                          ('assets/images/downarrow.png',
+                          height: 10,
 
-                      ,
+                          width
+                              :
 
-                      // SizedBox(width: 10),
-                      Image.asset
-                        ('assets/customerfeedback/downarrow.png',
-                        height: 10,
+                          10
 
-                        width
-                            :
+                          ,
 
-                        10
+                        )
 
                         ,
 
-                      )
+                      ]
 
                       ,
 
-                    ]
+                    )
 
                     ,
+
+                    onPressed
+                        : () {
+                      _showSBU(context);
+                    },
 
                   )
 
                   ,
 
-                  onPressed
-                      : () {
-                    _showSBU(context);
-                  },
+                )
+
+                ,
+
+                SizedBox
+
+                  (
+
+                    height
+                        :
+
+                    30
 
                 )
 
                 ,
 
-              )
+                Container
 
-              ,
+                  (
 
-              const SizedBox
+                  width
+                      :
 
-                (
+                  MediaQuery
+                      .of(context)
+
+                      .
+                  size
+                      .width
+
+                  ,
 
                   height
                       :
 
-                  30
+                  50
 
-              )
+                  ,
 
-              ,
-
-              Container
-
-                (
-
-                width
-                    :
-
-                MediaQuery
-                    .of(context)
-
-                    .
-                size
-                    .width
-
-                ,
-
-                height
-                    :
-
-                50
-
-                ,
-
-                padding
-                    :
-
-                const EdgeInsets.all
-
-                  (
-
-                    2.0
-
-                )
-
-                ,
-
-                decoration
-                    :
-
-                BoxDecoration
-
-                  (
-
-                  border
+                  padding
                       :
 
-                  Border.all
+                  EdgeInsets.all
 
                     (
 
-                      color
-                          :
-
-                      grey
+                      2.0
 
                   )
 
                   ,
 
-                  borderRadius
+                  decoration
                       :
 
-                  const BorderRadius.all
+                  BoxDecoration
 
                     (
 
-                      Radius.circular
-
-                        (
-
-                          10
-
-                      )
-
-                  )
-
-                  ,
-
-                )
-
-                ,
-
-                child
-                    :
-
-                ElevatedButton
-
-                  (
-
-                  style
-                      :
-
-                  ElevatedButton.styleFrom
-
-                    (
-
-                    backgroundColor
+                    border
                         :
 
-                    Colors.white
+                    Border.all
+
+                      (
+
+                        color
+                            :
+
+                        grey
+
+                    )
 
                     ,
 
-                    elevation
+                    borderRadius
                         :
 
-                    7
+                    BorderRadius.all
+
+                      (
+
+                        Radius.circular
+
+                          (
+
+                            10
+
+                        )
+
+                    )
 
                     ,
 
-                    foregroundColor
-                        :
-
-                    Colors.black
-
-                    , // foreground (text) color
                   )
 
                   ,
@@ -987,143 +973,433 @@ class _HomeScreenState extends State<HomeScreen> {
                   child
                       :
 
-                  Row
+                  ElevatedButton
 
                     (
 
-                    mainAxisAlignment
+                    style
                         :
 
-                    MainAxisAlignment.spaceBetween
+                    ElevatedButton.styleFrom
+
+                      (
+
+                      backgroundColor
+                          :
+
+                      Colors.white
+
+                      ,
+
+                      elevation
+                          :
+
+                      7
+
+                      ,
+
+                      foregroundColor
+                          :
+
+                      Colors.black
+
+                      , // foreground (text) color
+                    )
 
                     ,
 
-                    children
+                    child
                         :
 
-                    [
+                    Row
 
-                      Text(
-                        '$companyText',
-                        style:Theme
-                            .of(context).textTheme.bodyText1!.copyWith(color:Colors.black,
-                          fontWeight:FontWeight.normal,
-                          fontSize:15,
+                      (
+
+                      mainAxisAlignment
+                          :
+
+                      MainAxisAlignment.spaceBetween
+
+                      ,
+
+                      children
+                          :
+
+                      [
+
+                        Text(
+                          '$companyText',
+                          style:Theme
+                              .of(context).textTheme.bodyText1!.copyWith(color:Colors.black,
+                            fontWeight:FontWeight.normal,
+                            fontSize:15,
+                          ),
                         ),
-                      ),
 
-                      // SizedBox(width: 10),
-                      Image.asset('assets/customerfeedback/downarrow.png',
-                        height:10,
-                        width:10,
-                      ),
-                    ]
+                        // SizedBox(width: 10),
+                        Image.asset('assets/images/downarrow.png',
+                          height:10,
+                          width:10,
+                        ),
+                      ]
+
+                      ,
+
+                    )
 
                     ,
+
+                    onPressed
+                        : () {
+                      _showCompany(context);
+                    },
 
                   )
 
                   ,
 
-                  onPressed
-                      : () {
-                    _showCompany(context);
-                  },
+                )
+
+                ,
+
+                SizedBox
+
+                  (
+
+                    height
+                        :
+
+                    30
 
                 )
 
                 ,
 
-              )
+                Container
 
-              ,
+                  (
 
-              const SizedBox
+                  width
+                      :
 
-                (
+                  MediaQuery
+                      .of(context)
+
+                      .
+                  size
+                      .width
+
+                  ,
 
                   height
                       :
 
-                  30
+                  50
 
-              )
+                  ,
 
-              ,
+                  padding
+                      :
 
-              Container
+                  EdgeInsets.all
 
-                (
+                    (
 
-                width
-                    :
+                      2.0
 
-                MediaQuery
-                    .of(context)
+                  )
 
-                    .
-                size
-                    .width
+                  ,
+
+                  decoration
+                      :
+
+                  BoxDecoration
+
+                    (
+
+                    border
+                        :
+
+                    Border.all
+
+                      (
+
+                        color
+                            :
+
+                        grey
+
+                    )
+
+                    ,
+
+                    borderRadius
+                        :
+
+                    BorderRadius.all
+
+                      (
+
+                        Radius.circular
+
+                          (
+
+                            10
+
+                        )
+
+                    )
+
+                    ,
+
+                  )
+
+                  ,
+
+                  child
+                      :
+
+                  ElevatedButton
+
+                    (
+
+                    style
+                        :
+
+                    ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 7,
+                      foregroundColor: Colors.black, // foreground (text) color
+                    ),
+                    child: Row(
+                      mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                      children:[
+                        Text(
+                          '$locationText',
+                          style:Theme.of(context).textTheme.bodyText1!.copyWith(color:Colors.black,
+                            fontWeight:FontWeight.normal,
+                            fontSize:15,
+                          ),
+                        ),
+                        // SizedBox(width: 10),
+                        Image.asset('assets/images/downarrow.png',
+                          height:10,
+                          width:10,
+                        ),
+                      ],
+                    ),
+
+                    onPressed: () {
+                      _showLocation(context);
+                    },
+
+                  ),
+                )
 
                 ,
 
-                height
-                    :
-
-                50
-
-                ,
-
-                padding
-                    :
-
-                const EdgeInsets.all
+                SizedBox
 
                   (
 
-                    2.0
+                    height
+                        :
+
+                    30
 
                 )
 
                 ,
 
-                decoration
-                    :
-
-                BoxDecoration
+                Container
 
                   (
 
-                  border
+                  width
                       :
 
-                  Border.all
+                  MediaQuery
+                      .of(context)
+
+                      .
+                  size
+                      .width
+
+                  ,
+
+                  height
+                      :
+
+                  50
+
+                  ,
+
+                  padding
+                      :
+
+                  EdgeInsets.all
 
                     (
 
-                      color
+                      2.0
+
+                  )
+
+                  ,
+
+                  decoration
+                      :
+
+                  BoxDecoration
+
+                    (
+
+                    border
+                        :
+
+                    Border.all
+
+                      (
+
+                        color
+                            :
+
+                        grey
+
+                    )
+
+                    ,
+
+                    borderRadius
+                        :
+
+                    BorderRadius.all
+
+                      (
+
+                        Radius.circular
+
+                          (
+
+                            10
+
+                        )
+
+                    )
+
+                    ,
+
+                  )
+
+                  ,
+
+                  child
+                      :
+
+                  ElevatedButton
+
+                    (
+
+                    style
+                        :
+
+                    ElevatedButton.styleFrom
+
+                      (
+
+                      backgroundColor
                           :
 
-                      grey
+                      Colors.white
 
-                  )
+                      ,
 
-                  ,
+                      elevation
+                          :
 
-                  borderRadius
-                      :
+                      7
 
-                  const BorderRadius.all
+                      ,
 
-                    (
+                      foregroundColor
+                          :
 
-                      Radius.circular
+                      Colors.black
 
-                        (
+                      , // foreground (text) color
+                    )
 
-                          10
+                    ,
 
-                      )
+                    child
+                        :
+
+                    Row
+
+                      (
+
+                      mainAxisAlignment
+                          :
+
+                      MainAxisAlignment.spaceBetween
+
+                      ,
+
+                      children
+                          :
+
+                      [
+
+                        Text('$feedbackText',
+                          style:Theme
+                              .of(context).textTheme.bodyText1!
+                              .
+                          copyWith
+
+                            (
+
+                            color
+                                :
+
+                            Colors.black
+
+                            ,
+
+                            fontWeight
+                                :
+
+                            FontWeight.normal
+
+                            ,
+
+                            fontSize
+                                :
+
+                            15
+
+                            ,
+
+                          )
+
+                          ,
+
+                        )
+
+                        ,
+
+                        // SizedBox(width: 10),
+                        Image.asset('assets/images/downarrow.png',
+                          height: 10,
+                          width: 10,
+                        ),
+                      ],
+                    ),
+
+                    onPressed
+                        : () {
+                      _showFeedback(context);
+                    },
 
                   )
 
@@ -1133,304 +1409,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 ,
 
-                child
-                    :
-
-                ElevatedButton
+                SizedBox
 
                   (
 
-                  style
-                      :
+                    height
+                        :
 
-                  ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    elevation: 7,
-                    foregroundColor: Colors.black, // foreground (text) color
-                  ),
-                  child: Row(
-                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                    children:[
-                      Text(
-                        '$locationText',
-                        style:Theme.of(context).textTheme.bodyText1!.copyWith(color:Colors.black,
-                          fontWeight:FontWeight.normal,
-                          fontSize:15,
-                        ),
-                      ),
-                      // SizedBox(width: 10),
-                      Image.asset('assets/customerfeedback/downarrow.png',
-                        height:10,
-                        width:10,
-                      ),
-                    ],
-                  ),
+                    30
 
-                  onPressed: () {
-                    _showLocation(context);
+                )
+
+                ,
+
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   child: Text('Sector',
+                //       style: TextStyle(fontSize: 15.0),
+                //       textAlign: TextAlign.left),
+                // ),
+                // SizedBox(height: 30),
+                CustomButton(
+                  buttonText: 'Feedback',
+                  onPressed: () =>
+                  {
+                    if (sbuId != "" &&
+                        companyId != "" &&
+                        locationId != "" &&
+                        feedbackId != "")
+                      {
+                        Navigator.pushNamed(context, '/category', arguments: {
+                          "companyId": companyId,
+                          "feedbackId": feedbackId
+                        }),
+                      }
+                    else
+                    // {_showMessage(context, "Please select all items")}
+                      {Utils.showMessage(context, "Please select all items")}
                   },
-
                 ),
-              )
-
-              ,
-
-              const SizedBox
-
-                (
-
-                  height
-                      :
-
-                  30
-
-              )
-
-              ,
-
-              Container
-
-                (
-
-                width
-                    :
-
-                MediaQuery
-                    .of(context)
-
-                    .
-                size
-                    .width
-
-                ,
-
-                height
-                    :
-
-                50
-
-                ,
-
-                padding
-                    :
-
-                const EdgeInsets.all
-
-                  (
-
-                    2.0
-
-                )
-
-                ,
-
-                decoration
-                    :
-
-                BoxDecoration
-
-                  (
-
-                  border
-                      :
-
-                  Border.all
-
-                    (
-
-                      color
-                          :
-
-                      grey
-
-                  )
-
-                  ,
-
-                  borderRadius
-                      :
-
-                  const BorderRadius.all
-
-                    (
-
-                      Radius.circular
-
-                        (
-
-                          10
-
-                      )
-
-                  )
-
-                  ,
-
-                )
-
-                ,
-
-                child
-                    :
-
-                ElevatedButton
-
-                  (
-
-                  style
-                      :
-
-                  ElevatedButton.styleFrom
-
-                    (
-
-                    backgroundColor
-                        :
-
-                    Colors.white
-
-                    ,
-
-                    elevation
-                        :
-
-                    7
-
-                    ,
-
-                    foregroundColor
-                        :
-
-                    Colors.black
-
-                    , // foreground (text) color
-                  )
-
-                  ,
-
-                  child
-                      :
-
-                  Row
-
-                    (
-
-                    mainAxisAlignment
-                        :
-
-                    MainAxisAlignment.spaceBetween
-
-                    ,
-
-                    children
-                        :
-
-                    [
-
-                      Text('$feedbackText',
-                        style:Theme
-                            .of(context).textTheme.bodyText1!
-                            .
-                        copyWith
-
-                          (
-
-                          color
-                              :
-
-                          Colors.black
-
-                          ,
-
-                          fontWeight
-                              :
-
-                          FontWeight.normal
-
-                          ,
-
-                          fontSize
-                              :
-
-                          15
-
-                          ,
-
-                        )
-
-                        ,
-
-                      )
-
-                      ,
-
-                      // SizedBox(width: 10),
-                      Image.asset('assets/customerfeedback/downarrow.png',
-                        height: 10,
-                        width: 10,
-                      ),
-                    ],
-                  ),
-
-                  onPressed
-                      : () {
-                    _showFeedback(context);
-                  },
-
-                )
-
-                ,
-
-              )
-
-              ,
-
-              const SizedBox
-
-                (
-
-                  height
-                      :
-
-                  30
-
-              )
-
-              ,
-
-              // Container(
-              //   width: MediaQuery.of(context).size.width,
-              //   child: Text('Sector',
-              //       style: TextStyle(fontSize: 15.0),
-              //       textAlign: TextAlign.left),
-              // ),
-              // SizedBox(height: 30),
-              CustomButton(
-                buttonText: 'Feedback',
-                onPressed: () =>
-                {
-                  if (sbuId != "" &&
-                      companyId != "" &&
-                      locationId != "" &&
-                      feedbackId != "")
-                    {
-                      Get.toNamed(CFRoutes.category,arguments: {"companyId": companyId,
-                        "feedbackId": feedbackId})
-
-                      // Navigator.pushNamed(context, '/cf/category', arguments: {
-                      //   "companyId": companyId,
-                      //   "feedbackId": feedbackId
-                      // }),
-                    }
-                  else
-                  // {_showMessage(context, "Please select all items")}
-                    {Utils.showMessage(context, "Please select all items")}
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
+
+      )
+
+      ,
 
     );
   }

@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 selectedLocation = locationDetails[index];
                                 _setTheState();
                                 Navigator.of(context).pop();
-                                _getBuilding(selectedCompany);
+                                _getBuilding(selectedCompany!);
                               },
                               title: Text(
                                 '${locationDetails[index].locationName}',

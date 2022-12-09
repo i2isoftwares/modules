@@ -148,7 +148,7 @@ class _CovidScreenState extends State<CovidScreen> {
                         mainQuestions.returnData[index].answer != null
                     ? MaterialButton(
                         onPressed: () async {
-                          FilePickerResult result =
+                          FilePickerResult? result =
                               await FilePicker.platform.pickFiles();
 
                           if (result != null) {
