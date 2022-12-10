@@ -16,7 +16,7 @@ class CalenderScreen extends StatefulWidget {
 
 class _CalenderScreenState extends State<CalenderScreen> {
   late SettingDetail settingDetail;
-  late CalendarController _calendarController;
+  // late CalendarController _calendarController;
 
   late UserDetail userDetail;
 
@@ -33,12 +33,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
       setState(() {})
     });
     settingDetail = Utils.settingDetail!;
-    _calendarController = CalendarController();
+    // _calendarController = CalendarController();
   }
 
   @override
   void dispose() {
-    _calendarController.dispose();
+    // _calendarController.dispose();
     super.dispose();
   }
 
@@ -160,42 +160,42 @@ class _CalenderScreenState extends State<CalenderScreen> {
                     ),
               ),
               SizedBox(height: 12),
-              TableCalendar(
-                calendarController: _calendarController,
-                events: _events,
-                daysOfWeekStyle: DaysOfWeekStyle(
-                  weekendStyle: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      ?.apply(color: Colors.redAccent),
-                  weekdayStyle: Theme.of(context).textTheme.subtitle1,
-                ),
-                holidays: _events,
-                calendarStyle: CalendarStyle(
-                  selectedColor: primary,
-                  todayColor: primary,
-                  markersColor: Colors.brown[700],
-                  outsideDaysVisible: false,
-                  highlightSelected: false,
-                  highlightToday: false,
-                  holidayStyle: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.apply(color: primary),
-                  weekendStyle: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      ?.apply(color: Colors.redAccent),
-                  weekdayStyle: Theme.of(context).textTheme.subtitle1,
-                ),
-                headerStyle: HeaderStyle(
-                  centerHeaderTitle: true,
-                  formatButtonVisible: false,
-                  headerPadding: EdgeInsets.zero,
-                  decoration: BoxDecoration(color: primary),
-                ),
-                onDaySelected: (datetime, list) => _onDaySelected(datetime, list),
-              ),
+              // TableCalendar(
+              //   calendarController: _calendarController,
+              //   events: _events,
+              //   daysOfWeekStyle: DaysOfWeekStyle(
+              //     weekendStyle: Theme.of(context)
+              //         .textTheme
+              //         .subtitle1
+              //         ?.apply(color: Colors.redAccent),
+              //     weekdayStyle: Theme.of(context).textTheme.subtitle1,
+              //   ),
+              //   holidays: _events,
+              //   calendarStyle: CalendarStyle(
+              //     selectedColor: primary,
+              //     todayColor: primary,
+              //     markersColor: Colors.brown[700],
+              //     outsideDaysVisible: false,
+              //     highlightSelected: false,
+              //     highlightToday: false,
+              //     holidayStyle: Theme.of(context)
+              //         .textTheme
+              //         .bodyText2
+              //         ?.apply(color: primary),
+              //     weekendStyle: Theme.of(context)
+              //         .textTheme
+              //         .subtitle1
+              //         ?.apply(color: Colors.redAccent),
+              //     weekdayStyle: Theme.of(context).textTheme.subtitle1,
+              //   ),
+              //   headerStyle: HeaderStyle(
+              //     centerHeaderTitle: true,
+              //     formatButtonVisible: false,
+              //     headerPadding: EdgeInsets.zero,
+              //     decoration: BoxDecoration(color: primary),
+              //   ),
+              //   onDaySelected: (datetime, list) => _onDaySelected(datetime, list),
+              // ),
               SizedBox(height: 36),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),

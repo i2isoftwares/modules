@@ -163,42 +163,42 @@ class _TimeSelectionScreenState extends State<TimeSelectionScreen> {
   }
 
   void _pickStartTime(int index, BuildContext context) async {
-    TimeOfDay? t = await showTimePicker(
-      context: context,
-      initialTime: slots[index].startTime != null
-          ? slots[index].startTime
-          : TimeOfDay.now(),
-      builder: (BuildContext context, Widget child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child,
-        );
-      },
-    );
-    if (t != null) {
-      setState(() {
-        slots[index].startTime = TimeOfDay(hour: t.hour, minute: t.minute);
-      });
-    }
+    // TimeOfDay? t = await showTimePicker(
+    //   context: context,
+    //   initialTime: slots[index].startTime != null
+    //       ? slots[index].startTime
+    //       : TimeOfDay.now(),
+    //   builder: (BuildContext context, Widget child) {
+    //     return MediaQuery(
+    //       data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+    //       child: child,
+    //     );
+    //   },
+    // );
+    // if (t != null) {
+    //   setState(() {
+    //     slots[index].startTime = TimeOfDay(hour: t.hour, minute: t.minute);
+    //   });
+    // }
   }
 
   void _pickEndTime(int index, BuildContext context) async {
-    TimeOfDay? t = await showTimePicker(
-      context: context,
-      initialTime:
-          slots[index].endTime != null ? slots[index].endTime : TimeOfDay.now(),
-      builder: (BuildContext context, Widget child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child,
-        );
-      },
-    );
-    if (t != null) {
-      setState(() {
-        slots[index].endTime = TimeOfDay(hour: t.hour, minute: t.minute);
-      });
-    }
+    // TimeOfDay? t = await showTimePicker(
+    //   context: context,
+    //   initialTime:
+    //       slots[index].endTime != null ? slots[index].endTime : TimeOfDay.now(),
+    //   builder: (BuildContext context, Widget child) {
+    //     return MediaQuery(
+    //       data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+    //       child: child,
+    //     );
+    //   },
+    // );
+    // if (t != null) {
+    //   setState(() {
+    //     slots[index].endTime = TimeOfDay(hour: t.hour, minute: t.minute);
+    //   });
+    // }
   }
 
   void _postMultipleTimeValidation(

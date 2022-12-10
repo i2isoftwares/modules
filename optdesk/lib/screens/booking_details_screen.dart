@@ -43,15 +43,15 @@ class _BookingDetailsState extends State<BookingDetails> {
                 child: const Text('No'),
                 padding: EdgeInsets.zero,
               ),
-              CupertinoButton(
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  String scanData = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.QR);
-                  api(scanData);
-                },
-                child: const Text('Yes'),
-                padding: EdgeInsets.zero,
-              ),
+              // CupertinoButton(
+              //   onPressed: () async {
+              //     Navigator.of(context).pop();
+              //     String scanData = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.QR);
+              //     api(scanData);
+              //   },
+              //   child: const Text('Yes'),
+              //   padding: EdgeInsets.zero,
+              // ),
             ],
           );
         },

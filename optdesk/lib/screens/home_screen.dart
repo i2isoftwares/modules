@@ -574,10 +574,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             CupertinoButton(
               onPressed: () async {
-                Navigator.of(context).pop();
-                String scanData = await FlutterBarcodeScanner.scanBarcode(
-                    "#ff6666", "Cancel", false, ScanMode.QR);
-                api(scanData);
+                // Navigator.of(context).pop();
+                // String scanData = await FlutterBarcodeScanner.scanBarcode(
+                //     "#ff6666", "Cancel", false, ScanMode.QR);
+                // api(scanData);
               },
               child: const Text('Yes'),
               padding: EdgeInsets.zero,

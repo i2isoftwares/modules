@@ -27,7 +27,9 @@ class CovidScreen extends StatefulWidget {
 class _CovidScreenState extends State<CovidScreen> {
   PageController controller = PageController();
   TextEditingController textEditingController = TextEditingController();
-  GetQuestions mainQuestions = GetQuestions();
+
+  // GetQuestions mainQuestions = GetQuestions();
+  var mainQuestions;
   List<Option> answer = [];
   late File? file;
   late String selectedCompanyId;
@@ -40,17 +42,19 @@ class _CovidScreenState extends State<CovidScreen> {
   }
 
   _getQuestions() async {
-    selectedCompanyId = await SharedPreferencesHelper.getPrefString(SharedPreferencesHelper.selectedCompany, '');
-    GetQuestions response = await getQuestions(widget.companyId,context);
+    selectedCompanyId = await SharedPreferencesHelper.getPrefString(
+        SharedPreferencesHelper.selectedCompany, '');
+    GetQuestions response = await getQuestions(widget.companyId, context);
     if (response.status) {
       for (int i = 0; i <= response.returnData.length; i++) {
-        answer.add(Option());
+        // answer.add(Option());
       }
 
       setState(() {
         mainQuestions = response;
         print(selectedCompanyId);
-        if(selectedCompanyId == '132325') mainQuestions.returnData.sort((a, b) => b.qnsid.compareTo(a.qnsid));
+        if (selectedCompanyId == '132325')
+          mainQuestions.returnData.sort((a, b) => b.qnsid.compareTo(a.qnsid));
       });
     }
   }
@@ -151,8 +155,9 @@ class _CovidScreenState extends State<CovidScreen> {
                           FilePickerResult? result =
                               await FilePicker.platform.pickFiles();
 
-                          if (result != null) {
-                            File file = File(result.files.single.path);
+                          if (result != null &&
+                              result.files.single.path != null) {
+                            File file = File(result.files.single.path!);
                             setState(() {
                               this.file = file;
                             });
@@ -233,11 +238,12 @@ class _CovidScreenState extends State<CovidScreen> {
               ],
             ),
           ),
-          questionData.qnsid == 12 && selectedCompanyId == '132325' &&
+          questionData.qnsid == 12 &&
+                  selectedCompanyId == '132325' &&
                   mainQuestions.returnData[index].answer == '26' &&
                   mainQuestions.returnData[index].answer != null
               ? MaterialButton(
-            onPressed: () => btnSubmitTap(index),
+                  onPressed: () => btnSubmitTap(index),
                   child: Text(
                     "Submit",
                     style: Theme.of(context)
@@ -265,11 +271,10 @@ class _CovidScreenState extends State<CovidScreen> {
     );
   }
 
-  void btnNextTap(Question questionData, int index) async{
+  void btnNextTap(Question questionData, int index) async {
     if (questionData.options == null) {
       setState(() {
-        mainQuestions.returnData[index].answer =
-            textEditingController.text;
+        mainQuestions.returnData[index].answer = textEditingController.text;
         textEditingController.text = '';
       });
     }
@@ -287,9 +292,7 @@ class _CovidScreenState extends State<CovidScreen> {
           "Quiz": []
         };
 
-        for (int i = 0;
-        i < mainQuestions.returnData.length;
-        i++) {
+        for (int i = 0; i < mainQuestions.returnData.length; i++) {
           Map<String, String> detail = {
             "Optionid": "${mainQuestions.returnData[i].answer}",
             "Questionid": "${mainQuestions.returnData[i].qnsid}"
@@ -300,9 +303,8 @@ class _CovidScreenState extends State<CovidScreen> {
 
         Utils.showLoader(context);
         PandemicQnsAnsDetails? response =
-        await postQnsAnsDetailsUpload(
-            object, file!,context);
-        if(response==null) return;
+            await postQnsAnsDetailsUpload(object, file!, context);
+        if (response == null) return;
 
         showToastMsg(response.message);
 
@@ -331,7 +333,7 @@ class _CovidScreenState extends State<CovidScreen> {
     }
   }
 
-  void btnSubmitTap(int index) async{
+  void btnSubmitTap(int index) async {
     // API
     List<Map<String, String>> quiz = [];
 
@@ -351,10 +353,9 @@ class _CovidScreenState extends State<CovidScreen> {
 
     Utils.showLoader(context);
     PandemicQnsAnsDetails? response =
-        await postQnsAnsDetailsUpload(
-        object, file,context);
+        await postQnsAnsDetailsUpload(object, file!, context);
 
-    if(response==null) return;
+    if (response == null) return;
 
     showToastMsg(response.message);
 
@@ -367,8 +368,8 @@ class _CovidScreenState extends State<CovidScreen> {
         Utils.responseLogin = null;
         // Utils.userDetail = UserDetail();
 
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/login', (Route<dynamic> route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
 
         Utils.showContactAdminDialog(context);
       } else {

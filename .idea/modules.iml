@@ -18,6 +18,9 @@
       <excludeFolder url="file://$MODULE_DIR$/optdesk/build" />
       <excludeFolder url="file://$MODULE_DIR$/optdesk/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/optdesk/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/face_authentication/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/face_authentication/build" />
+      <excludeFolder url="file://$MODULE_DIR$/face_authentication/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
