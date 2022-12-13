@@ -26,7 +26,7 @@ class DownloadScreen extends StatefulWidget {
 }
 
 class _DownloadScreenState extends State<DownloadScreen> {
-  final GlobalKey<NavigatorState> key = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
   var percentage= 0;
 
   @override

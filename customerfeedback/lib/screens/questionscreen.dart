@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:customerfeedback/models/categorydata.dart';
 import 'package:customerfeedback/models/feedbackimages.dart';
 import 'package:customerfeedback/widgets/MyRadioOptions.dart';
@@ -270,7 +269,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     qnsDetails[i].image = image;
                                   setState(() {});
                                 },
-                                child: Container(
+                                child: SizedBox(
                                   width: 40,
                                   height: 40,
                                   child: qnsDetails[i].image == null

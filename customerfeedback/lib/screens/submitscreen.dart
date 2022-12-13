@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-
 import 'package:flutter/material.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:signature/signature.dart';
@@ -14,7 +12,6 @@ import '../models/auditdata.dart';
 import '../models/categorydata.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/button.dart';
-import '../widgets/textfield.dart';
 import 'package:i2iutils/widgets/boxedittext.dart';
 
 import 'homescreen.dart';
