@@ -77,7 +77,7 @@ class LogsheetController extends GetxController {
     if (barcode == null) return;
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.appToken);
+    token = box.read(GCSession.fcmToken);
     companyId = box.read(GCSession.userCompanyId);
     locationId = box.read(GCSession.userLocationId);
     selectedDeptId = box.read(GCSession.userDeptId);

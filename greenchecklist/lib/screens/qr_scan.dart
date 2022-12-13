@@ -54,7 +54,7 @@ class QRScan extends GetView {
                   IconButton(
                       onPressed: () {
                         qrController?.toggleFlash();
-                        flash((flash.value == Icons.flash_on)
+                        flash((flash == Icons.flash_on)
                             ? Icons.flash_off
                             : Icons.flash_on);
                       },

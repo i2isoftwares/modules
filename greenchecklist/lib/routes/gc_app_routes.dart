@@ -1,6 +1,5 @@
 import 'package:get/route_manager.dart';
 import 'package:greenchecklist/routes/gc_app_pages.dart';
-import 'package:greenchecklist/screens/backup/backup_screen.dart';
 import 'package:greenchecklist/screens/checklist/checklist_screen.dart';
 import 'package:greenchecklist/screens/dashboard/dashboard_screen.dart';
 import 'package:greenchecklist/screens/dashboard_detail/dashboard_detail_screen.dart';
@@ -18,10 +17,6 @@ class GCAppRoutes {
     GetPage(
       name: GCRoutes.login,
       page: () => LoginScreen(),
-    ),
-    GetPage(
-      name: GCRoutes.backup,
-      page: () => BackupScreen(),
     ),
     GetPage(
       name: GCRoutes.home,

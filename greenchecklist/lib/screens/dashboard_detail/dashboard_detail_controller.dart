@@ -9,9 +9,10 @@ import 'package:greenchecklist/helpers/utils.dart';
 import 'package:greenchecklist/model/checklist_wise.dart';
 import 'package:greenchecklist/model/template_wise.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
+import 'package:i2iutils/helpers/permission.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DashboardDetailController extends GetxController {
   var args = Get.arguments;
@@ -101,61 +102,67 @@ class DashboardDetailController extends GetxController {
   }
 
   downloadCheckReport(data) async {
-    if (await checkFileIsExist(data['deviceguid'])) {
-      viewReport(data['deviceguid']);
-      return;
-    }
-    if (await isNetConnected()) {
-      String date = getDate(format: "MM-dd-yyyy");
-      var slots = data['slot'].toString().split('-');
-      var params = {
-        'SlotSDate': '$date ${slots[0].trim()}',
-        'SlotEDate':
-            '$date ${slots[1].startsWith('24') ? '23:59' : '${slots[1].trim()}'}',
-        'CompanyID': args['companyId'],
-        'LocationId': args['locationId'],
-        'BuildingId': data['buildingid'],
-        'FloorId': data['floorid'],
-        'WingId': data['wingid'],
-        'ChecklistID': data['ChecklistID'],
-        'AssignDeptId': data['AssignDeptId'],
-        'Score': '1',
-        'Slot': data['slot'],
-        "deviceguid": data['deviceguid'],
-        'userid': args['userId'],
-        'token': args['token'],
-      };
+    if (await await isHaveStoragePermission()) {
+      File file = await checkFileIsExist(data['deviceguid']);
+      if (file.existsSync()) {
+        viewReport(file);
+        return;
+      }
+      if (await isNetConnected()) {
+        String date = getDate(format: "MM-dd-yyyy");
+        var slots = data['slot'].toString().split('-');
+        var params = {
+          'SlotSDate': '$date ${slots[0].trim()}',
+          'SlotEDate':
+              '$date ${slots[1].startsWith('24') ? '23:59' : '${slots[1].trim()}'}',
+          'CompanyID': args['companyId'],
+          'LocationId': args['locationId'],
+          'BuildingId': data['buildingid'],
+          'FloorId': data['floorid'],
+          'WingId': data['wingid'],
+          'ChecklistID': data['ChecklistID'],
+          'AssignDeptId': data['AssignDeptId'],
+          'Score': '1',
+          'Slot': data['slot'],
+          "deviceguid": data['deviceguid'],
+          'userid': args['userId'],
+          'token': args['token'],
+        };
 
-      var response = await ApiCall().getCheckDownloadableLink(params);
-      if (response != null) {
-        if (response['status']) {
-          downloadPdf(response['result'], data['deviceguid']);
-        } else {
-          showToastMsg(response['message']);
+        var response = await ApiCall().getCheckDownloadableLink(params);
+        if (response != null) {
+          if (response['status']) {
+            downloadPdf(response['result'], data['deviceguid']);
+          } else {
+            showToastMsg(response['message']);
+          }
         }
       }
     }
   }
 
   downloadLogReport(String guid) async {
-    if (await checkFileIsExist(guid)) {
-      viewReport(guid);
-      return;
-    }
-    if (await isNetConnected()) {
-      var params = {
-        'companyid': args['companyId'],
-        'deviceguid': guid,
-        'userid': args['userId'],
-        'token': args['token'],
-      };
+    if (await await isHaveStoragePermission()) {
+      File file = await checkFileIsExist(guid);
+      if (file.existsSync()) {
+        viewReport(file);
+        return;
+      }
+      if (await isNetConnected()) {
+        var params = {
+          'companyid': args['companyId'],
+          'deviceguid': guid,
+          'userid': args['userId'],
+          'token': args['token'],
+        };
 
-      var response = await ApiCall().getLogDownloadableLink(params);
-      if (response != null) {
-        if (response['status']) {
-          downloadPdf(response['result'], guid);
-        } else {
-          showToastMsg(response['message']);
+        var response = await ApiCall().getLogDownloadableLink(params);
+        if (response != null) {
+          if (response['status']) {
+            downloadPdf(response['result'], guid);
+          } else {
+            showToastMsg(response['message']);
+          }
         }
       }
     }
@@ -165,6 +172,7 @@ class DashboardDetailController extends GetxController {
     isLoading(true);
 
     try {
+      showToastMsg('Please wait...');
       var response = await _dio.get(url, onReceiveProgress: (i, j) {
         debugPrint('i -- $i, j -- $j');
       },
@@ -175,37 +183,49 @@ class DashboardDetailController extends GetxController {
                 return (status ?? 501) < 500;
               }));
 
-      File file =
-          File(p.join(reportPath, FOLDER_GC, FOLDER_REPORT, '$guid.pdf'));
+      final File file;
+      if (Platform.isAndroid) {
+        var dir =
+            Directory(p.join(FOLDER_PUBLIC_DOCUMENT, FOLDER_GC, FOLDER_REPORT));
+        if (!dir.existsSync()) dir.createSync(recursive: true);
+
+        file = File(p.join(dir.path, '$guid.pdf'));
+      } else {
+        file = File(p.join(reportPath, FOLDER_GC, FOLDER_REPORT, '$guid.pdf'));
+      }
+
       file.createSync();
       var ref = file.openSync(mode: FileMode.write);
       ref.writeFromSync(response.data);
       await ref.close();
 
-      viewReport(guid);
+      viewReport(file);
     } catch (e) {
       debugPrint(e.toString());
     }
     isLoading(false);
   }
 
-  Future<bool> checkFileIsExist(String guid) async {
-    return File(p.join(reportPath, FOLDER_GC, FOLDER_REPORT, '$guid.pdf'))
-        .exists();
+  Future<File> checkFileIsExist(String guid) async {
+    if (Platform.isAndroid) {
+      var dir =
+          Directory(p.join(FOLDER_PUBLIC_DOCUMENT, FOLDER_GC, FOLDER_REPORT));
+
+      return File(p.join(dir.path, '$guid.pdf'));
+    } else {
+      return File(p.join(reportPath, FOLDER_GC, FOLDER_REPORT, '$guid.pdf'));
+    }
   }
 
-  viewReport(String guid) async {
-    final String filePath =
-        p.join(reportPath, FOLDER_GC, FOLDER_REPORT, '$guid.pdf');
-    final Uri uri = Uri.file(filePath);
-
-    if (!File(uri.toFilePath()).existsSync()) {
-      showToastMsg('File Not Found');
-      throw '$uri does not exist!';
-    }
+  viewReport(File file) async {
     try {
-      await launchUrl(uri);
+      final res = await OpenFilex.open(file.path);
+      debugPrint('file opened ${res.type.toString()} // ${res.message}');
+      if (res.type == ResultType.permissionDenied) {
+        showToastMsg('File stored in ${file.path}', longToast: true);
+      }
     } catch (e) {
+      debugPrint(e.toString());
       showToastMsg('Could not open at this moment');
     }
   }

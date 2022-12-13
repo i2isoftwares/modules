@@ -21,6 +21,7 @@ dependencies:
   path_provider:
   path:
   encrypt:
+  open_filex:
   flutter_local_notifications:
 
   i2iutils:

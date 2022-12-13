@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:greenchecklist/api/api_calls.dart';
+import 'package:i2iutils/helpers/common_functions.dart';
 
 import '../../database/dao/checklist_transaction_dao.dart';
 import '../../database/dao/logsheet_transaction_dao.dart';
@@ -19,6 +20,8 @@ class SyncData {
       this.onComplete, this.errorFunc);
 
   execute() async {
+    if (!await isNetConnected()) return;
+
     var checklists = await checklistDao.getAllChecklistTransaction();
 
     if (checklists.isNotEmpty) {

@@ -12,13 +12,11 @@ import 'package:greenchecklist/database/dao/logsheet_transaction_dao.dart';
 import 'package:greenchecklist/database/dao/template_detail_dao.dart';
 import 'package:greenchecklist/database/dao/user_dao.dart';
 import 'package:greenchecklist/database/database.dart';
-import 'package:greenchecklist/helpers/colors.dart';
 import 'package:greenchecklist/helpers/utils.dart';
 import 'package:greenchecklist/routes/gc_app_pages.dart';
 import 'package:greenchecklist/screens/home/sync_data.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
-
-import 'package:i2iutils/widgets/button.dart';
+import 'package:i2iutils/helpers/permission.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -53,7 +51,7 @@ class HomeController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.appToken);
+    token = box.read(GCSession.fcmToken);
     companyId = box.read(GCSession.userCompanyId);
     locationId = box.read(GCSession.userLocationId);
     selectedDeptId = box.read(GCSession.userDeptId) ?? -1;
@@ -107,7 +105,7 @@ class HomeController extends GetxController {
 
     //backup and delete old data
     try {
-      String fileName = "backup_${getDate(format: "ddMMyyyy")}.json";
+      String fileName = "backup_" + getDate(format: "ddMMyyyy") + ".json";
       String path = (await getApplicationDocumentsDirectory()).path;
       File file = File(p.join(path, FOLDER_GC, FOLDER_BACKUP, fileName));
       if (!(await file.exists())) {
@@ -193,7 +191,7 @@ class HomeController extends GetxController {
             .contains('Invalid Token!!!')) {
           //toast the message
           showToastMsg('Invalid Token! Please Re-login', longToast: true);
-          box.remove(GCSession.appToken);
+          box.remove(GCSession.fcmToken);
           Get.offAllNamed(GCRoutes.login);
         }
       }
@@ -238,8 +236,9 @@ class HomeController extends GetxController {
                       },
                       title: Text('${departments[index]['department']}'),
                       trailing:
-                          departments[index]['departmentid'] == selectedDeptId
-                              ? Image.asset('assets/greenchecklist/ok.png', width: 25)
+                      departments[index]['departmentid'] == selectedDeptId
+                              ? Image.asset('assets/greenchecklist/ok.png',
+                                  width: 25)
                               : null,
                     )),
           ),
@@ -304,7 +303,8 @@ class HomeController extends GetxController {
                 }
               },
               title: const Text('Log-sheet'),
-              leading: Image.asset('assets/greenchecklist/template_detail.png', width: 25),
+              leading: Image.asset('assets/greenchecklist/template_detail.png',
+                  width: 25),
             )
           ],
         ),
@@ -585,7 +585,7 @@ class HomeController extends GetxController {
       {
         'version': '${packageInfo.version}',
         'os': '${await getDeviceOs()}',
-        'token': '${box.read(GCSession.appToken)}'
+        'token': '${box.read(GCSession.fcmToken)}'
       },
       () => isUploading(false),
       (error) {
@@ -596,15 +596,43 @@ class HomeController extends GetxController {
   }
 
   backupDatabase() async {
-    // if(await isHaveStoragePermission()) {
+    if (await isHaveStoragePermission()) {
+      showToastMsg('Please wait');
 
-    Get.toNamed(GCRoutes.backup);
-    /*showToastMsg('Please wait');
+      try {
+        final dbFolder = await getApplicationDocumentsDirectory();
+        final directory =
+            Directory(p.join(dbFolder.path, FOLDER_GC, FOLDER_DATABASE));
 
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final directory = Directory(p.join(dbFolder.path, FOLDER_GC));
+        if (directory.existsSync()) {
+          final filePath =
+              p.join(FOLDER_PUBLIC_DOCUMENT, FOLDER_GC, FOLDER_DATABASE);
+          // HOW TO USE IT:
+          copyDirectory(directory, Directory(filePath));
+        }
+      } catch (e) {}
 
-    showToastMsg('Backup Completed');*/
-    // }
+      showToastMsg('Backup Completed');
+    }
+  }
+
+  void copyDirectory(Directory source, Directory destination) {
+    try {
+      if (!destination.existsSync()) destination.createSync(recursive: true);
+
+      source.listSync(recursive: false).forEach((var entity) {
+        if (entity is Directory) {
+          var newDirectory = Directory(
+              p.join(destination.absolute.path, p.basename(entity.path)));
+          newDirectory.createSync();
+
+          copyDirectory(entity.absolute, newDirectory);
+        } else if (entity is File) {
+          entity.copySync(p.join(destination.path, p.basename(entity.path)));
+        }
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

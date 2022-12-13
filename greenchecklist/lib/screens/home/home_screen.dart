@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +7,6 @@ import 'package:greenchecklist/helpers/colors.dart';
 import 'package:greenchecklist/routes/gc_app_pages.dart';
 import 'package:greenchecklist/screens/home/home_controller.dart';
 import 'package:i2iutils/widgets/boxedittext.dart';
-import 'package:i2iutils/widgets/button.dart';
 
 import '../../helpers/gc_session.dart';
 
@@ -23,345 +24,349 @@ class HomeScreen extends GetView<HomeController> {
       key: _scaffoldKey,
       drawer: _buildNavDrawer(),
       body: GestureDetector(
-          onTap: () {
-            Get.focusScope?.unfocus();
-          },
-          child: Stack(
-            children: [
-              Positioned(
-                child: Container(
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/greenchecklist/bg.png'),
-                          fit: BoxFit.cover)),
-                ),
+        onTap: () {
+          Get.focusScope?.unfocus();
+        },
+        child: Stack(
+          children: [
+            Positioned(
+              child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/greenchecklist/bg.png'),
+                        fit: BoxFit.cover)),
               ),
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 35,
+            ),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 35,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: colorPrimary,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: colorPrimary, blurRadius: 1),
+                                  const BoxShadow(
+                                      color: Colors.greenAccent,
+                                      blurRadius: 1),
+                                ]),
+                            padding: const EdgeInsets.all(8),
+                            child: Image.asset(
+                              'assets/greenchecklist/menu.png',
+                              width: 20,
+                              color: Colors.white,
+                            )),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          'GreenChkList',
+                          style:
+                          TextStyle(color: Colors.white, fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      CachedNetworkImage(
+                        imageUrl:
+                        controller.box.read(GCSession.userCompanyLogo),
+                        height: 25,
+                        errorWidget: (_, __, ___) {
+                          return Image.asset(
+                            'assets/greenchecklist/logo.png',
+                            height: 30,
+                          );
+                        },
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24))),
+                    child: Column(
                       children: [
-                        InkWell(
-                          onTap: () {
-                            _scaffoldKey.currentState?.openDrawer();
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: colorPrimary,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: colorPrimary, blurRadius: 1),
-                                    const BoxShadow(
-                                        color: Colors.greenAccent,
-                                        blurRadius: 1),
-                                  ]),
-                              padding: const EdgeInsets.all(8),
-                              child: Image.asset(
-                                'assets/greenchecklist/menu.png',
+                        SizedBox(
+                          width: 40,
+                          height: 20,
+                          child: Divider(
+                            color: Colors.grey.shade200,
+                            thickness: 4,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/greenchecklist/setting.png',
                                 width: 20,
-                                color: Colors.white,
-                              )),
-                        ),
-                        const Expanded(
-                          child: Text(
-                            'GreenChkList',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        CachedNetworkImage(
-                          imageUrl:
-                              controller.box.read(GCSession.userCompanyLogo),
-                          height: 25,
-                          errorWidget: (_, __, ___) {
-                            return Image.asset(
-                              'assets/greenchecklist/logo.png',
-                              height: 30,
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Expanded(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(24),
-                              topRight: Radius.circular(24))),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: 40,
-                            height: 20,
-                            child: Divider(
-                              color: Colors.grey.shade200,
-                              thickness: 4,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  'assets/greenchecklist/setting.png',
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Department',
-                                            style: TextStyle(fontSize: 12),
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Expanded(
+                                child: Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Department',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        Obx(
+                                              () => Text(
+                                            controller
+                                                .selectedDepartment.value,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.w800),
                                           ),
-                                          Obx(
-                                            () => Text(
-                                              controller
-                                                  .selectedDepartment.value,
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight:
-                                                      FontWeight.w800),
+                                        ),
+                                      ],
+                                    ),
+                                    InkWell(
+                                      onTap: () => controller
+                                          .showDepartmentBottomSheet(),
+                                      child: Text(
+                                        'Change',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: colorPrimary,
+                                            decoration:
+                                            TextDecoration.underline,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          indent: 32,
+                          endIndent: 32,
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      _buildTitle(
+                                          'assets/greenchecklist/qrcode.png',
+                                          20,
+                                          'Scan QR-CODE'),
+                                      InkWell(
+                                        onTap: () => controller.scanQR(),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16),
+                                          child: Image.asset(
+                                            'assets/greenchecklist/scan.png',
+                                            width: 100,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: Get.width,
+                                  margin: const EdgeInsets.all(12),
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                      BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: colorPrimary,
+                                            blurRadius: 1),
+                                        const BoxShadow(
+                                            color: Colors.greenAccent,
+                                            blurRadius: 1),
+                                      ]),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      _buildTitle(
+                                          'assets/greenchecklist/number.png',
+                                          25,
+                                          'Get Detail By QrCode'),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: BoxEditText(
+                                            placeholder:
+                                                'Enter QR / Barcode Number',
+                                            controller: controller
+                                                    .barcodeController,
+                                                onSubmitted: (val) =>
+                                                    controller.submitQrcode(),
+                                                textInputAction:
+                                                TextInputAction.search,
+                                              )),
+                                          const SizedBox(
+                                            width: 12,
+                                          ),
+                                          Material(
+                                            child: InkWell(
+                                              onTap: () =>
+                                                  controller.submitQrcode(),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: colorPrimary,
+                                                ),
+                                                padding:
+                                                const EdgeInsets.all(8),
+                                                child: const Icon(
+                                                  Icons.search,
+                                                  size: 25,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      InkWell(
-                                        onTap: () => controller
-                                            .showDepartmentBottomSheet(),
-                                        child: Text(
-                                          'Change',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: colorPrimary,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                    ],
+                                  ),
+                                ),
+                                const Divider(
+                                  indent: 32,
+                                  endIndent: 32,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          _buildTitle(
+                                              'assets/greenchecklist/offline.png',
+                                              16,
+                                              'Offline Data\'s'),
+                                          Obx(
+                                            () => controller
+                                                    .hideUploadLabel.value
+                                                ? const SizedBox.shrink()
+                                                : !controller.isUploading.value
+                                                    ? InkWell(
+                                                        onTap: () => controller
+                                                            .uploadingOffline(),
+                                                        child: Text(
+                                                          'Upload Data',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                              color:
+                                                                  colorPrimary,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                      )
+                                                    : const SizedBox(
+                                                        width: 20,
+                                                        height: 20,
+                                                        child:
+                                                            CircularProgressIndicator()),
+                                          ),
+                                        ],
                                       ),
+                                      const SizedBox(
+                                        height: 24,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: _buildCard(
+                                                'Checklist',
+                                                controller.checklistCount,
+                                                'assets/greenchecklist/checklist.jpg',
+                                                const [
+                                                  BoxShadow(
+                                                      color: Colors.yellow,
+                                                      blurRadius: 1),
+                                                  BoxShadow(
+                                                      color: Colors
+                                                          .yellowAccent,
+                                                      blurRadius: 1),
+                                                ],
+                                                isStart: false),
+                                          ),
+                                          const SizedBox(
+                                            width: 12,
+                                          ),
+                                          Expanded(
+                                              child: _buildCard(
+                                                  'Logsheet',
+                                                  controller.logsheetCount,
+                                                  'assets/greenchecklist/logsheet.png',
+                                                  const [
+                                                    BoxShadow(
+                                                        color: Colors.green,
+                                                        blurRadius: 1),
+                                                    BoxShadow(
+                                                        color:
+                                                        Colors.greenAccent,
+                                                        blurRadius: 1),
+                                                  ])),
+                                        ],
+                                      )
                                     ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const Divider(
-                            indent: 32,
-                            endIndent: 32,
-                          ),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Column(
-                                      children: [
-                                        _buildTitle('assets/greenchecklist/qrcode.png', 20,
-                                            'Scan QR-CODE'),
-                                        InkWell(
-                                          onTap: () => controller.scanQR(),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16),
-                                            child: Image.asset(
-                                              'assets/greenchecklist/scan.png',
-                                              width: 100,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: Get.width,
-                                    margin: const EdgeInsets.all(12),
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: colorPrimary,
-                                              blurRadius: 1),
-                                          const BoxShadow(
-                                              color: Colors.greenAccent,
-                                              blurRadius: 1),
-                                        ]),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        _buildTitle('assets/greenchecklist/number.png', 25,
-                                            'Get Detail By QrCode'),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                                child: BoxEditText(
-                                              placeholder:
-                                                  'Enter QR / Barcode Number',
-                                              controller: controller
-                                                  .barcodeController,
-                                              onSubmitted: (val) =>
-                                                  controller.submitQrcode(),
-                                              textInputAction:
-                                                  TextInputAction.search,
-                                            )),
-                                            const SizedBox(
-                                              width: 12,
-                                            ),
-                                            Material(
-                                              child: InkWell(
-                                                onTap: () =>
-                                                    controller.submitQrcode(),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: colorPrimary,
-                                                  ),
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  child: const Icon(
-                                                    Icons.search,
-                                                    size: 25,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Divider(
-                                    indent: 32,
-                                    endIndent: 32,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildTitle('assets/greenchecklist/offline.png',
-                                                16, 'Offline Data\'s'),
-                                            Obx(
-                                              () => controller
-                                                      .hideUploadLabel.value
-                                                  ? const SizedBox.shrink()
-                                                  : !controller
-                                                          .isUploading.value
-                                                      ? InkWell(
-                                                          onTap: () => controller
-                                                              .uploadingOffline(),
-                                                          child: Text(
-                                                            'Upload Data',
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    colorPrimary,
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .underline,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          ),
-                                                        )
-                                                      : SizedBox(
-                                                          width: 20,
-                                                          height: 20,
-                                                          child:
-                                                              CircularProgressIndicator()),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 24,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: _buildCard(
-                                                  'Checklist',
-                                                  controller.checklistCount,
-                                                  'assets/greenchecklist/checklist.jpg',
-                                                  const [
-                                                    BoxShadow(
-                                                        color: Colors.yellow,
-                                                        blurRadius: 1),
-                                                    BoxShadow(
-                                                        color: Colors
-                                                            .yellowAccent,
-                                                        blurRadius: 1),
-                                                  ],
-                                                  isStart: false),
-                                            ),
-                                            const SizedBox(
-                                              width: 12,
-                                            ),
-                                            Expanded(
-                                                child: _buildCard(
-                                                    'Logsheet',
-                                                    controller.logsheetCount,
-                                                    'assets/greenchecklist/logsheet.png',
-                                                    const [
-                                                  BoxShadow(
-                                                      color: Colors.green,
-                                                      blurRadius: 1),
-                                                  BoxShadow(
-                                                      color:
-                                                          Colors.greenAccent,
-                                                      blurRadius: 1),
-                                                ])),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ],
-          ),
-
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -405,7 +410,7 @@ class HomeScreen extends GetView<HomeController> {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         crossAxisAlignment:
-            isStart ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        isStart ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           const SizedBox(
             height: 5,
@@ -422,7 +427,7 @@ class HomeScreen extends GetView<HomeController> {
             height: 32,
           ),
           Obx(
-            () => Text(
+                () => Text(
               '$count',
               style: const TextStyle(
                   color: Colors.black,
@@ -490,7 +495,7 @@ class HomeScreen extends GetView<HomeController> {
                           padding: const EdgeInsets.all(3),
                           child: CachedNetworkImage(
                             imageUrl:
-                                controller.box.read(GCSession.userCompanyLogo),
+                            controller.box.read(GCSession.userCompanyLogo),
                             height: 30,
                             errorWidget: (_, __, ___) {
                               return Image.asset(
@@ -511,12 +516,14 @@ class HomeScreen extends GetView<HomeController> {
                         Text(
                           controller.box.read(GCSession.userName),
                           style: const TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w700,overflow: TextOverflow.ellipsis),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              overflow: TextOverflow.ellipsis),
                         ),
                         Text(
                           controller.box.read(GCSession.userCompanyName),
                           style: const TextStyle(fontSize: 12),
-                            overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -531,8 +538,8 @@ class HomeScreen extends GetView<HomeController> {
           _buildMenu('assets/greenchecklist/dashboard.png', 'Dashboard',
               () => Get.toNamed(GCRoutes.dashboard),
               subTitle: "Check your submitted data's"),
-          _buildMenu(
-              'assets/greenchecklist/todo.png', 'Todo\'s', () => Get.toNamed(GCRoutes.todo),
+          _buildMenu('assets/greenchecklist/todo.png', 'Todo\'s',
+              () => Get.toNamed(GCRoutes.todo),
               subTitle: "Todo of your plan"),
           controller.box.read(GCSession.isHelpdesk)
               ? _buildMenu('assets/greenchecklist/helpdesk.png', 'Helpdesk',
@@ -542,9 +549,12 @@ class HomeScreen extends GetView<HomeController> {
           _buildMenu('assets/greenchecklist/download.png', 'Download Data',
               () => Get.toNamed(GCRoutes.download),
               subTitle: 'Update database as per our server'),
-          /*_buildMenu('assets/greenchecklist/database.png', 'Backup Database',
-              () => controller.backupDatabase(),
-              subTitle: 'Download database to local directories'),*/
+
+          Platform.isAndroid
+              ? _buildMenu('assets/greenchecklist/database.png',
+                  'Backup Database', () => controller.backupDatabase(),
+                  subTitle: 'Download database to local directories')
+              : const SizedBox.shrink(),
           /*_buildMenu(
             'assets/greenchecklist/img_download.png',
             'Download Images',
@@ -557,7 +567,6 @@ class HomeScreen extends GetView<HomeController> {
                 value: true,
                 onChanged: (val) {},
               )),*/
-          const Spacer(),
 
         ],
       ),

@@ -71,7 +71,7 @@ class DashboardController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.appToken);
+    token = box.read(GCSession.fcmToken);
     companyId('${box.read(GCSession.userCompanyId)}');
     today = getDate(format: 'yyyy-MM-dd');
 
@@ -290,12 +290,12 @@ class DashboardController extends GetxController {
               //prepare chart
               dashboard([
                 {
-                  'imagePath': 'menu.png',
+                  'imagePath': 'greenchecklist/menu.png',
                   'key': 'Completed',
                   'value': '${overall.met}%',
                 },
                 {
-                  'imagePath': 'menu.png',
+                  'imagePath': 'greenchecklist/menu.png',
                   'key': 'Not Completed',
                   'value': '${overall.notMet}%',
                 }
@@ -359,12 +359,12 @@ class DashboardController extends GetxController {
               //prepare chart
               dashboard([
                 {
-                  'imagePath': 'menu.png',
+                  'imagePath': 'greenchecklist/menu.png',
                   'key': 'Completed',
                   'value': '${overall.met}%',
                 },
                 {
-                  'imagePath': 'menu.png',
+                  'imagePath': 'greenchecklist/menu.png',
                   'key': 'Not Completed',
                   'value': '${overall.notMet}%',
                 }

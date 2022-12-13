@@ -98,13 +98,11 @@ class DownloadController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.appToken);
+    token = box.read(GCSession.fcmToken);
 
     params = {"userid": userId, "token": token};
 
-      downloadDepartments(0);
-
-
+    downloadDepartments(0);
   }
 
   downloadDepartments(int index) async {
