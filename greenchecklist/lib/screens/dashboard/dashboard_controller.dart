@@ -71,7 +71,7 @@ class DashboardController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.fcmToken);
+    token = box.read(GCSession.appToken);
     companyId('${box.read(GCSession.userCompanyId)}');
     today = getDate(format: 'yyyy-MM-dd');
 

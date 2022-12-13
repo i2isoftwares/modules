@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'dart:math' as math;
 
-
 import '../../services/camera.service.dart';
 import '../../services/facenet.service.dart';
 import '../../services/ml_kit_service.dart';
@@ -15,7 +14,6 @@ class FaceVerifyController extends GetxController with GetSingleTickerProviderSt
 
 
   final double mirror = math.pi;
-
   RxBool isInitialized = false.obs;
   bool detectingFace = false;
   RxBool pictureTaked = false.obs;
@@ -40,12 +38,12 @@ class FaceVerifyController extends GetxController with GetSingleTickerProviderSt
   void onInit() {
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
-    facedata = await Session.getString(Session.faceData);
+    // facedata = await Session.getString(Session.faceData);
 
     if (facedata.isNotEmpty)
       _start();
     else {
-      showToastMsg('Face data not available');
+      // showToastMsg('Face data not available');
       Get.back();
     }
   }

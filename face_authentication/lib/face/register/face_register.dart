@@ -22,7 +22,7 @@ class FaceRegister extends GetView<FaceRegisterController> {
                       aspectRatio: Get.size.aspectRatio,
                       child: FittedBox(
                         fit: BoxFit.fitHeight,
-                        child: Container(
+                        child: SizedBox(
                           width: Get.width,
                           height: Get.width *
                               controller.cameraService.cameraController.value
@@ -33,7 +33,7 @@ class FaceRegister extends GetView<FaceRegisterController> {
                         ),
                       ),
                     )
-                  : const SizedBox(),
+                  : const CircularProgressIndicator(),
             ),
             Container(
               height: double.infinity,

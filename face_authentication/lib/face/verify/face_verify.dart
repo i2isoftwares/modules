@@ -7,7 +7,7 @@ import 'face_verify_controller.dart';
 
 class FaceVerify extends GetView<FaceVerifyController>{
 
-  final controller = Get.put(FaceVerifyController());
+  // final controller = Get.put(FaceVerifyController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class FaceVerify extends GetView<FaceVerifyController>{
                 aspectRatio: Get.size.aspectRatio,
                 child: FittedBox(
                   fit: BoxFit.fitHeight,
-                  child: Container(
+                  child: SizedBox(
                     width: Get.width,
                     height: Get.width *
                         controller.cameraService.cameraController.value

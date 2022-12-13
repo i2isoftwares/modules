@@ -51,7 +51,7 @@ class HomeController extends GetxController {
     super.onInit();
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.fcmToken);
+    token = box.read(GCSession.appToken);
     companyId = box.read(GCSession.userCompanyId);
     locationId = box.read(GCSession.userLocationId);
     selectedDeptId = box.read(GCSession.userDeptId) ?? -1;
@@ -191,7 +191,7 @@ class HomeController extends GetxController {
             .contains('Invalid Token!!!')) {
           //toast the message
           showToastMsg('Invalid Token! Please Re-login', longToast: true);
-          box.remove(GCSession.fcmToken);
+          box.remove(GCSession.appToken);
           Get.offAllNamed(GCRoutes.login);
         }
       }
@@ -585,7 +585,7 @@ class HomeController extends GetxController {
       {
         'version': '${packageInfo.version}',
         'os': '${await getDeviceOs()}',
-        'token': '${box.read(GCSession.fcmToken)}'
+        'token': '${box.read(GCSession.appToken)}'
       },
       () => isUploading(false),
       (error) {

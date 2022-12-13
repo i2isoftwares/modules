@@ -1,9 +1,10 @@
 class GCSession{
   static const userEmail = "userEmail";
   static const userPassword = "userPassword";
-  static const fcmToken = "fcmToken"; //change fcmToken
+  static const String fcmToken = "fcmToken"; //change fcmToken
 
-  static const String appToken = "gc_appToken";
+  static const appToken = "gc_appToken";
+
   static const String key = "gc_key";
   static const String isLogin = "gc_isLogin";
   static const String isChecklist = "gc_isChecklist";
