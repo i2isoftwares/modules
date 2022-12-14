@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class Checklist {
   Checklist.fromJson(dynamic json) {
     questionId = json['questionid'];
@@ -12,18 +14,19 @@ class Checklist {
 
   int questionId = -1;
   String questionName = '';
-  int scoreId = -1;
+  Rx<int> scoreId = Rx(-1);
   String remarks = '';
   String image = '';
-  String checklistImage = '';
+  Rx<String> checklistImage = ''.obs;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['questionid'] = questionId;
     map['questionName'] = questionName;
-    map['scoreid'] = scoreId;
+    map['scoreid'] = scoreId.value;
     map['remarks'] = remarks;
     map['image'] = image;
+    map['checklistImage'] = checklistImage.value;
     return map;
   }
 }

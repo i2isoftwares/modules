@@ -24,6 +24,7 @@ class ChecklistScreen extends GetView<ChecklistController> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
+        backgroundColor: colorPrimary,
         title: const Text('Checklist'),
       ),
       body: WillPopScope(
@@ -269,55 +270,55 @@ class ChecklistScreen extends GetView<ChecklistController> {
                           const SizedBox(
                             height: 6,
                           ),
-                          Obx(
-                            () => Row(
-                              children: List.generate(
-                                  controller.scoreList.length, (i) {
-                                var str = controller.scoreList[i].scorename
-                                    .toLowerCase();
-                                Color color = (str == 'completed' ||
-                                        str == 'yes' ||
-                                        str == 'ok')
-                                    ? colorPrimary
-                                    : (str == 'not completed' ||
-                                            str == 'no' ||
-                                            str == 'not ok')
-                                        ? Colors.red
-                                        : Colors.black;
-                                return Expanded(
-                                  child: Row(
-                                    children: [
-                                      Radio(
+                          Row(
+                            children:
+                                List.generate(controller.scoreList.length, (i) {
+                              var str = controller.scoreList[i].scorename
+                                  .toLowerCase();
+                              Color color = (str == 'completed' ||
+                                      str == 'yes' ||
+                                      str == 'ok')
+                                  ? colorPrimary
+                                  : (str == 'not completed' ||
+                                          str == 'no' ||
+                                          str == 'not ok')
+                                      ? Colors.red
+                                      : Colors.black;
+                              return Expanded(
+                                child: Row(
+                                  children: [
+                                    Obx(
+                                      () => Radio(
                                           fillColor:
                                               MaterialStateProperty.all(color),
                                           value:
                                               controller.scoreList[i].scoreid,
                                           groupValue: controller
-                                              .checklists[index].scoreId,
+                                              .checklists[index].scoreId.value,
                                           onChanged: (v) {
                                             controller.checklists[index]
-                                                .scoreId = v as int;
-                                            controller.checklists.refresh();
+                                                .scoreId(v as int);
+                                            // controller.checklists.refresh();
                                           },
                                           activeColor: Colors.green),
-                                      Expanded(
-                                          child: InkWell(
-                                            onTap:(){
-                                              controller.checklists[index]
-                                                  .scoreId = controller.scoreList[i].scoreid;
-                                              controller.checklists.refresh();
-                                            },
-                                            child: Text(
+                                    ),
+                                    Expanded(
+                                        child: InkWell(
+                                      onTap: () {
+                                        controller.checklists[index].scoreId(
+                                            controller.scoreList[i].scoreid);
+                                        // controller.checklists.refresh();
+                                      },
+                                      child: Text(
                                         controller.scoreList[i].scorename,
                                         style: const TextStyle(fontSize: 12),
                                       ),
-                                          ))
-                                    ],
+                                    ))
+                                  ],
                                   ),
                                 );
                               }),
                             ),
-                          ),
                           const SizedBox(
                             height: 6,
                           ),
@@ -338,34 +339,34 @@ class ChecklistScreen extends GetView<ChecklistController> {
                                       : 0,
                                 ),
                                 controller.isHaveImageOnChecklist
-                                    ? InkWell(
-                                      onTap: () async {
-                                        var result = await getImage(
-                                          context,
-                                            canDrawDateTime: true,
-                                            returnType:
-                                                ImageReturnType.base64);
-                                        if (result != null) {
-                                          controller.checklists[index]
-                                              .checklistImage = result;
-                                          controller.checklists.refresh();
-                                        }
-                                      },
-                                      child: controller.checklists[index]
-                                              .checklistImage.isNotEmpty
-                                          ? Image.memory(
-                                              base64Decode(controller
-                                                  .checklists[index]
-                                                  .checklistImage),
-                                              width: 30,
-                                              height: 30,
-                                            )
-                                          : Image.asset(
-                                              'assets/greenchecklist/camera.png',
-                                              width: 30,
-                                              height: 30,
-                                            ),
-                                    )
+                                    ? Obx(() => InkWell(
+                                          onTap: () async {
+                                            var result = await getImage(context,
+                                                canDrawDateTime: true,
+                                                returnType:
+                                                    ImageReturnType.base64);
+                                            if (result != null) {
+                                              controller.checklists[index]
+                                                  .checklistImage(result);
+                                              // controller.checklists.refresh();
+                                            }
+                                          },
+                                          child: controller.checklists[index]
+                                                  .checklistImage.isNotEmpty
+                                              ? Image.memory(
+                                                  base64Decode(controller
+                                                      .checklists[index]
+                                                      .checklistImage
+                                                      .value),
+                                                  width: 30,
+                                                  height: 30,
+                                                )
+                                              : Image.asset(
+                                                  'assets/greenchecklist/camera.png',
+                                                  width: 30,
+                                                  height: 30,
+                                                ),
+                                        ))
                                     : const SizedBox.shrink()
                               ],
                             ),

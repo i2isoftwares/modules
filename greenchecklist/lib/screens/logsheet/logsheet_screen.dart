@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +24,7 @@ class LogsheetScreen extends GetView<LogsheetController> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
+        backgroundColor: colorPrimary,
         title: Text(Get.arguments['name'] ?? 'Logsheet'),
       ),
       body: WillPopScope(

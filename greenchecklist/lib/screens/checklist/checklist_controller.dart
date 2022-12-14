@@ -68,7 +68,7 @@ class ChecklistController extends GetxController {
     if (barcode == null) return;
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.appToken);
+    token = box.read(GCSession.token);
     companyId = box.read(GCSession.userCompanyId);
     locationId = box.read(GCSession.userLocationId);
     selectedDeptId = box.read(GCSession.userDeptId);
@@ -186,8 +186,8 @@ class ChecklistController extends GetxController {
     debugPrint('s : ${scoreList.toString()}');
 
     for (QuestionData q in questionList) {
-      checklists.add(
-          Checklist(q.auditqid, q.auditqname, -1, '', q.questionimage, ''));
+      checklists.add(Checklist(
+          q.auditqid, q.auditqname, Rx(-1), '', q.questionimage, ''.obs));
     }
 
     debugPrint('c : ${checklists.toString()}');
@@ -272,7 +272,7 @@ class ChecklistController extends GetxController {
   }
 
   bool isValidChecklist() {
-    return checklists.any((element) => element.scoreId == -1);
+    return checklists.any((element) => element.scoreId.value == -1);
   }
 
   alertUser(int type) {

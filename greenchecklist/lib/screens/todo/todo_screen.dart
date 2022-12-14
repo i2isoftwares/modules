@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:greenchecklist/screens/todo/todo_controller.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:i2iutils/widgets/spinner.dart';
@@ -19,6 +18,7 @@ class TodoScreen extends GetView<TodoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: colorPrimary,
         title: const Text("to-do's"),
         actions: [
           CachedNetworkImage(

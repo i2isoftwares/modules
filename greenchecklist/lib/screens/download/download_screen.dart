@@ -18,6 +18,7 @@ class DownloadScreen extends GetView<DownloadController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: colorPrimary,
         leading: null,
         title: const Text('Download'),
         actions: [
@@ -76,9 +77,10 @@ class DownloadScreen extends GetView<DownloadController> {
                               width: 120,
                               margin: const EdgeInsets.all(16),
                               buttonText: 'Next',
+                              buttonColor: colorPrimary,
                               onPressed: controller.isFinish.value
                                   ? () {
-                                      Get.offAllNamed(GCRoutes.home);
+                                      Get.offAndToNamed(GCRoutes.home);
                                     }
                                   : null),
                         )),

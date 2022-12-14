@@ -13,13 +13,14 @@ class DashboardDetailScreen extends GetView<DashboardDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.title, style: TextStyle(fontSize: 17)),
+        backgroundColor: colorPrimary,
+        title: Text(controller.title, style: const TextStyle(fontSize: 17)),
       ),
       body: Obx(
         () => controller.isLoading.value
             ? const Center(child: CircularProgressIndicator())
             : controller.list.isEmpty
-                ? Center(child: const Text('No Result Found'))
+                ? const Center(child: Text('No Result Found'))
                 : ListView.separated(
                     itemCount: controller.list.length,
                     itemBuilder: (_, index) {
@@ -36,7 +37,7 @@ class DashboardDetailScreen extends GetView<DashboardDetailController> {
                                 Expanded(
                                   child: Text(
                                     data['BuildingName'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -50,13 +51,13 @@ class DashboardDetailScreen extends GetView<DashboardDetailController> {
                                     children: [
                                       Text(
                                         data['FloorName'],
-                                        style: TextStyle(fontSize: 13),
+                                        style: const TextStyle(fontSize: 13),
                                         textAlign: TextAlign.end,
                                       ),
                                       const SizedBox(
                                         width: 8,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.pin_drop_outlined,
                                         color: Colors.green,
                                         size: 15,
@@ -74,7 +75,7 @@ class DashboardDetailScreen extends GetView<DashboardDetailController> {
                                 Expanded(
                                   child: Text(
                                     data['WingName'],
-                                    style: TextStyle(fontSize: 13),
+                                    style: const TextStyle(fontSize: 13),
                                   ),
                                 ),
                                 const SizedBox(
@@ -86,13 +87,13 @@ class DashboardDetailScreen extends GetView<DashboardDetailController> {
                                     children: [
                                       Text(
                                         data['slot'],
-                                        style: TextStyle(fontSize: 13),
+                                        style: const TextStyle(fontSize: 13),
                                         textAlign: TextAlign.end,
                                       ),
                                       const SizedBox(
                                         width: 8,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.calendar_month,
                                         color: Colors.green,
                                         size: 15,
@@ -144,7 +145,7 @@ class DashboardDetailScreen extends GetView<DashboardDetailController> {
                                                   .downloadCheckReport(data)
                                               : controller.downloadLogReport(
                                                   data['deviceguid']),
-                                          child: Text(
+                                          child: const Text(
                                             'View / Download Report',
                                             style: TextStyle(
                                               fontSize: 12,

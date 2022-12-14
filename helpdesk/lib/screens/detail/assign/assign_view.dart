@@ -66,6 +66,7 @@ class AssignView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Icon(Icons.app_registration),
                               const SizedBox(
@@ -78,7 +79,6 @@ class AssignView extends StatelessWidget {
                                 ),
                               ),
                             ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
                           ),
                         ),
                         Row(

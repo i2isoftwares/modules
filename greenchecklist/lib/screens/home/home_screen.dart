@@ -546,7 +546,7 @@ class HomeScreen extends GetView<HomeController> {
                   () => Get.toNamed(GCRoutes.helpdesk),
                   subTitle: "View your helpdesk tickets")
               : const SizedBox.shrink(),
-          _buildMenu('assets/greenchecklist/download.png', 'Download Data',
+          _buildMenu('assets/greenchecklist/download.png', 'ReSync Database',
               () => Get.toNamed(GCRoutes.download),
               subTitle: 'Update database as per our server'),
 

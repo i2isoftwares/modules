@@ -5,7 +5,6 @@ import 'package:greenchecklist/screens/dashboard/dashboard_controller.dart';
 import 'package:i2iutils/chart/department_chart.dart';
 import 'package:i2iutils/chart/donut_chart.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
-
 import 'package:i2iutils/widgets/spinner.dart';
 
 import '../../helpers/colors.dart';
@@ -22,6 +21,7 @@ class DashboardScreen extends GetView<DashboardController> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
+        backgroundColor: colorPrimary,
         title: const Text("Dashboard"),
         actions: [
           CachedNetworkImage(
