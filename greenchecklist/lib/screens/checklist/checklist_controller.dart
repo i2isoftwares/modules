@@ -68,7 +68,7 @@ class ChecklistController extends GetxController {
     if (barcode == null) return;
 
     userId = box.read(GCSession.userId);
-    token = box.read(GCSession.token);
+    token = box.read(GCSession.appToken);
     companyId = box.read(GCSession.userCompanyId);
     locationId = box.read(GCSession.userLocationId);
     selectedDeptId = box.read(GCSession.userDeptId);
