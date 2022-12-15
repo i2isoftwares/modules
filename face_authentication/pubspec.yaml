@@ -15,8 +15,8 @@ dependencies:
   google_mlkit_face_detection: ^0.5.0
   image: ^3.2.2
   get:
-  percent_indicator:
-
+  lottie:
+  flutter_ringtone_player:
 
 
 dev_dependencies:

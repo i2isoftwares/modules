@@ -1,5 +1,6 @@
-import 'package:image/image.dart' as imglib;
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+import 'package:image/image.dart' as imglib;
 
 imglib.Image? convertToImage(CameraImage image) {
   try {
@@ -12,7 +13,7 @@ imglib.Image? convertToImage(CameraImage image) {
 
     return img;
   } catch (e) {
-    print(">>>>>>>>>>>> ERROR:" + e.toString());
+    debugPrint(">>>>>>>>>>>> ERROR:$e");
   }
   return null;
 }

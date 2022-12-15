@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:tflite_flutter/tflite_flutter.dart';
@@ -56,10 +57,10 @@ class FaceNetService {
 
       _interpreter = await Interpreter.fromAsset('facenet/mobilefacenet.tflite',
           options: interpreterOptions);
-      print('model loaded successfully');
+      debugPrint('model loaded successfully');
     } catch (e) {
-      print('Failed to load model.');
-      print(e);
+      debugPrint('Failed to load model.');
+      debugPrint(e.toString());
     }
   }
 
@@ -79,7 +80,7 @@ class FaceNetService {
   }
 
   /// takes the predicted data previously saved and do inference
-  bool predict(List<dynamic> userFace) {
+  Map<String, dynamic> predict(List<dynamic> userFace) {
     /// search closer user prediction if exists
     return _searchResult(userFace);
   }
@@ -141,7 +142,7 @@ class FaceNetService {
 
   /// searchs the result in the DDBB (this function should be performed by Backend)
   /// [predictedData]: Array that represents the face by the MobileFaceNet model
-  bool _searchResult(List userface) {
+  Map<String, dynamic> _searchResult(List userface) {
     double minDist = 999;
     double currDist = 0.0;
     bool predRes = false;
@@ -153,7 +154,10 @@ class FaceNetService {
       predRes = true;
     }
 
-    return predRes;
+    return {
+      'prediction': currDist,
+      'result': predRes,
+    };
   }
 
   /// Adds the power of the difference between each point

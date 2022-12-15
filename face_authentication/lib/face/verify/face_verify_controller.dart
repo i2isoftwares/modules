@@ -3,51 +3,59 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-import 'dart:math' as math;
 
 import '../../services/camera.service.dart';
 import '../../services/facenet.service.dart';
 import '../../services/ml_kit_service.dart';
 
-class FaceVerifyController extends GetxController with GetSingleTickerProviderStateMixin{
-
-
-  final double mirror = math.pi;
-  RxBool isInitialized = false.obs;
-  bool detectingFace = false;
-  RxBool pictureTaked = false.obs;
-  bool saving = false;
-
-  RxString imagePath = ''.obs;
-  Rx<Face?> faceDetected = Rx(null);
-  Rx<Size?> imageSize = Rx(null);
-  var facedata = "";
-  RxString animation = '30'.obs;
-  var animationController;
-  Timer? timer;
-  int eyeCloseCount = 0;
-  RxBool isClose = false.obs;
-
-  //service injection
+class FaceVerifyController extends GetxController {
+//service injection
   CameraService cameraService = CameraService();
   final MLKitService _mlKitService = MLKitService();
   final FaceNetService _faceNetService = FaceNetService();
 
+  RxBool isInitialized = false.obs;
+  Size? imageSize;
+  Face? faceDetected;
+
+  bool detectingFace = false;
+  int eyeCloseCount = 0;
+  RxBool isPredicted = false.obs;
+  bool isSuccess = true;
+  RxDouble prediction = 0.0.obs;
+
+  List faceData = jsonDecode(Get.arguments ?? []);
+
   @override
   void onInit() {
-    animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
-    // facedata = await Session.getString(Session.faceData);
-
-    if (facedata.isNotEmpty)
-      _start();
-    else {
-      // showToastMsg('Face data not available');
+    debugPrint('\nface verification module required'
+        '\n---------------------------------------------------'
+        '\nassets/lottie/face_success.json'
+        '\nassets/lottie/face_failed.json'
+        '\nlottie files for animation'
+        '\n'
+        '\nuse Get.toNamed(FRRoutes.verify, arguments= "face data list string")'
+        '\n'
+        '\n---------------------------------------------------');
+    if (faceData.isEmpty) {
+      dispose();
       Get.back();
     }
+
+    _start();
+    super.onInit();
+  }
+
+  @override
+  Future<void> dispose() async {
+    // TODO: implement dispose
+    await cameraService.cameraController.stopImageStream();
+    await cameraService.dispose();
+    super.dispose();
   }
 
   _start() async {
@@ -55,8 +63,8 @@ class FaceVerifyController extends GetxController with GetSingleTickerProviderSt
 
     /// takes the front camera
     var cameraDescription = cameras.firstWhere(
-          (CameraDescription camera) =>
-      camera.lensDirection == CameraLensDirection.front,
+      (CameraDescription camera) =>
+          camera.lensDirection == CameraLensDirection.front,
     );
 
     await cameraService.startService(cameraDescription);
@@ -66,101 +74,95 @@ class FaceVerifyController extends GetxController with GetSingleTickerProviderSt
     _mlKitService.initialize();
 
     isInitialized(true);
-
-    var i = 30;
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      i--;
-      animation('$i');
-      if (i <= 0) {
-        timer.cancel();
-        if (!isClosed) {
-          // showToastMsg('Time Expired');
-          dispose();
-          Get.back(result: false);
-        }
-      }
-    });
-
     _frameFaces();
   }
 
   _frameFaces() {
-    imageSize(cameraService.getImageSize());
+    imageSize = cameraService.getImageSize();
 
     cameraService.cameraController.startImageStream((image) async {
-      if (detectingFace) return;
-
-      detectingFace = true;
-
       try {
+        if (detectingFace) return;
+
+        detectingFace = true;
+
         List<Face> faces = await _mlKitService.getFacesFromImage(image);
-        print('face ${faces.length}');
+        // showToastMsg('faces ${faces.length}');
+        if (faces.isNotEmpty) {
+          faceDetected = faces[0];
+          // log('face data ${faces[0].boundingBox.toString()}\n${faces[0].headEulerAngleY}\n${faces[0].headEulerAngleZ}\n${faces[0].leftEyeOpenProbability}\n${faces[0].rightEyeOpenProbability}\n${faces[0].smilingProbability}\n${faces[0].trackingId}');
 
-        if (faces.length > 0) {
-          faceDetected(faces[0]);
+          debugPrint('EagularY ${faceDetected!.headEulerAngleY!}');
 
-          // log('face data' + jsonEncode(faces[0]).toString());
-
-          if (faceDetected.value!.headEulerAngleY! > 10 ||
-              faceDetected.value!.headEulerAngleY! < -10) {
+          if (faceDetected!.headEulerAngleY! > 10 ||
+              faceDetected!.headEulerAngleY! < -10) {
             // faceDetected.value = null;
           } else {
             log('working start at................. ${DateTime.now().millisecondsSinceEpoch}');
+
             log('face detect ${faces[0].leftEyeOpenProbability} / ${faces[0].rightEyeOpenProbability}');
             if (((faces[0].leftEyeOpenProbability ?? 1) < 0.3) &&
                 ((faces[0].rightEyeOpenProbability ?? 1) < 0.3)) {
               eyeCloseCount++;
-              print('eye closed $eyeCloseCount');
+              debugPrint('eye closed $eyeCloseCount');
             } else {
               if (eyeCloseCount != 0 && eyeCloseCount <= 3) {
                 //ok
-                print('eye reopened $eyeCloseCount blinked');
+                debugPrint('eye reopened $eyeCloseCount blinked');
+
+                await Future.delayed(const Duration(milliseconds: 300));
+                await cameraService.cameraController.stopImageStream();
+                await cameraService.cameraController.pausePreview();
+                await Future.delayed(const Duration(milliseconds: 500));
 
                 //after reopen
-                _faceNetService.setCurrentPrediction(
-                    image, faceDetected.value!);
-                bool res = _faceNetService.predict(jsonDecode(facedata));
-                print('face response $res');
+                _faceNetService.setCurrentPrediction(image, faceDetected!);
+                var response = _faceNetService.predict(faceData);
+
+                bool res = response['result'];
+                prediction(response['prediction']);
+
+                isPredicted(true);
                 if (res) {
-                  pictureTaked(true);
-                  // showToastMsg("Successfully Authenticated");
-
-                  await Future.delayed(Duration(milliseconds: 300));
-                  await cameraService.cameraController.stopImageStream();
-                  await Future.delayed(Duration(milliseconds: 500));
-
-                  if (timer != null) timer?.cancel();
-                  Get.back(result: res);
+                  isSuccess = true;
+                  Future.delayed(const Duration(seconds: 5), () {
+                    dispose();
+                    Get.back(result: true);
+                  });
                 } else {
-                  // showToastMsg("Retry with closer");
+                  isSuccess = false;
                 }
+                FlutterRingtonePlayer.playNotification();
               } else {
                 //fast occur
-                print('eye opened $eyeCloseCount');
+                debugPrint('eye opened $eyeCloseCount');
               }
               eyeCloseCount = 0;
+              log('working end at................. ${DateTime.now().millisecondsSinceEpoch}');
             }
-            log('working end at................. ${DateTime.now().millisecondsSinceEpoch}');
           }
         } else {
-          faceDetected.value = null;
+          faceDetected = null;
+          log('face not detected ${faceDetected == null}');
         }
 
         detectingFace = false;
       } catch (e) {
-        faceDetected.value = null;
+        debugPrint('exe $e');
+        // showToastMsg('$e');
+        faceDetected = null;
         detectingFace = false;
       }
     });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    cameraService.cameraController.stopImageStream();
-    cameraService.dispose();
-    super.dispose();
-
+  retry() async {
+    isPredicted(false);
+    isSuccess = false;
+    detectingFace = false;
+    eyeCloseCount = 0;
+    faceDetected = null;
+    await cameraService.cameraController.resumePreview();
+    _frameFaces();
   }
 }
-

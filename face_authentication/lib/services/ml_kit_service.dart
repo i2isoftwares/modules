@@ -32,7 +32,7 @@ class MLKitService {
           performanceMode: FaceDetectorMode.accurate),
     );
 
-    print('ML kid initialized');
+    debugPrint('ML kid initialized');
   }
 
 /*  Future<List<Face>> getFacesFromImage(CameraImage image) async {
@@ -71,7 +71,7 @@ class MLKitService {
     }
     final bytes = allBytes.done().buffer.asUint8List();
     int width = image.planes[0].bytesPerRow;
-    print(
+    debugPrint(
         'image plane ${image.planes[0].width} ${image.planes[0].bytesPerRow}');
     final Size imageSize = Size(width.toDouble(), image.height.toDouble());
 
