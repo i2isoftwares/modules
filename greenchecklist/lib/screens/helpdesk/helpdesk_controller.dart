@@ -47,6 +47,7 @@ class HelpdeskController extends GetxController {
         'Wing': '',
         'Complaint': 'greenchklist',
         'CompliantNature': '',
+        "username": '${box.read(GCSession.userEmail)}',
       };
       // {"CompanyID":"166076","LocationID":"288198","BuildingID":"0","Floor":"","Wing":"","Complaint":"greenchklist","CompliantNature":""}
       var response = await ApiCall().getHelpdeskDetail(params);
