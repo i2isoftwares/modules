@@ -1,5 +1,7 @@
+import 'package:customerfeedback/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:get/get.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 
 import '../api/customerfeedback_api_call.dart';
@@ -49,7 +51,8 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
 
   verifyOtp() {
     if (apiGetOTP == typedCode) {
-      Navigator.popAndPushNamed(context, '/submit');
+      // Navigator.popAndPushNamed(context, '/submit');
+      Get.toNamed(CFRoutes.submit);
     } else {
       showToastMsg('OTP Wrong');
     }
@@ -71,7 +74,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/otp_enter.png',
+                'assets/customerfeedback/otp_enter.png',
                 width: 250,
                 height: 250,
               ),

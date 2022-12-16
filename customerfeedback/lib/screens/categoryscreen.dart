@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../database/database_helper.dart';
 import '../helpers/colors.dart';
 import '../helpers/shared_preferences_helper.dart';
 import '../helpers/utils.dart';
+import '../routes/app_pages.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/button.dart';
 
@@ -59,7 +61,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     await SharedPreferencesHelper.setPrefString(
         SharedPreferencesHelper.CATEGORY_ID, categoryId);
     //After close the qns page it returns the result true
-    var result = await Navigator.pushNamed(context, '/question');
+    var result = await Get.toNamed(CFRoutes.question);
     debugPrint('result is a $result');
     if (result != null && result == true) {
       get();
@@ -71,7 +73,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     var submit =
         categoryDetails.every((element) => element['percentage'] == "100");
     if (submit) {
-      Navigator.pushNamed(context, '/score');
+      Get.toNamed(CFRoutes.score);
     } else {
       //Show the alert dialog for enter details
       Utils.showMessage(

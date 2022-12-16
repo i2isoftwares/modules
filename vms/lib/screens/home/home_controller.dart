@@ -360,13 +360,5 @@ class HomeController extends GetxController {
     }
   }
 
-  onBack() {
-    if (canGoBack) {
-      SystemNavigator.pop(animated: true);
-    } else {
-      canGoBack = true;
-      showToastMsg('Press again to exit');
-      Future.delayed(const Duration(seconds: 2), () => canGoBack = false);
-    }
-  }
+
 }

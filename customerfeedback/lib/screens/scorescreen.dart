@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../database/database_helper.dart';
 import '../helpers/colors.dart';
 import '../helpers/shared_preferences_helper.dart';
 import '../helpers/utils.dart';
+import '../routes/app_pages.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/button.dart';
 
@@ -168,7 +170,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
             margin: const EdgeInsets.only(left: 10, right: 10, bottom: 32),
             buttonText: 'SUBMIT',
             onPressed: () => {
-              Navigator.popAndPushNamed(context, '/otp'),
+              // Navigator.popAndPushNamed(context, '/otp'),
+              Get.offAndToNamed(CFRoutes.otp),
               // Navigator.popAndPushNamed(context, '/submit'),
             },
           ),

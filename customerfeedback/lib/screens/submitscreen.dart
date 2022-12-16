@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:i2iutils/helpers/common_functions.dart';
 import 'package:signature/signature.dart';
 
@@ -10,6 +11,7 @@ import '../helpers/shared_preferences_helper.dart';
 import '../helpers/utils.dart';
 import '../models/auditdata.dart';
 import '../models/categorydata.dart';
+import '../routes/app_pages.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/button.dart';
 import 'package:i2iutils/widgets/boxedittext.dart';
@@ -62,34 +64,34 @@ class _SubmitScreenState extends State<SubmitScreen> {
     onDrawEnd: () => print('onDrawEnd called!'),
   );
 
-  Future<void> exportImage(BuildContext context) async {
-    if (_controller.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('No content')));
-      return;
-    }
-
-    final Uint8List? data = await _controller.toPngBytes();
-    if (data == null) {
-      return;
-    }
-
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Container(
-                color: Colors.grey[300],
-                child: Image.memory(data),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // Future<void> exportImage(BuildContext context) async {
+  //   if (_controller.isEmpty) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(const SnackBar(content: Text('No content')));
+  //     return;
+  //   }
+  //
+  //   final Uint8List? data = await _controller.toPngBytes();
+  //   if (data == null) {
+  //     return;
+  //   }
+  //
+  //   await Navigator.of(context).push(
+  //     MaterialPageRoute<void>(
+  //       builder: (BuildContext context) {
+  //         return Scaffold(
+  //           appBar: AppBar(),
+  //           body: Center(
+  //             child: Container(
+  //               color: Colors.grey[300],
+  //               child: Image.memory(data),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   void storeInDb(BuildContext context) async {
     if (auditeeNameController.text != "" &&
@@ -115,7 +117,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                 (await repSignController.toPngBytes())?.toList() ?? []),
             auditsign: base64Encode(
                 (await signController.toPngBytes())?.toList() ?? []),
-            auditdate: getDate(),
+            auditdate: getDate(format: "MM/dd/yyyy"),
             userid: userId,
             guid: getCustomUniqueId(),
             deviceid: deviceId,
@@ -151,10 +153,12 @@ class _SubmitScreenState extends State<SubmitScreen> {
       await DatabaseHelper.instance.cdPercentageUpdate_auditId(
           "0", auditId.toString());
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (Route<dynamic> route) => false);
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => const HomeScreen()),
+      //     (Route<dynamic> route) => false);
+
+      Get.offAllNamed(CFRoutes.home);
     } else {
       Utils.showMessage(context, "Please Enter the fields");
     }
@@ -247,7 +251,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -261,7 +265,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -274,7 +278,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -287,7 +291,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -301,7 +305,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -315,7 +319,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -329,7 +333,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -342,7 +346,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
@@ -355,7 +359,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            'assets/images/username-8.png',
+                            'assets/customerfeedback/username-8.png',
                             height: 15,
                             width: 15,
                           ),
