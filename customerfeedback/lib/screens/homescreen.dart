@@ -605,11 +605,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     .of(context)
                     .size
                     .width,
-                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
 
                     Container(
                       width: MediaQuery
@@ -617,10 +617,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           .size
                           .width,
                       height: 50,
-                      padding: EdgeInsets.all(2.0),
+                      padding: const EdgeInsets.all(2.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -660,7 +660,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
 
                     const SizedBox(height: 30),
-
                     Container(
                       width: MediaQuery
                           .of(context)
@@ -710,19 +709,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
-
                     const SizedBox(height: 30),
-
                     Container(
                       width: MediaQuery
                           .of(context)
                           .size
                           .width,
                       height: 50,
-                      padding: EdgeInsets.all(2.0),
+                      padding: const EdgeInsets.all(2.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -759,26 +756,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
-
                     const SizedBox(height: 30),
-
                     Container(
                       width: MediaQuery
                           .of(context)
                           .size
                           .width,
                       height: 50,
-                      padding: EdgeInsets.all(2.0),
+                      padding: const EdgeInsets.all(2.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: grey),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-
                           elevation: 7,
-
                           foregroundColor: Colors.black, // foreground (text) color
                         ),
                         child: Row(
@@ -814,7 +807,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
                     // Container(
                     //   width: MediaQuery.of(context).size.width,

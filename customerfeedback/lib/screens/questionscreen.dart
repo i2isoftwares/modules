@@ -308,7 +308,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             buttonText: 'Submit Audit',
             margin: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
             onPressed: () async {
-              print(jsonEncode(qnsDetails));
+              debugPrint(jsonEncode(qnsDetails));
 
               await storeInDb(qnsDetails);
               Get.back(result: true);

@@ -144,7 +144,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: 50,
                             child: CircularPercentIndicator(
                               radius: 25.0,

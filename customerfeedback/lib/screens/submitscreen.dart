@@ -237,7 +237,7 @@ class _SubmitScreenState extends State<SubmitScreen> {
         ),
         body: Column(
           children: [
-            Utils.subHeader(context, 'Chitra', ''),
+            Utils.subHeader(context, userName, ''),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
