@@ -62,6 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
         await SharedPreferencesHelper.setPrefString(
             SharedPreferencesHelper.IS_FEEDBACK,
             response.isfeedback.toString());
+        await SharedPreferencesHelper.setPrefString(
+            SharedPreferencesHelper.COMPANY_LOGO,
+            response.returnData.userDetails![0].compLogo);
 
         Get.toNamed(CFRoutes.download);
 

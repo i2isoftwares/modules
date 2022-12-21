@@ -51,6 +51,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String companyId = "";
   String locationId = "";
   String sbuId = "";
+  String feedbackName= "";
+  String locName = "";
+  String categoryName = "";
 
   var q;
 
@@ -126,6 +129,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
         SharedPreferencesHelper.LOCATION_ID, '');
     var sectorId = await SharedPreferencesHelper.getPrefString(
         SharedPreferencesHelper.SECTOR_ID, '');
+    feedbackName = await SharedPreferencesHelper.getPrefString(
+        SharedPreferencesHelper.FEEDBACK_NAME, '');
+    locName = await SharedPreferencesHelper.getPrefString(
+        SharedPreferencesHelper.LOCATION_NAME, '');
+    categoryName = await SharedPreferencesHelper.getPrefString(
+        SharedPreferencesHelper.CATEGORY_NAME, '');
 
     q = await DatabaseHelper.instance.getCategoryDetailsWithParameters(
         sbuId, companyId, locationId, auditId, sectorId, categoryId);
@@ -191,7 +200,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ),
       body: Column(
         children: [
-          Utils.subHeader(context, 'Bangalore', 'Audit > Category > Question'),
+          // Utils.subHeader(context, 'Bangalore', 'Audit > Category > Question'),
+          Utils.subHeader(context, locName, '$feedbackName > $categoryName'),
+
           Expanded(
             child: ListView.builder(
               itemCount: qnsDetails.length,

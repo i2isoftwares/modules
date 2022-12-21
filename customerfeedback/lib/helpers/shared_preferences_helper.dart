@@ -9,6 +9,7 @@ class SharedPreferencesHelper {
 
   static const String IS_LOGIN = "cf_is_login";
   static const String IS_FEEDBACK = "cf_is_feedback";
+  static const String COMPANY_LOGO = "comp_logo";
   static const String LOGIN_RESPONSE = "cf_login_response";
 
   static const String USER_ID = "cf_USER_ID";
@@ -25,6 +26,7 @@ class SharedPreferencesHelper {
   static const String CATEGORY_ID = "cf_CATEGORY_ID";
   static const String AUDIT_ID = "cf_AUDIT_ID";
   static const String TOTAL_SCORE = "cf_TOTAL_SCORE";
+  static const String CATEGORY_NAME = "CATEGORY_NAME";
 
   static const String SETTING_DETAILS = "cf_SETTING_DETAILS";
 

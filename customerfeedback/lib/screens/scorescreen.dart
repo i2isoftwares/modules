@@ -28,7 +28,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
   String locationId = "";
   String userId = "";
   String selectedAuditId = "";
-
+  String locName= "";
   double percentage = 0;
 
   List<Map> feedbackDetails = [];
@@ -57,6 +57,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
         SharedPreferencesHelper.USER_ID, '');
     sectorId = await SharedPreferencesHelper.getPrefString(
         SharedPreferencesHelper.SECTOR_ID, '');
+    locName = await SharedPreferencesHelper.getPrefString(
+        SharedPreferencesHelper.LOCATION_NAME, '');
 
     //This for get the feedback list
     feedbackDetails = await DatabaseHelper.instance.getFeedback(sectorId);
@@ -107,7 +109,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
       ),
       body: Column(
         children: [
-          Utils.subHeader(context, 'Bangalore', 'Audit > Category > Score'),
+          // Utils.subHeader(context, 'Bangalore', 'Audit > Category > Score'),
+          Utils.subHeader(context, locName, 'Audit > Category > Score'),
           const SizedBox(
             height: 12,
           ),
